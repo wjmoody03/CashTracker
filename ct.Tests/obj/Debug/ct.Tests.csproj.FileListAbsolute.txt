@@ -1,0 +1,5 @@
+C:\Users\KetchupAndJelly\Documents\WebDevelopment\CashTracker\ct.Tests\bin\Debug\ct.Tests.dll
+C:\Users\KetchupAndJelly\Documents\WebDevelopment\CashTracker\ct.Tests\bin\Debug\ct.Tests.pdb
+C:\Users\KetchupAndJelly\Documents\WebDevelopment\CashTracker\ct.Tests\obj\Debug\ct.Tests.csprojResolveAssemblyReference.cache
+C:\Users\KetchupAndJelly\Documents\WebDevelopment\CashTracker\ct.Tests\obj\Debug\ct.Tests.dll
+C:\Users\KetchupAndJelly\Documents\WebDevelopment\CashTracker\ct.Tests\obj\Debug\ct.Tests.pdb
