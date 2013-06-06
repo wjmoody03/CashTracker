@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ct.Domain
+namespace ct.Business
 {
-    public class Class1
+    public class BalanceCalculator
     {
     }
 }

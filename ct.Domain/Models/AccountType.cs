@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ct.Business
+namespace ct.Domain.Models
 {
-    public class Class1
+    public enum AccountType
     {
+        CheckingAccount,
+        CreditCard
     }
 }
