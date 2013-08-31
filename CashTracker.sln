@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ct.Domain", "ct.Domain\ct.Domain.csproj", "{2F3EE789-0648-4D22-AD39-B65CE9C13C7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ct.Business", "ct.Business\ct.Business.csproj", "{2532D151-15E8-4797-9726-F80DF9B18D92}"
@@ -8,6 +8,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ct.Tests", "ct.Tests\ct.Tests.csproj", "{97140A8F-4C45-4FAD-9F4C-D9CAA0CFA938}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ct.Data", "ct.Data\ct.Data.csproj", "{705596F6-3F8D-4BA8-B82D-3A01A876F1B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{00C78462-A314-4DB4-99EC-3A119291D28A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
