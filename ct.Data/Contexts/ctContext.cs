@@ -8,14 +8,20 @@ using System.Threading.Tasks;
 
 namespace ct.Data.Contexts
 {
-
-    public class ctContext:DbContext
+    public interface IctContext : IDbContext
+    {
+        DbSet<Transaction> Transactions { get; set; }
+        DbSet<Account> Accounts { get; set; }
+        DbSet<TransactionType> TransactionTypes { get; set; }
+        DbSet<Download> Downloads { get; set; }
+        DbSet<AccountBalance> AccountBalances { get; set; }
+    }
+    public class ctContext: DbContext, IctContext
     {
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<AccountBalance> AccountBalances { get; set; }
-
     }
 }
