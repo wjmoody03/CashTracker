@@ -13,7 +13,8 @@ namespace ct.Domain.Models
         public string AccountName { get; set; }
         public decimal StartingBalance { get; set; }
 
-        public List<AccountBalance> BalanceHistory { get; set; }
+        public ICollection<AccountBalance> BalanceHistory { get; set; }
+        public ICollection<Download> Downloads { get; set; }
 
     }
 }

@@ -42,6 +42,16 @@
     <Compile Include="BalanceCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ct.Data\ct.Data.csproj">
+      <Project>{705596f6-3f8d-4ba8-b82d-3a01a876f1b9}</Project>
+      <Name>ct.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ct.Domain\ct.Domain.csproj">
+      <Project>{2f3ee789-0648-4d22-ad39-b65ce9c13c7a}</Project>
+      <Name>ct.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

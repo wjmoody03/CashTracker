@@ -49,6 +49,7 @@
     <Compile Include="Contexts\ctContext.cs" />
     <Compile Include="Contexts\IDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountBalanceRepository.cs" />
     <Compile Include="Repositories\TransactionRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\AccountRepository.cs" />

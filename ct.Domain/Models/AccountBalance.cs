@@ -14,5 +14,7 @@ namespace ct.Domain.Models
         public DateTime BalanceDate { get; set; }
         public decimal BalanceAmount { get; set; }
 
+        public Account Account { get; set; }
+
     }
 }

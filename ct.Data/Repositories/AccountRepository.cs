@@ -9,6 +9,7 @@ namespace ct.Data.Repositories
 {
     public interface IAccountRepository:IGenericRepository<Account>
     {
+        
     }
 
     public class AccountRepository : GenericRepository<Account>, IAccountRepository

@@ -23,5 +23,17 @@ namespace ct.Data.Contexts
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<AccountBalance> AccountBalances { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //deleting a download will not delete an account
+            modelBuilder.Entity<Download>()
+                .HasRequired(d => d.Account)
+                .WithMany(a => a.Downloads)
+                .HasForeignKey(d => d.AccountID)
+                .WillCascadeOnDelete(false);
+            
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
