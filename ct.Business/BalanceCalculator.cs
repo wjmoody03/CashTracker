@@ -53,5 +53,13 @@ namespace ct.Business
                         .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
         }
 
+        public decimal NetCashflowEffectOfTransactionsFlaggedForFollowUp() //we don't take an as of date here because we assume all will be resolved eventually, and historical timing is irrelevant
+        {
+            return transRepo
+                        .GetAllEagerly("TransactionType")
+                        .Where(t => t.FlagForFollowUp == true)
+                        .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+        }
+
     }
 }
