@@ -61,5 +61,13 @@ namespace ct.Business
                         .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
         }
 
+        public decimal NetCashflowEffectOfReimbursableTransactions(DateTime AsOfDate)
+        {
+            return transRepo
+                        .GetAllEagerly("TransactionType")
+                        .Where(t => t.ReimbursableSource != null && t.TransactionDate <= AsOfDate)
+                        .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+        }
+
     }
 }

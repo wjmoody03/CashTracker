@@ -178,5 +178,48 @@ namespace ct.Tests.Business
             Assert.AreEqual(-490, bal);
 
         }
+
+        [TestMethod]
+        public void cashflow_effect_of_reimbursable_transactions_calculates_correctly()
+        {
+            var cd = new TransactionType() { CountAsIncome = true, MonthlyCashflowMultiplier = 1 }; //checking deposit
+            var cce = new TransactionType() { CountAsIncome = false, MonthlyCashflowMultiplier = -1 }; //credit card expense. should be ignored            
+
+            var trans = new List<Transaction>(){
+                new Transaction(){ 
+                    TransactionType = cce,
+                    Amount= 500,
+                    TransactionDate = new DateTime(2013,7,1),
+                    ReimbursableSource = "Hi"
+                },
+                new Transaction(){ //this is in the future... we want to ignore it
+                     TransactionType = cd,
+                     Amount = 1,
+                     ReimbursableSource = "hi",
+                     TransactionDate = new DateTime(2013,9,1)
+                },
+                new Transaction(){ //not flagged. ignore it
+                     TransactionType = cd,
+                     Amount = 10,
+                     ReimbursableSource = null,
+                     TransactionDate = new DateTime(2013,7,1)
+                },
+                new Transaction(){ //valid, but CD instead of CCE
+                     TransactionType = cd,
+                     Amount = 25,
+                     ReimbursableSource = "hi",
+                     TransactionDate = new DateTime(2013,7,1)
+                }
+            };
+
+            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bal = bc.NetCashflowEffectOfReimbursableTransactions(new DateTime(2013,8,1));
+            Assert.AreEqual(-475, bal);
+
+        }
     }
 }
