@@ -21,6 +21,7 @@ namespace ct.Domain.Models
         public string Notes { get; set; }
         public string ReimbursableSource { get; set; }
         public string TaxTag { get; set; }
+        public bool FlagForFollowUp { get; set; }
         [ForeignKey("TransactionID")]
         public List<Transaction> SplitTransactions { get; set; }
 
@@ -28,5 +29,7 @@ namespace ct.Domain.Models
         public Account Account { get; set; }
         public Download Download { get; set; }
         public Transaction ParentTransaction { get; set; }
+
+
     }
 }
