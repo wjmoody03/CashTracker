@@ -88,12 +88,17 @@ namespace ct.Tests.Business
         }
 
         [TestMethod]
-        public void balance_not_available_for_spending_includes_correct_transactions()
+        public void income_reserved_for_future_use_includes_correct_transactions()
         {
             var cd = new TransactionType(){ CountAsIncome=true,MonthlyCashflowMultiplier=1 }; //checking deposit
             var cce = new TransactionType(){ CountAsIncome=false,MonthlyCashflowMultiplier=-1}; //credit card expense. should be ignored            
 
             var trans = new List<Transaction>(){
+                new Transaction(){
+                    TransactionType = cce,
+                    TransactionDate = new DateTime(2013,7,1),
+                    Amount= 500
+                },
                 new Transaction(){ //deposit for future month, should be included by function. 
                      TransactionDate = new DateTime(2013,9,1),
                      TransactionType = cd,
@@ -114,13 +119,13 @@ namespace ct.Tests.Business
                      TransactionType = cd,
                      Amount=50
                 },
-                new Transaction(){ //deposit during prior month, but flagged for follow up. Should be included by function
-                     TransactionDate = new DateTime(2013,6,1),
+                new Transaction(){ //deposit during future month, but flagged for follow up. Should not be included by function
+                     TransactionDate = new DateTime(2013,9,1),
                      TransactionType = cd,
                      Amount = 100,
                      FlagForFollowUp = true
                 },
-                new Transaction(){ //deposit during prior month, but reimbursable. should be included by function
+                new Transaction(){ //deposit during future month, but reimbursable. should not be included by function
                      TransactionDate = new DateTime(2013,9,1),
                      TransactionType = cd,
                      Amount = 200,
@@ -134,8 +139,8 @@ namespace ct.Tests.Business
             transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
-            var ineligibleBalance = bc.BalanceNotAvailableForSpending(asOfDate);
-            Assert.AreEqual(311, ineligibleBalance);
+            var ineligibleBalance = bc.IncomeReservedForFutureUse(asOfDate);
+            Assert.AreEqual(11, ineligibleBalance);
 
         }
     }

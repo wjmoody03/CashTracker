@@ -40,22 +40,15 @@ namespace ct.Business
                    .Sum(b => b.BalanceAmount);
         }
 
-        public decimal BalanceNotAvailableForSpending(DateTime AsOfDate)
+        public decimal IncomeReservedForFutureUse(DateTime AsOfDate)
         {
-            //this should include income for future use, stuff flagged for follow up, and reimbursables
             return transRepo
                         .GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionType.CountAsIncome == true
-                                    && (
-                                            (
-                                                t.TransactionDate.Month >= AsOfDate.Month
-                                                && t.TransactionDate.Year >= AsOfDate.Year
-                                            )
-                                            ||
-                                            t.ReimbursableSource != null
-                                            ||
-                                            t.FlagForFollowUp == true
-                                        )
+                                    && t.TransactionDate.Month >= AsOfDate.Month
+                                    && t.TransactionDate.Year >= AsOfDate.Year
+                                    && t.ReimbursableSource == null //these are included in a different category. Don't double count them here. 
+                                    && t.FlagForFollowUp == false
                                 )
                         .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
         }
