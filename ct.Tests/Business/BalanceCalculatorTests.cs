@@ -42,11 +42,10 @@ namespace ct.Tests.Business
             };
 
             var asOfDate = new DateTime(2013, 8, 1);
-            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             balanceRepo.Stub(br => br.StatedAccountBalancesAsOf(asOfDate)).Return(balances);
-            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
             var cc = bc.OutstandingCreditCardDebt(asOfDate);
             Assert.AreEqual(130, cc);
         }
@@ -78,11 +77,10 @@ namespace ct.Tests.Business
             };
 
             var asOfDate = new DateTime(2013, 8, 1);
-            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             balanceRepo.Stub(br => br.StatedAccountBalancesAsOf(asOfDate)).Return(balances);
-            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
             var cc = bc.TotalCashOnHand(asOfDate);
             Assert.AreEqual(130, cc);
         }
@@ -134,16 +132,14 @@ namespace ct.Tests.Business
             };
 
             var asOfDate = new DateTime(2013, 8, 1);
-            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
             var ineligibleBalance = bc.IncomeReservedForFutureUse(asOfDate);
             Assert.AreEqual(11, ineligibleBalance);
 
         }
-
 
         [TestMethod]
         public void cashflow_effect_of_flagged_transactions_calculates_correctly()
@@ -169,11 +165,10 @@ namespace ct.Tests.Business
                 }
             };
 
-            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
             var bal = bc.NetCashflowEffectOfTransactionsFlaggedForFollowUp();
             Assert.AreEqual(-490, bal);
 
@@ -186,40 +181,78 @@ namespace ct.Tests.Business
             var cce = new TransactionType() { CountAsIncome = false, MonthlyCashflowMultiplier = -1 }; //credit card expense. should be ignored            
 
             var trans = new List<Transaction>(){
-                new Transaction(){ 
-                    TransactionType = cce,
-                    Amount= 500,
-                    TransactionDate = new DateTime(2013,7,1),
-                    ReimbursableSource = "Hi"
-                },
-                new Transaction(){ //this is in the future... we want to ignore it
-                     TransactionType = cd,
-                     Amount = 1,
-                     ReimbursableSource = "hi",
-                     TransactionDate = new DateTime(2013,9,1)
-                },
-                new Transaction(){ //not flagged. ignore it
-                     TransactionType = cd,
-                     Amount = 10,
-                     ReimbursableSource = null,
-                     TransactionDate = new DateTime(2013,7,1)
-                },
-                new Transaction(){ //valid, but CD instead of CCE
-                     TransactionType = cd,
-                     Amount = 25,
-                     ReimbursableSource = "hi",
-                     TransactionDate = new DateTime(2013,7,1)
-                }
+                new Transaction(){ TransactionType = cce, Amount= 500,TransactionDate = new DateTime(2013,7,1),ReimbursableSource = "Hi"},
+                //this is in the future... we want to ignore it
+                new Transaction(){ TransactionType = cd,Amount = 1,ReimbursableSource = "hi",TransactionDate = new DateTime(2013,9,1)},
+                //not flagged. ignore it
+                new Transaction(){ TransactionType = cd,Amount = 10,ReimbursableSource = null,TransactionDate = new DateTime(2013,7,1)},
+                //valid, but CD instead of CCE
+                new Transaction(){ TransactionType = cd,Amount = 25,ReimbursableSource = "hi",TransactionDate = new DateTime(2013,7,1)}
             };
 
-            var accountRepo = MockRepository.GenerateMock<IAccountRepository>();
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            var bc = new BalanceCalculator(accountRepo, transRepo, balanceRepo);
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
             var bal = bc.NetCashflowEffectOfReimbursableTransactions(new DateTime(2013,8,1));
             Assert.AreEqual(-475, bal);
 
+        }
+
+        private IAccountBalanceRepository balanceRepoForRemainingFundsTests(DateTime asOfDate)
+        {
+
+            var bHist = new List<AccountBalance>()
+            {
+                new AccountBalance(){ Account = new Account(){ AccountType = AccountType.CheckingAccount },BalanceAmount = 1000},
+                new AccountBalance(){ Account = new Account(){ AccountType = AccountType.CheckingAccount },BalanceAmount = 500},
+                new AccountBalance(){ Account = new Account(){ AccountType = AccountType.CreditCard },BalanceAmount = 300}
+            };
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            balanceRepo.Stub(br => br.StatedAccountBalancesAsOf(asOfDate)).Return(bHist);
+            return balanceRepo;
+        }
+
+        private ITransactionRepository transactionRepoForRemainingFundsTests()
+        {
+            var cd = new TransactionType() { CountAsIncome = true, MonthlyCashflowMultiplier = 1 }; //checking deposit
+            var ce = new TransactionType() { CountAsIncome = false, MonthlyCashflowMultiplier = -1 }; //checking expense
+            var cce = new TransactionType() { CountAsIncome = false, MonthlyCashflowMultiplier = -1 }; //credit card expense. should be ignored            
+            var pp = new TransactionType() { CountAsIncome = false, MonthlyCashflowMultiplier = 0 }; //payment posted to credit card       
+
+
+            var trans = new List<Transaction>(){
+                //this is reimbursable, and thus should not be considered anywhere
+                new Transaction(){ TransactionType = cce,Amount= 73,TransactionDate = new DateTime(2013,7,1),ReimbursableSource = "Hi"},
+                //this is next month's income, and so should be excluded
+                new Transaction(){ TransactionType = cd,Amount= 700,TransactionDate = new DateTime(2013,9,1)},
+                //this is flagged, and should be excluded
+                new Transaction(){ TransactionType = cce,Amount= 120,TransactionDate = new DateTime(2013,7,1),FlagForFollowUp=true}
+            };
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+
+            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            return transRepo;
+        }
+
+        [TestMethod]
+        public void remaining_spendable_funds_returns_correct_amount_for_liberal_calc()
+        {
+            //this one's a doozie, and here's where it all counts...
+            var asOfDate = new DateTime(2013, 8, 1);
+            var bc = new BalanceCalculator(transactionRepoForRemainingFundsTests(), balanceRepoForRemainingFundsTests(asOfDate));
+            var bal = bc.RemainingSpendableFunds(asOfDate,true,true);
+            Assert.AreEqual(1000+500-300+73-700+120, bal);
+        }
+
+        [TestMethod]
+        public void remaining_spendable_funds_returns_correct_amount_for_conservative_calc()
+        {
+            //this one's a doozie, and here's where it all counts...
+            var asOfDate = new DateTime(2013, 8, 1);
+            var bc = new BalanceCalculator(transactionRepoForRemainingFundsTests(), balanceRepoForRemainingFundsTests(asOfDate));
+            var bal = bc.RemainingSpendableFunds(asOfDate, false, false);
+            Assert.AreEqual(1000 + 500 - 300 - 700, bal);
         }
     }
 }

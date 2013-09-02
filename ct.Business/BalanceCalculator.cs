@@ -10,20 +10,29 @@ namespace ct.Business
 {
     public class BalanceCalculator
     {
-        IAccountRepository accountRepo;
         ITransactionRepository transRepo;
         IAccountBalanceRepository balanceRepo;
 
-        public BalanceCalculator(IAccountRepository AccountRepo, ITransactionRepository TransactionRepo, IAccountBalanceRepository BalanceRepo)
+        public BalanceCalculator(ITransactionRepository TransactionRepo, IAccountBalanceRepository BalanceRepo)
         {
-            accountRepo = AccountRepo;
             transRepo = TransactionRepo;
             balanceRepo = BalanceRepo;
         }
 
-        public decimal RemainingSpendableFunds(DateTime AsOfDate)
+        public decimal RemainingSpendableFunds(DateTime AsOfDate, bool DiscountFlaggedTransactions, bool DiscountExpectedReimbursals)
         {
-            throw new NotImplementedException();
+            //*one potential bug with this calc: If we've sent a payment to a credit card (which has decreased our checking
+            //balance) that has not yet posted to the credit card account (and thus not decreased our cc debt) we will
+            //understate our available funds by the amount of the payment. 
+            //*another potential mismatch is that we look at stated balances for credit card debt, not actual transactions. 
+            //in the case where there is a large reconciliation issue for a credit card, this could be confusing. 
+            //*Need to point out to the user on the dashboard page the amount of this that is reimbursable/flagged in case it 
+            //affects tight casflow situations. These are pseudo amounts and, unless resolved/reimbursed, don't matter
+            return TotalCashOnHand(AsOfDate)
+                    - OutstandingCreditCardDebt(AsOfDate)
+                    - IncomeReservedForFutureUse(AsOfDate)
+                    - (DiscountFlaggedTransactions ? NetCashflowEffectOfTransactionsFlaggedForFollowUp() : 0)
+                    - (DiscountExpectedReimbursals ? NetCashflowEffectOfReimbursableTransactions(AsOfDate) : 0);
         }
 
         public decimal TotalCashOnHand(DateTime AsOfDate)
