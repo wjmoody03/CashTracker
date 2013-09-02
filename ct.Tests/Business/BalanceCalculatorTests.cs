@@ -86,6 +86,17 @@ namespace ct.Tests.Business
         }
 
         [TestMethod]
+        public void total_cash_on_hand_returns_zero_instead_of_null_when_there_is_no_data()
+        {
+            var asOfDate = new DateTime(2013,8,1);
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            balanceRepo.Stub(br=>br.StatedAccountBalancesAsOf(asOfDate)).Return(new List<AccountBalance>());
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
+            Assert.AreEqual(0,bc.TotalCashOnHand(asOfDate));
+        }
+
+        [TestMethod]
         public void income_reserved_for_future_use_includes_correct_transactions()
         {
             var cd = new TransactionType(){ CountAsIncome=true,MonthlyCashflowMultiplier=1 }; //checking deposit
@@ -142,6 +153,17 @@ namespace ct.Tests.Business
         }
 
         [TestMethod]
+        public void income_reserved_for_future_use_returns_zero_instead_of_null_when_there_is_no_data()
+        {
+            var asOfDate = new DateTime(2013, 8, 1);
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
+            Assert.AreEqual(0, bc.IncomeReservedForFutureUse(asOfDate));
+        }
+
+        [TestMethod]
         public void cashflow_effect_of_flagged_transactions_calculates_correctly()
         {
             var cd = new TransactionType() { CountAsIncome = true, MonthlyCashflowMultiplier = 1 }; //checking deposit
@@ -175,6 +197,16 @@ namespace ct.Tests.Business
         }
 
         [TestMethod]
+        public void cashflow_effect_of_flagged_transactions_returns_zero_instead_of_null_when_there_is_no_data()
+        {
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
+            Assert.AreEqual(0, bc.NetCashflowEffectOfTransactionsFlaggedForFollowUp());
+        }
+
+        [TestMethod]
         public void cashflow_effect_of_reimbursable_transactions_calculates_correctly()
         {
             var cd = new TransactionType() { CountAsIncome = true, MonthlyCashflowMultiplier = 1 }; //checking deposit
@@ -197,6 +229,17 @@ namespace ct.Tests.Business
             var bal = bc.NetCashflowEffectOfReimbursableTransactions(new DateTime(2013,8,1));
             Assert.AreEqual(-475, bal);
 
+        }
+
+        [TestMethod]
+        public void cashflow_effect_of_reimbursable_transactions_returns_zero_instead_of_null_when_there_is_no_data()
+        {
+            var asOfDate = new DateTime(2013, 8, 1);
+            var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
+            var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
+            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            var bc = new BalanceCalculator(transRepo, balanceRepo);
+            Assert.AreEqual(0, bc.NetCashflowEffectOfReimbursableTransactions(asOfDate));
         }
 
         private IAccountBalanceRepository balanceRepoForRemainingFundsTests(DateTime asOfDate)
