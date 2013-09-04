@@ -13,6 +13,7 @@ namespace ct.Domain.Models
         public int TransactionTypeID { get; set; }
         public int AccountID { get; set; }
         public int DownloadID { get; set; }
+        public string SourceTransactionIdentifier { get; set; } //this is the transID of the bank or card company
         public int? ParentTransactionID { get; set; }
         public DateTime TransactionDate { get; set; }
         public string Category { get; set; }
