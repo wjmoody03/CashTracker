@@ -182,6 +182,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\TransactionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -316,6 +317,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ct.Business\ct.Business.csproj">
+      <Project>{2532d151-15e8-4797-9726-f80df9b18d92}</Project>
+      <Name>ct.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ct.Data\ct.Data.csproj">
+      <Project>{705596f6-3f8d-4ba8-b82d-3a01a876f1b9}</Project>
+      <Name>ct.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ct.Domain\ct.Domain.csproj">
+      <Project>{2f3ee789-0648-4d22-ad39-b65ce9c13c7a}</Project>
+      <Name>ct.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
