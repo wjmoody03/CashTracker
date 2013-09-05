@@ -22,6 +22,10 @@ namespace ct.Web.Controllers.API
         {
             return db.Transactions.AsEnumerable();
         }
+        public IEnumerable<Transaction> GetTransactions(DateTime StartDate, DateTime EndDate)
+        {
+            return db.Transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate) ;
+        }
 
         // GET api/Transaction/5
         public Transaction GetTransaction(int id)

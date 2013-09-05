@@ -1,3 +1,26 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@section scripts{
+    <script src="~/app/Controllers/transactionCtrl.js"></script>    
+}
+<div  ng-controller="transactionCtrl">
+
+    Search: <input ng-model="query">
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td>Category</td>
+            <td>Amount</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="trans in transactions | filter:query">
+            <td>{{trans.Category}}</td>
+            <td>{{trans.Amount}}</td>
+        </tr>
+    </tbody>
+
+</table>
+</div>

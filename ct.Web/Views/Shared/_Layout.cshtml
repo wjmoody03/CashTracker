@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app>
     <head>
         <meta charset="utf-8" />
         <title>@ViewBag.Title</title>
@@ -9,6 +9,11 @@
         <link href="~/Content/bootstrap/bootstrap-theme.min.css" rel="stylesheet" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        <style>
+          body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+        </style>
     </head>
     <body>
         <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
@@ -43,7 +48,7 @@
                 </nav>
               </div>
         </header>
-        <div id="body">
+        <div id="body" class="container">
 
                 @RenderBody()
 
@@ -51,7 +56,7 @@
         <footer>
 
         </footer>
-
+        <script src="~/Scripts/angular.min.js"></script>
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
