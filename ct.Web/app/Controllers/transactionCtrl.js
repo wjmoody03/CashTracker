@@ -3,4 +3,5 @@
         $scope.transactions = data;
     });
 
+    $scope.query = "";
 }

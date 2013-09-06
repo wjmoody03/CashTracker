@@ -4,23 +4,45 @@
 @section scripts{
     <script src="~/app/Controllers/transactionCtrl.js"></script>    
 }
-<div  ng-controller="transactionCtrl">
+<div ng-controller="transactionCtrl">
+<div class="col-xs-12 row">
+Search: <input ng-model="query">
 
-    Search: <input ng-model="query">
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>            
+                    <td>Date</td>
+                    <td>Description</td>
+                    <td>Category</td>
+                    <td style="text-align:right;">Amount</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="trans in transactions | filter:query |orderBy:TransactionDate">
+                    <td>
+                        <a href="#/transactions/{{trans.TransactionID}}" class="glyphicon glyphicon-list"></a>
+                        {{trans.TransactionDate | date:'MMM d yy'}}
+                    </td>
+                    <td>{{trans.Description}}</td>
+                    <td>{{trans.Category}}</td>
+                    <td style="text-align:right;">{{trans.Amount | currency}}</td>
+                </tr>
+            </tbody>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <td>Category</td>
-            <td>Amount</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="trans in transactions | filter:query">
-            <td>{{trans.Category}}</td>
-            <td>{{trans.Amount}}</td>
-        </tr>
-    </tbody>
+        </table>
+    </div>
 
-</table>
+    <div class="col-sm-4">
+        <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Panel title</h3>
+                </div>
+                <div class="panel-body">
+                  Panel content
+                </div>
+        </div>
+    </div>
 </div>
