@@ -1,48 +1,45 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
 }
-@section scripts{
-    <script src="~/app/Controllers/transactionCtrl.js"></script>    
-}
-<div ng-controller="transactionCtrl">
-<div class="col-xs-12 row">
-Search: <input ng-model="query">
 
-</div>
-<div class="row">
-    <div class="col-sm-8">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>            
-                    <td>Date</td>
-                    <td>Description</td>
-                    <td>Category</td>
-                    <td style="text-align:right;">Amount</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="trans in transactions | filter:query |orderBy:TransactionDate">
-                    <td>
-                        <a href="#/transactions/{{trans.TransactionID}}" class="glyphicon glyphicon-list"></a>
-                        {{trans.TransactionDate | date:'MMM d yy'}}
-                    </td>
-                    <td>{{trans.Description}}</td>
-                    <td>{{trans.Category}}</td>
-                    <td style="text-align:right;">{{trans.Amount | currency}}</td>
-                </tr>
-            </tbody>
+<!DOCTYPE html>
+<html lang="en" ng-app="ct">
+<head>
+    <meta charset="utf-8" />
+    <title>CashTea</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> @*add this? user-scalable=no*@        
+    
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
-        </table>
-    </div>
-
-    <div class="col-sm-4">
-        <div class="panel panel-success">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                  Panel content
-                </div>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    @Scripts.Render("~/bundles/angular")
+    
+</head>
+<body>
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="../" class="navbar-brand">CT</a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="../getting-started">Getting started</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container" ng-controller="transCtrl">
+        <div ng-repeat="trans in transactions">
+            {{trans.TransactionID}}
+            <input ng-model="trans.Description" />
+            <button class="btn" ng-click="update(trans)">save</button>
+            {{trans.Description}}
         </div>
     </div>
-</div>
+</body>
+</html>
