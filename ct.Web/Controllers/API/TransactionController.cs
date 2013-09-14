@@ -10,12 +10,19 @@ using System.Web;
 using System.Web.Http;
 using ct.Domain.Models;
 using ct.Data.Contexts;
+using ct.Data.Repositories;
 
 namespace ct.Web.Controllers.API
 {
     public class TransactionController : ApiController
     {
         private ctContext db = new ctContext();
+        ITransactionRepository transRepo; 
+
+        public TransactionController()
+        {
+            transRepo = new TransactionRepository(db);
+        }
 
         // GET api/Transaction
         public IEnumerable<Transaction> GetTransactions()
@@ -24,7 +31,8 @@ namespace ct.Web.Controllers.API
         }
         public IEnumerable<Transaction> GetTransactions(DateTime StartDate, DateTime EndDate)
         {
-            return db.Transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate) ;
+            //return db.Transactions.Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate) ;
+            return transRepo.GetAll().Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate);
         }
 
         // GET api/Transaction/5
