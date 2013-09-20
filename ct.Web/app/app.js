@@ -1,1 +1,1 @@
-﻿angular.module("ct", ["transService"]);
+﻿angular.module("ct", ["ngResource", 'ui.bootstrap']);

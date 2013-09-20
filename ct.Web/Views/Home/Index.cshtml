@@ -8,15 +8,22 @@
     <meta charset="utf-8" />
     <title>CashTea</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> @*add this? user-scalable=no*@        
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    @*add this? user-scalable=no*@
+
     @Styles.Render("~/Content/css")
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+
     @Scripts.Render("~/bundles/modernizr")
 
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-resource.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-0.6.0.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-0.6.0.min.js"></script>
+
     @Scripts.Render("~/bundles/angular")
-    
+
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
@@ -34,11 +41,29 @@
         </div>
     </header>
     <div class="container" ng-controller="transCtrl">
-        <div ng-repeat="trans in transactions">
-            {{trans.TransactionID}}
-            <input ng-model="trans.Description" />
-            <button class="btn" ng-click="update(trans)">save</button>
-            {{trans.Description}}
+        <div class="col-sm-2">
+            <div class="panel panel-primary search">
+                <div class="panel-heading">Manage</div>
+                <div class="panel-body">                
+                    <br /><input type="checkbox" ng-model="prefs.advancedEdit" /> Advanced Edit
+                    <br /><input placeholder="Search" ng-model="prefs.search" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="row" ng-repeat="trans in transactions | filter:prefs.search">
+                <div ng-show="prefs.advancedEdit" class="btn-group col-sm-2">
+                    @*<button type="button" ng-click="update(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-floppy-disk"></i></button>*@
+                    <button type="button" ng-click="delete(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-remove"></i></button>
+                    <button type="button" ng-click="split(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-random"></i></button>
+                    <button type="button" ng-click="details(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-wrench"></i></button>
+                </div>
+                <span class="col-sm-2">{{trans.TransactionDate | date:"mediumDate" }}</span>
+                <span class="col-sm-3"><abbr title="{{trans.Description}}">{{trans.Description.substring(0,40)}}</abbr></span>
+                <span class="col-sm-2"><input placeholder="Category" ng-model="trans.Category" typeahead="category for category in Categories | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+                <span ng-show="prefs.advancedEdit" class="col-sm-2"><input placeholder="Notes" ng-model="trans.Notes" /></span>
+                <span ng-show="prefs.advancedEdit" class="col-sm-1"><input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in ReimbursableSources | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+            </div>
         </div>
     </div>
 </body>

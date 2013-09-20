@@ -1,4 +1,4 @@
-﻿angular.module("transService", ["ngResource"]).
+﻿angular.module("ct").
        factory("Transaction", function ($resource) {
            return $resource(
                "/api/transaction/:Id",
