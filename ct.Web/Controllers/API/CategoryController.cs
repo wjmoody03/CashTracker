@@ -27,11 +27,23 @@ namespace ct.Web.Controllers.API
         // GET api/Transaction
         public IEnumerable<string> GetCategories()
         {
-            return db.Transactions.Select(t => t.Category).Distinct().OrderBy(c => c);
+            return db.Transactions
+                    .Select(t => t.Category)
+                    .Distinct()
+                    .ToList()
+                    .Where(c=>!string.IsNullOrWhiteSpace(c))                    
+                    .OrderBy(c => c);
         }
         public IEnumerable<string> GetCategories(DateTime StartDate, DateTime EndDate)
         {
-            return transRepo.GetAll().Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate).Select(t => t.Category).Distinct().OrderBy(c => c);
+            return transRepo
+                    .GetAll()
+                    .Where(t => t.TransactionDate >= StartDate && t.TransactionDate <= EndDate)
+                    .Select(t => t.Category)
+                    .Distinct()
+                    .ToList()
+                    .Where(c=>!string.IsNullOrWhiteSpace(c))
+                    .OrderBy(c => c);
         }
 
     }

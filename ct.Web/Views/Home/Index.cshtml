@@ -60,9 +60,9 @@
                 </div>
                 <span class="col-sm-2">{{trans.TransactionDate | date:"mediumDate" }}</span>
                 <span class="col-sm-3"><abbr title="{{trans.Description}}">{{trans.Description.substring(0,40)}}</abbr></span>
-                <span class="col-sm-2"><input placeholder="Category" ng-model="trans.Category" typeahead="category for category in Categories | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+                <span class="col-sm-2"><input placeholder="Category" ng-model="trans.Category" typeahead="category for category in categoryList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
                 <span ng-show="prefs.advancedEdit" class="col-sm-2"><input placeholder="Notes" ng-model="trans.Notes" /></span>
-                <span ng-show="prefs.advancedEdit" class="col-sm-1"><input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in ReimbursableSources | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+                <span ng-show="prefs.advancedEdit" class="col-sm-1"><input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in reimbursableSourceList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
             </div>
         </div>
     </div>
