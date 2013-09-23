@@ -194,7 +194,9 @@
     <Content Include="app\app.js" />
     <Content Include="app\Controllers\transCtrl.js" />
     <Content Include="app\Controllers\transDetailsCtrl.js" />
+    <Content Include="app\Filters\momentFilter.js" />
     <Content Include="app\Services\categoryService.js" />
+    <Content Include="app\Services\preferencesService.js" />
     <Content Include="app\Services\reimbursableSourceService.js" />
     <Content Include="app\Services\transService.js" />
     <Content Include="app\Views\Transaction.html" />
@@ -563,6 +565,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\ui-bootstrap-0.6.0.js" />
     <Content Include="Scripts\ui-bootstrap-0.6.0.min.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.6.0.js" />
@@ -596,7 +599,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\Directives\" />
-    <Folder Include="app\Filters\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

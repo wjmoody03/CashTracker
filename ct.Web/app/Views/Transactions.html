@@ -9,6 +9,12 @@
                     <div class="form-group">
                         <input type="text" class="form-control col-lg-8" placeholder="Search" ng-model="prefs.search">
                     </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control col-lg-8" placeholder="Start Date" ng-model="prefs.startDate" value="{{ prefs.startDate | moment: 'YYYY-MM-DD' }}" ng-change="refreshData()">
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control col-lg-8" placeholder="End Date" ng-model="prefs.endDate" value="{{ prefs.endDate | moment: 'YYYY-MM-DD' }}" ng-change="refreshData()">
+                    </div>
                     <button class="btn btn-default" ng-click="prefs.advancedEdit=!prefs.advancedEdit">
                         <i class="glyphicon glyphicon-check" ng-show="prefs.advancedEdit"></i>
                         <i class="glyphicon glyphicon-unchecked" ng-hide="prefs.advancedEdit"></i>
@@ -35,7 +41,7 @@
 
         <span class="col-sm-2">{{trans.TransactionDate | date:"mediumDate" }}</span>
         <span class="col-sm-3">
-            <abbr title="{{trans.Description}}">{{trans.Description.substring(0,40)}}</abbr></span>
+            <abbr title="{{trans.Description}}">{{trans.Description.substring(0,25)}}</abbr></span>
         <span class="col-sm-2">
             <input placeholder="Category" ng-model="trans.Category" typeahead="category for category in categoryList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
         <span ng-show="prefs.advancedEdit" class="col-sm-2">
