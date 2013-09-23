@@ -1,3 +1,5 @@
 -Add date filter to transaction search
 -Add option to only update null categories
 -add overview page
+-enable transaction splitting. Update remaining cash calcs to handle split transactions correctly. 
+-move transaction search to the bar

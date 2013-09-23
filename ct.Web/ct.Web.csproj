@@ -193,14 +193,18 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\Controllers\transCtrl.js" />
+    <Content Include="app\Controllers\transDetailsCtrl.js" />
     <Content Include="app\Services\categoryService.js" />
     <Content Include="app\Services\reimbursableSourceService.js" />
     <Content Include="app\Services\transService.js" />
+    <Content Include="app\Views\Transaction.html" />
+    <Content Include="app\Views\Transactions.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\bootswatch.flatly.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

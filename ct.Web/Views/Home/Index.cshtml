@@ -26,7 +26,7 @@
 
 </head>
 <body>
-    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+    <header class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="banner">
         <div class="container">
             <div class="navbar-header">
                 <a href="../" class="navbar-brand">CT</a>
@@ -40,31 +40,7 @@
             </nav>
         </div>
     </header>
-    <div class="container" ng-controller="transCtrl">
-        <div class="col-sm-2">
-            <div class="panel panel-primary search">
-                <div class="panel-heading">Manage</div>
-                <div class="panel-body">                
-                    <br /><input type="checkbox" ng-model="prefs.advancedEdit" /> Advanced Edit
-                    <br /><input placeholder="Search" ng-model="prefs.search" />
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-10">
-            <div class="row" ng-repeat="trans in transactions | filter:prefs.search">
-                <div ng-show="prefs.advancedEdit" class="btn-group col-sm-2">
-                    @*<button type="button" ng-click="update(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-floppy-disk"></i></button>*@
-                    <button type="button" ng-click="delete(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-remove"></i></button>
-                    <button type="button" ng-click="split(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-random"></i></button>
-                    <button type="button" ng-click="details(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-wrench"></i></button>
-                </div>
-                <span class="col-sm-2">{{trans.TransactionDate | date:"mediumDate" }}</span>
-                <span class="col-sm-3"><abbr title="{{trans.Description}}">{{trans.Description.substring(0,40)}}</abbr></span>
-                <span class="col-sm-2"><input placeholder="Category" ng-model="trans.Category" typeahead="category for category in categoryList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
-                <span ng-show="prefs.advancedEdit" class="col-sm-2"><input placeholder="Notes" ng-model="trans.Notes" /></span>
-                <span ng-show="prefs.advancedEdit" class="col-sm-1"><input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in reimbursableSourceList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
-            </div>
-        </div>
+    <div class="container" ng-view>
     </div>
 </body>
 </html>

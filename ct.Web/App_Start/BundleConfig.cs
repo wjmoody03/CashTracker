@@ -17,8 +17,9 @@ namespace ct.Web
             bundles.Add(new ScriptBundle("~/bundles/angular").IncludeDirectory("~/app", "*.js", true));
 
             bundles.Add(new StyleBundle("~/Content/css")
-                    .Include("~/Content/bootstrap/bootstrap.css")
-                    .Include("~/Content/bootstrap/bootstrap-theme.css")
+                    //.Include("~/Content/bootstrap/bootstrap.css")
+                    .Include("~/Content/bootstrap/bootswatch.flatly.min.css")
+                    //.Include("~/Content/bootstrap/bootstrap-theme.css")
                     .Include("~/Content/site.css"));
 
         }

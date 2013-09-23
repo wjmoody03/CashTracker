@@ -1,0 +1,46 @@
+﻿<div ng-controller="transCtrl">
+
+    <div class="navbar navbar-default">
+        <div class="container">
+
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control col-lg-8" placeholder="Search" ng-model="prefs.search">
+                    </div>
+                    <button class="btn btn-default" ng-click="prefs.advancedEdit=!prefs.advancedEdit">
+                        <i class="glyphicon glyphicon-check" ng-show="prefs.advancedEdit"></i>
+                        <i class="glyphicon glyphicon-unchecked" ng-hide="prefs.advancedEdit"></i>
+                        Advanced Edit
+
+                    </button>
+                </form>
+
+
+            </div>
+            <!-- /.nav-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+
+
+    <div class="row" ng-repeat="trans in transactions | filter:prefs.search">
+        <div class="btn-group col-sm-2">
+            <button ng-show="prefs.advancedEdit" type="button" ng-click="update(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+            <button ng-show="prefs.advancedEdit" type="button" ng-click="delete(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-remove"></i></button>
+            <button ng-show="prefs.advancedEdit" type="button" ng-click="split(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-random"></i></button>
+            <a href="/#/transaction/edit/{{trans.TransactionID}}" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-wrench"></i></a>
+        </div>
+
+        <span class="col-sm-2">{{trans.TransactionDate | date:"mediumDate" }}</span>
+        <span class="col-sm-3">
+            <abbr title="{{trans.Description}}">{{trans.Description.substring(0,40)}}</abbr></span>
+        <span class="col-sm-2">
+            <input placeholder="Category" ng-model="trans.Category" typeahead="category for category in categoryList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+        <span ng-show="prefs.advancedEdit" class="col-sm-2">
+            <input placeholder="Notes" ng-model="trans.Notes" /></span>
+        <span ng-show="prefs.advancedEdit" class="col-sm-1">
+            <input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in reimbursableSourceList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
+    </div>
+</div>
