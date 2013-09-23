@@ -1,6 +1,15 @@
 
 -Add option to only update null categories
+
 -add overview page
+
 -enable transaction splitting. Update remaining cash calcs to handle split transactions correctly. 
 
 -Date filter returns apparently wrong date range because it's returning objects with time zone offset of zero, and angular is converting to local time. 
+
+-drop downs on edit page for account, etc
+
+-split out transaction detail controller
+
+-toggle between category edit mode, advanced edit mode, and view only
+

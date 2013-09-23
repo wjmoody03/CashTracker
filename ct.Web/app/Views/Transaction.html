@@ -1,48 +1,48 @@
-﻿<form role="form">
+﻿<form role="form" ng-controller="transCtrl" ng-submit="updateAndReturn()">
 
   <div class="form-group">
     <label for="TransactionDate">Date</label>
-    <input type="date" class="form-control" id="TransactionDate" placeholder="Date">
+    <input type="date" class="form-control" value="{{currentTransaction.TransactionDate | date: 'yyyy-MM-dd' }}" ng-model="currentTransaction.TransactionDate" id="TransactionDate" placeholder="Date">
   </div>
 
   <div class="form-group">
     <label for="AccountID">Account</label>
-    <input type="text" class="form-control" id="AccountID" placeholder="Account">
+    <input type="text" class="form-control"ng-model="currentTransaction.AccountID" id="AccountID" placeholder="Account">
   </div>
 
   <div class="form-group">
     <label for="Category">Category</label>
-    <input type="text" class="form-control" id="Category" placeholder="Category">
+    <input type="text" class="form-control"ng-model="currentTransaction.Category" id="Category" placeholder="Category">
   </div>
 
   <div class="form-group">
     <label for="Description">Description</label>
-    <input type="text" class="form-control" id="Description" placeholder="Account">
+    <input type="text" class="form-control"ng-model="currentTransaction.Description" id="Description" placeholder="Account">
   </div>
 
   <div class="form-group">
     <label for="Amount">Amount</label>
-    <input type="text" class="form-control" id="Amount" placeholder="Amount">
+    <input type="text" class="form-control"ng-model="currentTransaction.Amount" id="Amount" placeholder="Amount">
   </div>
 
     <div class="form-group">
     <label for="Notes">Notes</label>
-    <input type="text" class="form-control" id="Notes" placeholder="Notes">
+    <input type="text" class="form-control"ng-model="currentTransaction.Notes" id="Notes" placeholder="Notes">
   </div>
 
   <div class="form-group">
     <label for="ReimbursableSource">Reimbursable Source</label>
-    <input type="text" class="form-control" id="ReimbursableSource" placeholder="Reimbursable Source">
+    <input type="text" class="form-control"ng-model="currentTransaction.ReimbursableSource" id="ReimbursableSource" placeholder="Reimbursable Source">
   </div>
 
   <div class="form-group">
     <label for="TaxTag">Tax Tag(s)</label>
-    <input type="text" class="form-control" id="TaxTag" placeholder="Tax Tags">
+    <input type="text" class="form-control"ng-model="currentTransaction.TaxTag" id="TaxTag" placeholder="Tax Tags">
   </div>
 
   <div class="checkbox">
     <label>
-      <input type="checkbox"> Flag for Follow Up
+      <input type="checkbox" ng-model="FlagForFollowUp"> Flag for Follow Up
     </label>
   </div>
 
