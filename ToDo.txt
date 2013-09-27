@@ -13,3 +13,18 @@
 
 -toggle between category edit mode, advanced edit mode, and view only
 
+-refactor moment dependency to be a service? i don't like the implicit moment dependency in the transaction controller
+
+-potentially put the queried transactions AND the selected transactions at an app state level so we can avoid requerying after detail update
+
+-implement ngGrid for transactions? what about split transactions? 
+
+-work on conditional formatting for SPLIT, REIMBURSABLE, TAX TAG, INCOME, FLAGGED FOR FOLLOW UP
+
+-add summary calcs to transaction search: Net cash flow effect and total transactions
+
+-implement advanced search features: Amount range, flagged, reimbursable source, etc.
+
+-toastr or something for notification on failed post requests
+
+-pin search nav or change transaction grid to overflow scroll

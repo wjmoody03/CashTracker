@@ -30,7 +30,7 @@
         <!-- /.container -->
     </div>
 
-
+    <div title="Transactions">
     <div class="row" ng-repeat="trans in transactions | filter:prefs.search">
         <div class="btn-group col-sm-2">
             <button ng-show="prefs.advancedEdit" type="button" ng-click="update(trans)" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-floppy-disk"></i></button>
@@ -49,4 +49,5 @@
         <span ng-show="prefs.advancedEdit" class="col-sm-1">
             <input placeholder="Reimbursable Source" ng-model="trans.ReimbursableSource" typeahead="rs for rs in reimbursableSourceList | filter:$viewValue | limitTo:8" typeahead-min-length="0" /></span>
     </div>
+        </div>
 </div>
