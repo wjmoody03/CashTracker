@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnvironmentDetection.cs" />
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountBalance.cs" />
     <Compile Include="Models\AccountType.cs" />

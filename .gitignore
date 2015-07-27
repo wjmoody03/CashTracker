@@ -13,6 +13,10 @@ TestResults
 *.suo
 *.user
 *.sln.docstates
+.vs*/
+
+#secure info
+config
 
 # Build results
 [Dd]ebug/
