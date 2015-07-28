@@ -18,5 +18,6 @@ namespace ct.Domain
         {
             get { return ConfigurationManager.AppSettings["GoogleClientSecret"]; }
         }
+
     }
 }
