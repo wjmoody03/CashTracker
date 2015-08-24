@@ -7,12 +7,12 @@ using ct.Domain.Models;
 
 namespace ct.Data.Repositories
 {
-    public interface IAccountBalanceRepository:IGenericRepository<AccountBalance>
+    public interface IAccountBalanceRepository:IGenericRepositoryEF<AccountBalance>
     {
         IEnumerable<AccountBalance> StatedAccountBalancesAsOf(DateTime AsOfDate);
     }
 
-    public class AccountBalanceRepository : GenericRepository<AccountBalance>, IAccountBalanceRepository
+    public class AccountBalanceRepository : GenericRepositoryEF<AccountBalance>, IAccountBalanceRepository
     {
         IctContext Context;
 

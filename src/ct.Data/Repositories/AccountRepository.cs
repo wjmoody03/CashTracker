@@ -7,12 +7,12 @@ using ct.Domain.Models;
 
 namespace ct.Data.Repositories
 {
-    public interface IAccountRepository:IGenericRepository<Account>
+    public interface IAccountRepository:IGenericRepositoryEF<Account>
     {
         
     }
 
-    public class AccountRepository : GenericRepository<Account>, IAccountRepository
+    public class AccountRepository : GenericRepositoryEF<Account>, IAccountRepository
     {
         IctContext Context;
 

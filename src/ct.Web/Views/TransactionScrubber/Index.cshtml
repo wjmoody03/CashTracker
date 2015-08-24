@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "TransactionScrubber";
+}
+
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/TransactionScrubber/app.js")"></script>
+    <script src="@Url.Content("~/Scripts/TransactionScrubber/Scrubber.js")"></script>
+}
+
+<h2>Transaction Scrubber</h2>
+
+<div ng-app="ct">
+    <div ng-controller="scrubberCtrl">
+        <span ng-show="loadingTransactions || fixing">
+            Wait...
+        </span>
+        {{transactions.length}} remaining
+        <hr/>
+            <div class="alert alert-info">
+                {{currentTransaction.TransactionDate | date:'short'}} 
+                <em>{{currentTransaction.Description}}</em>
+                {{currentTransaction.Amount}}
+            </div>
+            <button class="btn btn-xs btn-warning" ng-click="skip()">>> Skip</button>
+
+        <span ng-repeat="c in categories">
+            <button class="btn btn-lg btn-primary" ng-click="setCategory(c)">
+                {{c}}
+            </button>
+        </span>
+    </div>
+</div>
+

@@ -1,6 +1,12 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Integration.Mvc;
+using ct.Data.Contexts;
+using ct.Data.Repositories;
+using ct.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -18,6 +24,42 @@ namespace ct.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ConfigureDependencyInjection();
+        }
+
+        protected void ConfigureDependencyInjection()
+        {
+            var builder = new ContainerBuilder();
+
+            // Register your MVC controllers.
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            // OPTIONAL: Register model binders that require DI.
+            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+            builder.RegisterModelBinderProvider();
+
+            // OPTIONAL: Register web abstractions like HttpContextBase.
+            builder.RegisterModule<AutofacWebTypesModule>();
+
+            // OPTIONAL: Enable property injection in view pages.
+            builder.RegisterSource(new ViewRegistrationSource());
+
+            // OPTIONAL: Enable property injection into action filters.
+            builder.RegisterFilterProvider();
+
+
+
+            //custom
+            //builder.RegisterInstance(new ctContext(CashTrackerConfigurationManager.AzureSQLConnectionString)).InstancePerRequest().As<IctContext>();
+            builder.RegisterType<ctContext>().As<IctContext>().InstancePerRequest();
+            builder.RegisterType<TransactionRepository>().As<ITransactionRepository>();
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            
+            
         }
     }
 }

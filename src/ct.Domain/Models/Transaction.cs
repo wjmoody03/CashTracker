@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -7,10 +9,20 @@ using System.Threading.Tasks;
 
 namespace ct.Domain.Models
 {
-    public class Transaction
+
+    public class Transaction //:TableEntity
     {
-        [Column("ID")]
-        public int TransactionID { get; set; }
+        public Transaction() {
+            if (string.IsNullOrEmpty(this.TransactionID))
+            {
+                this.TransactionID = Guid.NewGuid().ToString();
+            }
+        }
+
+        [Key]
+        public int ID { get; set; }
+        public string TransactionID { get; set; }
+        public string UserID { get; set; }
         [Column("TransactionType")]
         public int TransactionTypeID { get; set; }
         public int AccountID { get; set; }
@@ -25,14 +37,11 @@ namespace ct.Domain.Models
         public string ReimbursableSource { get; set; }
         public string TaxTag { get; set; }
         public bool FlagForFollowUp { get; set; }
-        
-        [ForeignKey("ParentTransactionID")]
-        public ICollection<Transaction> SplitTransactions { get; set; }
-
+        public List<Transaction> SplitTransactions { get; set; }
         public TransactionType TransactionType { get; set; }
         public Account Account { get; set; }
         public Download Download { get; set; }
-        [ForeignKey("TransactionID")]
+        [ForeignKey("ParentTransactionID")]
         public Transaction ParentTransaction { get; set; }
 
 

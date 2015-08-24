@@ -52,7 +52,7 @@ namespace ct.Business
         public decimal IncomeReservedForFutureUse(DateTime AsOfDate)
         {
             return transRepo
-                        .GetAllEagerly("TransactionType")
+                        .GetAll()
                         .Where(t => t.TransactionType.CountAsIncome == true
                                     && t.TransactionDate.Month >= AsOfDate.Month
                                     && t.TransactionDate.Year >= AsOfDate.Year
@@ -65,7 +65,7 @@ namespace ct.Business
         public decimal NetCashflowEffectOfTransactionsFlaggedForFollowUp() //we don't take an as of date here because we assume all will be resolved eventually, and historical timing is irrelevant
         {
             return transRepo
-                        .GetAllEagerly("TransactionType")
+                        .GetAll()
                         .Where(t => t.FlagForFollowUp == true)
                         .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
         }
@@ -73,7 +73,7 @@ namespace ct.Business
         public decimal NetCashflowEffectOfReimbursableTransactions(DateTime AsOfDate)
         {
             return transRepo
-                        .GetAllEagerly("TransactionType")
+                        .GetAll()
                         .Where(t => t.ReimbursableSource != null && t.TransactionDate <= AsOfDate)
                         .Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
         }

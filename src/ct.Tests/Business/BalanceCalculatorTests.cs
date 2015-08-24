@@ -144,7 +144,7 @@ namespace ct.Tests.Business
 
             var asOfDate = new DateTime(2013, 8, 1);
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             var ineligibleBalance = bc.IncomeReservedForFutureUse(asOfDate);
@@ -158,7 +158,7 @@ namespace ct.Tests.Business
             var asOfDate = new DateTime(2013, 8, 1);
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(new List<Transaction>().AsQueryable());
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             Assert.AreEqual(0, bc.IncomeReservedForFutureUse(asOfDate));
         }
@@ -188,7 +188,7 @@ namespace ct.Tests.Business
             };
 
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             var bal = bc.NetCashflowEffectOfTransactionsFlaggedForFollowUp();
@@ -201,7 +201,7 @@ namespace ct.Tests.Business
         {
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(new List<Transaction>().AsQueryable());
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             Assert.AreEqual(0, bc.NetCashflowEffectOfTransactionsFlaggedForFollowUp());
         }
@@ -223,7 +223,7 @@ namespace ct.Tests.Business
             };
 
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(trans.AsQueryable());
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             var bal = bc.NetCashflowEffectOfReimbursableTransactions(new DateTime(2013,8,1));
@@ -237,7 +237,7 @@ namespace ct.Tests.Business
             var asOfDate = new DateTime(2013, 8, 1);
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
             var balanceRepo = MockRepository.GenerateMock<IAccountBalanceRepository>();
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(new List<Transaction>().AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(new List<Transaction>().AsQueryable());
             var bc = new BalanceCalculator(transRepo, balanceRepo);
             Assert.AreEqual(0, bc.NetCashflowEffectOfReimbursableTransactions(asOfDate));
         }
@@ -274,7 +274,7 @@ namespace ct.Tests.Business
             };
             var transRepo = MockRepository.GenerateMock<ITransactionRepository>();
 
-            transRepo.Stub(tr => tr.GetAllEagerly("TransactionType")).Return(trans.AsQueryable());
+            transRepo.Stub(tr => tr.GetAll()).Return(trans.AsQueryable());
             return transRepo;
         }
 

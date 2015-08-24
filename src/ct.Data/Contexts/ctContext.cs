@@ -1,4 +1,5 @@
-﻿using ct.Domain.Models;
+﻿using ct.Domain;
+using ct.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,6 +25,12 @@ namespace ct.Data.Contexts
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<AccountBalance> AccountBalances { get; set; }
+
+        public ctContext(string connectionString):base(connectionString)
+        {
+
+        }
+        public ctContext() : base(CashTrackerConfigurationManager.AzureSQLConnectionString) { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

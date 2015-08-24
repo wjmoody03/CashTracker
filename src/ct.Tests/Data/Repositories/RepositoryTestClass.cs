@@ -14,7 +14,7 @@ namespace ct.Tests.Data.Repositories
     public abstract class RepositoryTestClass
     {
         //this class only serves to drop and recreate the local db when necessary. it also exposes a context object to all sub classes
-        protected ctContext context = new ctContext();
+        protected ctContext context = new ctContext(ConfigurationManager.ConnectionStrings["ctContext"].ConnectionString);
         
         public RepositoryTestClass()
         {

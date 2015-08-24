@@ -4,21 +4,45 @@ using System.Linq;
 using System.Text;
 using ct.Data.Contexts;
 using ct.Domain.Models;
+using ct.Domain;
 
 namespace ct.Data.Repositories
 {
-    public interface ITransactionRepository:IGenericRepository<Transaction>
+    public interface ITransactionRepository : IGenericRepositoryEF<Transaction>
     {
+        IEnumerable<Transaction> TransactionsNeedingAttention();
+        IEnumerable<string> ProbableCategories();
     }
 
-    public class TransactionRepository : GenericRepository<Transaction>, ITransactionRepository
+    public class TransactionRepository : GenericRepositoryEF<Transaction>, ITransactionRepository
     {
-        IctContext Context;
-
-        public TransactionRepository(IctContext context)
-            : base(context)
+        
+        public TransactionRepository(IctContext cxt)
+            : base(cxt)
         {
-            Context = context;
+            
+        }
+
+        public IEnumerable<string> ProbableCategories()
+        {
+            var threeMonthsAgo = DateTime.Today.AddMonths(-3);
+            var allCategories = base.GetAll()
+                        .Where(t => t.TransactionDate >= threeMonthsAgo && t.Category !=null && t.Category.Trim()!="")
+                        .GroupBy(t => t.Category)
+                        .Select(t => new { Category = t.Key, Frequency = t.Count() })
+                        .OrderByDescending(t => t.Frequency)
+                        .Select(t => t.Category)
+                        .Distinct();
+
+            return allCategories;
+        }
+
+        public IEnumerable<Transaction> TransactionsNeedingAttention()
+        {
+            var sixMonthsAgo = DateTime.Today.AddMonths(-6);
+            return base.GetAll().Where(t => (t.Category==null || t.Category.Trim()=="")
+                && t.TransactionDate >= sixMonthsAgo
+                && t.TransactionTypeID!=4 && t.TransactionTypeID!=5);
         }
     }
 }
