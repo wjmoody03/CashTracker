@@ -56,6 +56,22 @@ namespace ct.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public void RemoveFlag(int TransactionID)
+        {
+            var trans = transactionRepo.FindBy(t => t.ID == TransactionID).FirstOrDefault();
+            if (trans != null)
+            {
+                trans.FlagForFollowUp = false;
+                transactionRepo.Edit(trans);
+                transactionRepo.Save();
+            }
+            else
+            {
+                throw new Exception("Transaction not found");
+            }
+        }
+
         // GET: TransactionScrubber
         public string TransactionsNeedingAttention()
         {
