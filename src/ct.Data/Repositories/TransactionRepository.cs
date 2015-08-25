@@ -41,6 +41,7 @@ namespace ct.Data.Repositories
         {
             var sixMonthsAgo = DateTime.Today.AddMonths(-6);
             return base.GetAll().Where(t => (t.Category==null || t.Category.Trim()=="")
+                && t.FlagForFollowUp !=true
                 && t.TransactionDate >= sixMonthsAgo
                 && t.TransactionTypeID!=4 && t.TransactionTypeID!=5);
         }

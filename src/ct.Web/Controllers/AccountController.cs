@@ -341,9 +341,18 @@ namespace ct.Web.Controllers
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    //but only for me and kelly...
+                    var lcEmail = loginInfo.Email.ToLower();
+                    if (lcEmail == "wjmoody03@yahoo.com" || lcEmail == "kellyarmoody@gmail.com" || lcEmail == "wjmoody03@gmail.com" || lcEmail == "jacob@slicketl.com")
+                    {
+                        ViewBag.ReturnUrl = returnUrl;
+                        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login");
+                    }
             }
         }
 

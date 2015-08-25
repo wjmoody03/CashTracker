@@ -16,9 +16,18 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+@media (min-width: 768px) {
+    .affix {
+        width: 720px;
+    }
+}
+@media (min-width: 992px) {
+    .affix {
+        width: 940px;
+    }
+}
+@media (min-width: 1200px) {
+    .affix {
+        width: 1140px;
+    }
 }

@@ -1,34 +1,45 @@
 ﻿
 @{
-    ViewBag.Title = "TransactionScrubber";
+    ViewBag.Title = "Transaction Scrubber";
 }
 
 @section Scripts {
     <script src="@Url.Content("~/Scripts/TransactionScrubber/app.js")"></script>
     <script src="@Url.Content("~/Scripts/TransactionScrubber/Scrubber.js")"></script>
 }
-
-<h2>Transaction Scrubber</h2>
-
 <div ng-app="ct">
     <div ng-controller="scrubberCtrl">
         <span ng-show="loadingTransactions || fixing">
             Wait...
         </span>
-        {{transactions.length}} remaining
-        <hr/>
-            <div class="alert alert-info">
-                {{currentTransaction.TransactionDate | date:'short'}} 
-                <em>{{currentTransaction.Description}}</em>
-                {{currentTransaction.Amount}}
-            </div>
-            <button class="btn btn-xs btn-warning" ng-click="skip()">>> Skip</button>
 
-        <span ng-repeat="c in categories">
-            <button class="btn btn-lg btn-primary" ng-click="setCategory(c)">
-                {{c}}
-            </button>
-        </span>
+        <div class="well text-center"  data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+            <h4><a target="_blank" href="https://www.google.com/search?q={{currentTransaction.Description.replace('SQ *', '') | escape}}">{{currentTransaction.Description}}</a></h4>
+            <p><strong>${{currentTransaction.Amount | number}}</strong> on <strong>{{currentTransaction.TransactionDate | date:'EEE, MMM dd, yyyy'}}</strong></p>
+            <input class="form-control" type="text" placeholder="Add a note..." ng-model="currentTransaction.Notes" />
+
+            <div class="btn-group" style="margin-top:10px;">
+                <button type="button" class="btn btn-xs btn-info" ng-click="skip()" ng-disabled="fixing"><i class="fa fa-step-forward"></i>  Skip For Now</button>
+                <button type="button" class="btn btn-xs btn-danger" ng-click="flag()" ng-disabled="fixing"><i class="fa fa-flag"></i> Flag for follow-up</button>
+            </div>
+            <div class="text-muted">
+                <em>{{transactions.length}} remaining</em>
+            </div>
+        </div>
+
+        <div id="categories">
+            <span ng-repeat="c in categories">
+                <button class="btn btn-block btn-lg btn-primary" ng-click="setCategory(c)" ng-disabled="fixing">
+                    {{c}}
+                </button>
+            </span>
+            <form ng-submit="setCategory(currentTransaction.customCategory)">
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" ng-model="currentTransaction.customCategory" placeholder="Custom Category">
+                </div>
+                <button type="submit" class="btn btn-info  col-xs-2">Save</button>
+            </form>
+        </div>
     </div>
 </div>
 

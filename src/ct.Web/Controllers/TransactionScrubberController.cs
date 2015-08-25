@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace ct.Web.Controllers
 {
+    [Authorize]
     public class TransactionScrubberController : Controller
     {
         ITransactionRepository transactionRepo;
@@ -23,12 +24,29 @@ namespace ct.Web.Controllers
         }
 
         [HttpPost]
-        public void SetCategory(string Category, int TransactionID)
+        public void SetCategory(string Category, int TransactionID, string Notes)
         {
             var trans = transactionRepo.FindBy(t => t.ID == TransactionID).FirstOrDefault();
-            if(trans!= null)
+            if (trans != null)
             {
                 trans.Category = Category;
+                trans.Notes = Notes;
+                transactionRepo.Edit(trans);
+                transactionRepo.Save();
+            }
+            else
+            {
+                throw new Exception("Transaction not found");
+            }
+        }
+        [HttpPost]
+        public void FlagForFollowUp(int TransactionID, string Notes)
+        {
+            var trans = transactionRepo.FindBy(t => t.ID == TransactionID).FirstOrDefault();
+            if (trans != null)
+            {
+                trans.Notes = Notes;
+                trans.FlagForFollowUp = true;
                 transactionRepo.Edit(trans);
                 transactionRepo.Save();
             }
