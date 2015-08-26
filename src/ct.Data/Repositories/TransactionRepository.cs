@@ -10,7 +10,7 @@ namespace ct.Data.Repositories
 {
     public interface ITransactionRepository : IGenericRepositoryEF<Transaction>
     {
-        IEnumerable<Transaction> TransactionsNeedingAttention();
+        IQueryable<Transaction> TransactionsNeedingAttention();
         IEnumerable<string> ProbableCategories();
     }
 
@@ -37,7 +37,7 @@ namespace ct.Data.Repositories
             return allCategories;
         }
 
-        public IEnumerable<Transaction> TransactionsNeedingAttention()
+        public IQueryable<Transaction> TransactionsNeedingAttention()
         {
             var sixMonthsAgo = DateTime.Today.AddMonths(-6);
             return base.GetAll().Where(t => (t.Category==null || t.Category.Trim()=="")

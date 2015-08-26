@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Styles{
+    <link href="~/Content/ui-grid.min.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Scripts/angular-resource.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/ui-grid.min.js"></script>
+    <script src="~/Scripts/TransactionExplorer/app.js"></script>
+    <script src="~/Scripts/TransactionExplorer/TransactionExplorer.js"></script>
+}
+
+<div ng-app="ct">
+
+    <div ng-controller="explorerCtrl">
+        <div ui-grid="gridOptions" class="grid" ui-grid-resize-columns ui-grid-grouping ></div>
+    </div>
+
+
+</div>

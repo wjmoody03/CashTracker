@@ -12,6 +12,7 @@ namespace ct.Data.Contexts
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         int SaveChanges();
+        Task<int> SaveChangesAsync();
         void Dispose();
         DbEntityEntry Entry(object Entity);
         Database Database { get; }

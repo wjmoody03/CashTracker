@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
 using ct.Data.Contexts;
-
+using System.Threading.Tasks;
 
 namespace ct.Data.Repositories
 { 
@@ -16,11 +16,13 @@ namespace ct.Data.Repositories
         IQueryable<T> GetAll();
         IQueryable<T> GetAllEagerly(params string[] includes);
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
+        Task<T> FindAsync(params object[] keyValues);
         void Add(T entity);
         void AddRange(IEnumerable<T> entities);
         void Delete(T entity);
         void Edit(T entity);
         void Save();
+        Task<int> SaveAsync();
     }
 
     public abstract class GenericRepositoryEF<T> :
@@ -58,6 +60,11 @@ namespace ct.Data.Repositories
             IQueryable<T> query = _context.Set<T>().Where(predicate);
             return query;
         }
+        public async Task<T> FindAsync(params object[] keyValues)
+        {
+            T entity = await _context.Set<T>().FindAsync(keyValues);
+            return entity;
+        }
 
         public virtual void Add(T entity)
         {
@@ -91,6 +98,10 @@ namespace ct.Data.Repositories
         public virtual void Save()
         {
             _context.SaveChanges();
+        }
+        public virtual async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 

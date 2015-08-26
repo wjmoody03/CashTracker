@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using ct.Data.Contexts;
 using ct.Data.Repositories;
 using ct.Domain;
@@ -47,7 +48,10 @@ namespace ct.Web
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
 
-
+            //api? 
+            var config = GlobalConfiguration.Configuration;
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterWebApiFilterProvider(config);
 
             //custom
             //builder.RegisterInstance(new ctContext(CashTrackerConfigurationManager.AzureSQLConnectionString)).InstancePerRequest().As<IctContext>();
@@ -57,9 +61,11 @@ namespace ct.Web
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //api:
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
-            
-            
+
+
         }
     }
 }
