@@ -29,7 +29,7 @@ namespace ct.Web.Controllers.API
         public IQueryable<Transaction> GetTransactions()
         {
             var dt = DateTime.Today.AddMonths(-2);
-            return transRepo.GetAll().Where(t=>t.TransactionDate>= dt);
+            return transRepo.GetAll().Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate);
         }
 
         // GET: api/Transactions/5

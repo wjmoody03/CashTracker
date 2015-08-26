@@ -94,6 +94,7 @@ csx
 AppPackages/
 
 # Others
+[Aa]pp_[Dd]ata
 [Bb]in
 [Oo]bj
 sql
