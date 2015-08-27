@@ -1,14 +1,9 @@
 ﻿angular.module("ct")
-    .controller("explorerCtrl", ["$resource","uiGridConstants","$location","$scope", explorerCtrl]);
+    .controller("explorerCtrl", ["$resource","uiGridConstants","$location","$scope","transactionsService", explorerCtrl]);
 
-function explorerCtrl($resource, uiGridConstants, $location, $scope) {
+function explorerCtrl($resource, uiGridConstants, $location, $scope, transactionsService) {
     var explorer = this;
-    var api = $resource("/api/Transactions/:id",
-            {id: '@ID'},
-            { update: { method: "PUT" } }
-        );
-
-    explorer.transactions = api.query();
+    explorer.svc = transactionsService;
 
     var rowTemplate = '<div ' +
                         'ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ' +
@@ -25,7 +20,7 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope) {
 
 
     explorer.gridOptions = {
-        data: "explorer.transactions",
+        data: "explorer.svc.transactions",
         rowTemplate: rowTemplate,
         enableRowSelection: true,
         multiSelect: false,
@@ -60,9 +55,8 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope) {
         //set gridApi on scope
         explorer.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-            var msg = 'row selected ' + row.isSelected;
-            $location.path('/TransactionExplorer/' + row.entity.ID);
-            console.log(row);
+            explorer.svc.selectedTransaction = row.entity;
+            $location.path('/TransactionExplorer/' + row.entity.ID);            
         });
     };
 }

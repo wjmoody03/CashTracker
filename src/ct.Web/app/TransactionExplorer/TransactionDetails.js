@@ -1,7 +1,7 @@
 ﻿angular.module("ct")
-    .controller("detailsCtrl", ["$resource", "uiGridConstants", "$location", detailsCtrl]);
+    .controller("detailsCtrl", ["transactionsService", detailsCtrl]);
 
-function detailsCtrl($resource, uiGridConstants,$location) {
+function detailsCtrl(transactionsService) {
     var details = this;
-    details.message = "heyo";
+    details.transaction = transactionsService.selectedTransaction;
 }
