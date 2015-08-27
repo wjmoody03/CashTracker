@@ -18,7 +18,7 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
     };
 
 
-
+    explorer.monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
     explorer.gridOptions = {
         data: "explorer.svc.transactions",
         rowTemplate: rowTemplate,
@@ -42,10 +42,15 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
                     '<i title="{{row.entity.ReimbursableSource}}" ng-show="row.entity.ReimbursableSource" class="fa fa-reply text-success"></i>' +
                 '</div>'
             },
+            { name:'Month', visible:false},
             { name: 'TransactionDate', cellFilter: 'date', displayName: 'Date' },
             { name: 'Description' },
             { name: 'Category' },
-            { name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency' },
+            { name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency', 
+                customTreeAggregationFinalizerFn: function( aggregation ) {
+                    aggregation.rendered = aggregation.value;
+                } 
+            },
             { name: 'FlagForFollowUp', visible: false, displayName: 'Flagged' },
             { name: 'ReimbursableSource', visible: false, displayName: 'Reimbursable' }
         ]

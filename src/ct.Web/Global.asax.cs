@@ -4,6 +4,7 @@ using Autofac.Integration.WebApi;
 using ct.Data.Contexts;
 using ct.Data.Repositories;
 using ct.Domain;
+using ct.Web.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace ct.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ConfigureDependencyInjection();
+            AutoMapperConfig.Configure();
         }
 
         protected void ConfigureDependencyInjection()

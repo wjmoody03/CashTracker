@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using ct.Data.Contexts;
 using ct.Domain.Models;
 using ct.Data.Repositories;
+using ct.Web.Models;
 
 namespace ct.Web.Controllers.API
 {
@@ -26,10 +27,11 @@ namespace ct.Web.Controllers.API
         }
 
         // GET: api/Transactions
-        public IQueryable<Transaction> GetTransactions()
+        public IEnumerable<TransactionViewModel> GetTransactions()
         {
             var dt = DateTime.Today.AddMonths(-2);
-            return transRepo.GetAll().Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate);
+            var trans = transRepo.GetAll().Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
+            return AutoMapper.Mapper.Map<IEnumerable<Transaction>, IEnumerable<TransactionViewModel>>(trans);
         }
 
         // GET: api/Transactions/5
