@@ -1,5 +1,5 @@
 ﻿angular.module("ct")
-    .controller("explorerCtrl", ["$resource","uiGridConstants","$location","$scope","transactionsService", explorerCtrl]);
+    .controller("explorerCtrl", ["$resource", "uiGridConstants", "$location", "$scope", "transactionsService", explorerCtrl]);
 
 function explorerCtrl($resource, uiGridConstants, $location, $scope, transactionsService) {
     var explorer = this;
@@ -14,11 +14,11 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
                         'ui-grid-cell> ' +
                       '</div>';
     explorer.selectAll = function () {
-       // explorer.gridApi.selection.selectAllRows();
+        // explorer.gridApi.selection.selectAllRows();
     };
 
 
-    explorer.monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+    explorer.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     explorer.gridOptions = {
         data: "explorer.svc.transactions",
         rowTemplate: rowTemplate,
@@ -42,17 +42,19 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
                     '<i title="{{row.entity.ReimbursableSource}}" ng-show="row.entity.ReimbursableSource" class="fa fa-reply text-success"></i>' +
                 '</div>'
             },
-            { name:'Month', visible:false},
+            { name: 'Month', visible: false },
             { name: 'TransactionDate', cellFilter: 'date', displayName: 'Date' },
             { name: 'Description' },
             { name: 'Category' },
-            { name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency', 
-                customTreeAggregationFinalizerFn: function( aggregation ) {
+            {
+                name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency',
+                customTreeAggregationFinalizerFn: function (aggregation) {
                     aggregation.rendered = aggregation.value;
-                } 
+                }
             },
             { name: 'FlagForFollowUp', visible: false, displayName: 'Flagged' },
-            { name: 'ReimbursableSource', visible: false, displayName: 'Reimbursable' }
+            { name: 'ReimbursableSource', visible: false, displayName: 'Reimbursable' },
+            { name: 'Notes', visible: false, displayName: 'Notes' }
         ]
     };
 
@@ -61,7 +63,7 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
         explorer.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
             explorer.svc.selectedTransaction = row.entity;
-            $location.path('/TransactionExplorer/' + row.entity.ID);            
+            $location.path('/TransactionExplorer/' + row.entity.ID);
         });
     };
 }

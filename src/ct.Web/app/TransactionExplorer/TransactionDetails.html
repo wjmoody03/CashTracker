@@ -1,1 +1,34 @@
-﻿{{details.transaction}}
+﻿<form ng-submit="details.save()">
+    <div class="col-xs-12">
+        <input class="form-control input-lg" type="text" ng-model="details.transaction.Description" placeholder="Description">
+    </div>
+    <div class="col-xs-12">
+        <input class="form-control input-lg" type="text" ng-model="details.transaction.Category" placeholder="Category">
+    </div>
+    <div class="col-xs-6">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            <input class="form-control input-lg" type="text" ng-model="details.transaction.TransactionDate" placeholder="Date">
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input class="form-control input-lg" type="text" ng-model="details.transaction.Amount" placeholder="Amount">
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <textarea class="form-control input-lg" ng-model="details.transaction.Notes" rows="4" placeholder="Notes"></textarea>
+    </div>
+
+    <div class="row text-center">
+        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+        <a class="btn btn-lg btn-danger" ng-click="details.cancel()">Cancel</a>
+        |
+        <a class="btn btn-sm btn-warning" ng-hide="confirmDelete" ng-click="confirmDelete=true;">Delete</a>
+        <a class="btn btn-sm btn-info" ng-show="confirmDelete" ng-click="confirmDelete=false;">Cancel</a>
+        <a class="btn btn-sm btn-danger" ng-show="confirmDelete" ng-click="details.delete()">Yes, Delete it</a>
+    </div>
+
+</form>
