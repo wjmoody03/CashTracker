@@ -9,5 +9,7 @@ namespace ct.Web.Models
     public class TransactionViewModel:Transaction
     {
         public string Month { get; set; }
+        public string TransactionTypeDescription { get; set; }
+        public string AccountName { get; set; }
     }
 }

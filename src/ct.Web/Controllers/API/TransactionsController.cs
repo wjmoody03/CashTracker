@@ -30,7 +30,7 @@ namespace ct.Web.Controllers.API
         public IEnumerable<TransactionViewModel> GetTransactions()
         {
             var dt = DateTime.Today.AddMonths(-2);
-            var trans = transRepo.GetAll().Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
+            var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
             return AutoMapper.Mapper.Map<IEnumerable<Transaction>, IEnumerable<TransactionViewModel>>(trans);
         }
 

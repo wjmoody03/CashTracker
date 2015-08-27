@@ -37,12 +37,15 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
         showColumnFooter: true,
         columnDefs: [
             {
-                name: 'Indicators', enableFiltering: false, displayName: '', field: 'ID', width: '5%', cellTemplate: '<div class="ui-grid-cell-contents" title="TOOLTIP">' +
+                name: 'Indicators', enableFiltering: false, displayName: '', field: 'ID', width: '5%', cellTemplate: '<div class="ui-grid-cell-contents text-center" title="TOOLTIP">' +
                     '<i ng-show="row.entity.FlagForFollowUp" class="fa fa-flag text-danger"></i>' +
                     '<i title="{{row.entity.ReimbursableSource}}" ng-show="row.entity.ReimbursableSource" class="fa fa-reply text-success"></i>' +
+                    '<i title="{{row.entity.Notes}}" ng-show="row.entity.Notes" class="fa fa-comment text-info"></i>' +
                 '</div>'
             },
+            { name: 'AccountName', displayName:'Account', visible: false },
             { name: 'Month', visible: false },
+            { name: 'TransactionTypeDescription',displayName:"Type", visible: false },
             { name: 'TransactionDate', cellFilter: 'date', displayName: 'Date' },
             { name: 'Description' },
             { name: 'Category' },
