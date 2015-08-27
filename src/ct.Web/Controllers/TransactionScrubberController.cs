@@ -18,11 +18,6 @@ namespace ct.Web.Controllers
             transactionRepo = TransactionRepo;
         }
 
-        public ViewResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         public void SetCategory(string Category, int TransactionID, string Notes)
         {

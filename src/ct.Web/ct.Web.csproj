@@ -230,6 +230,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\Dashboard\Dashboard.js" />
+    <Content Include="app\TransactionExplorer\TransactionDetails.html" />
+    <Content Include="app\TransactionExplorer\TransactionDetails.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
@@ -1045,13 +1048,12 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TransactionExplorer\app.js" />
-    <Content Include="Scripts\TransactionExplorer\TransactionExplorer.js" />
-    <Content Include="Scripts\TransactionScrubber\Scrubber.js" />
+    <Content Include="app\app.js" />
+    <Content Include="app\TransactionExplorer\TransactionExplorer.js" />
+    <Content Include="app\TransactionScrubber\TransactionScrubber.js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Scripts\TransactionScrubber\app.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1063,10 +1065,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="app\Dashboard\Index.html" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -1089,8 +1089,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\TransactionScrubber\Index.cshtml" />
-    <Content Include="Views\TransactionExplorer\Index.cshtml" />
+    <Content Include="app\TransactionScrubber\TransactionScrubber.cshtml" />
+    <Content Include="app\TransactionExplorer\TransactionExplorer.html" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

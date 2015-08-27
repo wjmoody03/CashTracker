@@ -1,14 +1,14 @@
 ﻿angular.module("ct")
-    .controller("explorerCtrl", explorerCtrl);
+    .controller("explorerCtrl", ["$resource","uiGridConstants","$location","$scope", explorerCtrl]);
 
-function explorerCtrl($scope, $resource, uiGridConstants,$location) {
-
+function explorerCtrl($resource, uiGridConstants, $location, $scope) {
+    var explorer = this;
     var api = $resource("/api/Transactions/:id",
             {id: '@ID'},
             { update: { method: "PUT" } }
         );
 
-    $scope.transactions = api.query();
+    explorer.transactions = api.query();
 
     var rowTemplate = '<div ' +
                         'ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ' +
@@ -18,14 +18,14 @@ function explorerCtrl($scope, $resource, uiGridConstants,$location) {
                         'role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ' +
                         'ui-grid-cell> ' +
                       '</div>';
-    $scope.selectAll = function () {
-       // $scope.gridApi.selection.selectAllRows();
+    explorer.selectAll = function () {
+       // explorer.gridApi.selection.selectAllRows();
     };
 
 
 
-    $scope.gridOptions = {
-        data: "transactions",
+    explorer.gridOptions = {
+        data: "explorer.transactions",
         rowTemplate: rowTemplate,
         enableRowSelection: true,
         multiSelect: false,
@@ -34,7 +34,7 @@ function explorerCtrl($scope, $resource, uiGridConstants,$location) {
         modifierKeysToMultiSelect: false,
         noUnselect: true,
         //onRegisterApi: function( gridApi ) {
-        //    $scope.gridApi = gridApi;
+        //    explorer.gridApi = gridApi;
         //},
         enableFullRowSelection: true,
         enableFiltering: true,
@@ -56,12 +56,12 @@ function explorerCtrl($scope, $resource, uiGridConstants,$location) {
         ]
     };
 
-    $scope.gridOptions.onRegisterApi = function (gridApi) {
+    explorer.gridOptions.onRegisterApi = function (gridApi) {
         //set gridApi on scope
-        $scope.gridApi = gridApi;
+        explorer.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function (row) {
             var msg = 'row selected ' + row.isSelected;
-            $location.path('TransactionExplorer/' + row.entity.ID);
+            $location.path('/TransactionExplorer/' + row.entity.ID);
             console.log(row);
         });
     };

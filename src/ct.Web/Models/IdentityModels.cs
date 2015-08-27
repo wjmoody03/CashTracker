@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ct.Domain;
 
 namespace ct.Web.Models
 {
@@ -21,7 +22,7 @@ namespace ct.Web.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("ASPNetIdentityConnectionString", throwIfV1Schema: false)
+            : base(CashTrackerConfigurationManager.AzureSQLConnectionString, throwIfV1Schema: false)
         {
         }
 

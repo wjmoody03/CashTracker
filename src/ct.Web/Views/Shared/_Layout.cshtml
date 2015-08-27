@@ -1,23 +1,22 @@
-﻿<!DOCTYPE html>
+﻿@{Layout = null; }
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - CashTracker</title>
+
     <link href="https://bootswatch.com/yeti/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
-    @RenderSection("styles", required: false)
-    @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <script src="~/Scripts/angular.min.js"></script>
-
+    @RenderSection("Styles", false)
     <script type="text/javascript">
         var appInsights=window.appInsights||function(config){
             function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.appendChild(o),t.cookie=r.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)s("track"+i.pop());return config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
         }({
             instrumentationKey:"f7669a1d-0843-4c1f-bf45-4c0939ffbc97"
         });
-        
+
         window.appInsights=appInsights;
         appInsights.trackPageView();
     </script>
@@ -36,8 +35,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Scrub", "Index", "TransactionScrubber")</li>
-                    <li>@Html.ActionLink("All Transactions", "Index", "TransactionExplorer")</li>
+                    <li><a href="~/#/Scrubber">Scrubber</a></li>
+                    <li><a href="~/#/TransactionExplorer">All Transactions</a></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -51,9 +50,8 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/angular-resource.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts",false)
 </body>
 </html>
