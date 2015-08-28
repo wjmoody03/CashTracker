@@ -2,9 +2,9 @@
     function () {
 
         var app = angular.module("ct");
-        app.factory("transactionsService", ["$resource","$http", transactionsService]);
+        app.factory("transactionsService", ["$resource", "$http", transactionsService]);
 
-        function transactionsService($resource,$http) {
+        function transactionsService($resource, $http) {
 
             var svc = this;
 
@@ -16,14 +16,13 @@
                     svc.transactions = data;
                 });
             }
-            
+
             svc.api = $resource("/api/Transactions/:id",
                 { id: '@ID' },
                 { update: { method: "PUT" } }
             );
 
-            if(svc.transactions==null)
-            {
+            if (svc.transactions == null) {
                 svc.query();
             }
 
@@ -35,6 +34,11 @@
             $http.get("/api/TransactionType")
                 .success(function (data) {
                     svc.transactionTypes = data;
+                });
+
+            $http.get("/api/Category")
+                .success(function (data) {
+                    svc.categories = data;
                 });
 
             return svc;

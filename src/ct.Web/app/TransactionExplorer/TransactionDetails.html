@@ -17,7 +17,9 @@
     <div class="row">
         <div class="col-xs-12 form-group">
             <label for="Category">Category</label>
-            <input class="form-control" type="text" ng-model="details.transaction.Category" placeholder="Category">
+            <input class="form-control" type="text" ng-model="details.transaction.Category" placeholder="Category" 
+                   typeahead="c for c in details.service.categories | filter:$viewValue | limitTo:8" 
+                   >
         </div>
     </div>
     <div class="row">

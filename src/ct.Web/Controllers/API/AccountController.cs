@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ct.Web.Controllers.API
 {
+    [Authorize]
     public class AccountController : ApiController
     {
         private IAccountRepository acctRepo;
