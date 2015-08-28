@@ -27,10 +27,10 @@ namespace ct.Web.Controllers.API
         }
 
         // GET: api/Transactions
-        public IEnumerable<TransactionViewModel> GetTransactions()
+        public IEnumerable<TransactionViewModel> GetTransactions(DateTime StartDate, DateTime EndDate)
         {
-            var dt = DateTime.Today.AddMonths(-2);
-            var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t=>t.TransactionDate>= dt).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
+            //var dt = DateTime.Today.AddMonths(-2);
+            var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t=>t.TransactionDate>= StartDate.Date && t.TransactionDate <= EndDate.Date).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
             return AutoMapper.Mapper.Map<IEnumerable<Transaction>, IEnumerable<TransactionViewModel>>(trans);
         }
 
