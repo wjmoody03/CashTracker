@@ -1,28 +1,74 @@
-﻿<form ng-submit="details.save()">
-    <div class="col-xs-12">
-        <input class="form-control input-lg" type="text" ng-model="details.transaction.Description" placeholder="Description">
-    </div>
-    <div class="col-xs-12">
-        <input class="form-control input-lg" type="text" ng-model="details.transaction.Category" placeholder="Category">
-    </div>
-    <div class="col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-            <input class="form-control input-lg" type="text" ng-model="details.transaction.TransactionDate" placeholder="Date">
+﻿
+<form ng-submit="details.save()">
+    <div class="row">
+        <div class="col-xs-12 col-sm-9 form-group">
+            <label for="Description">Description</label>
+            <input class="form-control" type="text" ng-model="details.transaction.Description" placeholder="Description">
+            <span class="help-block">
+                <a target="_blank" href="https://www.google.com/search?q={{details.transaction.Description.replace('SQ *', '') | escape}}">Google</a>
+                &nbsp; &nbsp; <a ng-show="details.transaction.Description.substring(0,4)=='SQ *'" target="_blank" href="https://squareup.com/receipts">SQ *</a>
+            </span>
+        </div>
+        <div class="col-xs-12 col-sm-3 form-group">
+            <label for="Description" class="text-danger">Flag For Follow Up</label>
+            <input class="form-control text-danger" type="checkbox" ng-model="details.transaction.FlagForFollowUp">
         </div>
     </div>
-    <div class="col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input class="form-control input-lg" type="text" ng-model="details.transaction.Amount" placeholder="Amount">
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            <label for="Category">Category</label>
+            <input class="form-control" type="text" ng-model="details.transaction.Category" placeholder="Category">
         </div>
     </div>
-
-    <div class="col-xs-12">
-        <textarea class="form-control input-lg" ng-model="details.transaction.Notes" rows="4" placeholder="Notes"></textarea>
+    <div class="row">
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="Date">Date</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input class="form-control" type="text" ng-model="details.transaction.TransactionDate" placeholder="Date">
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="Amount">Amount</label>
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input class="form-control" type="text" ng-model="details.transaction.Amount" placeholder="Amount">
+            </div>
+        </div>
     </div>
-
-    <div class="row text-center">
+    <div class="row">
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="TransactionType">Transaction Type</label>
+            <select class="form-control" ng-model="details.transaction.TransactionTypeID" ng-options="tt.TransactionTypeID as tt.TransactionTypeDescription for tt in details.service.transactionTypes"></select>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="Account">Account</label>
+            <select class="form-control" ng-model="details.transaction.AccountID" ng-options="a.AccountID as a.AccountName for a in details.service.accounts"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="ReimbursableSource">Rimbursable Source</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-reply"></i></span>
+                <input class="form-control" type="text" ng-model="details.transaction.ReimbursableSource" placeholder="Reimbursable Source">
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-group">
+            <label for="TaxTag">Tax Tag</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                <input class="form-control" type="text" ng-model="details.transaction.TaxTag" placeholder="Tax Tag">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            <label for="Notes">Notes</label>
+            <textarea class="form-control" ng-model="details.transaction.Notes" rows="4" placeholder="Notes"></textarea>
+        </div>
+    </div>
+    <div class="row text-center form-group">
         <button type="submit" class="btn btn-lg btn-primary">Save</button>
         <a class="btn btn-lg btn-danger" ng-click="details.cancel()">Cancel</a>
         |
@@ -30,5 +76,4 @@
         <a class="btn btn-sm btn-info" ng-show="confirmDelete" ng-click="confirmDelete=false;">Cancel</a>
         <a class="btn btn-sm btn-danger" ng-show="confirmDelete" ng-click="details.delete()">Yes, Delete it</a>
     </div>
-
 </form>

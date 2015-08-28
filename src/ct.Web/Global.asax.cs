@@ -59,6 +59,8 @@ namespace ct.Web
             //builder.RegisterInstance(new ctContext(CashTrackerConfigurationManager.AzureSQLConnectionString)).InstancePerRequest().As<IctContext>();
             builder.RegisterType<ctContext>().As<IctContext>().InstancePerRequest();
             builder.RegisterType<TransactionRepository>().As<ITransactionRepository>();
+            builder.RegisterType<AccountRepository>().As<IAccountRepository>();
+            builder.RegisterType<TransactionTypeRepository>().As<ITransactionTypeRepository>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

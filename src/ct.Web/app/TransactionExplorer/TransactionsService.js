@@ -2,9 +2,9 @@
     function () {
 
         var app = angular.module("ct");
-        app.factory("transactionsService", ["$resource", transactionsService]);
+        app.factory("transactionsService", ["$resource","$http", transactionsService]);
 
-        function transactionsService($resource) {
+        function transactionsService($resource,$http) {
 
             var svc = this;
 
@@ -26,6 +26,16 @@
             {
                 svc.query();
             }
+
+            $http.get("/api/Account")
+                .success(function (data) {
+                    svc.accounts = data;
+                });
+
+            $http.get("/api/TransactionType")
+                .success(function (data) {
+                    svc.transactionTypes = data;
+                });
 
             return svc;
 

@@ -4,14 +4,30 @@
 function detailsCtrl(transactionsService,$routeParams,$location) {
     var details = this;
     if (transactionsService.selectedTransaction == null) {
-        //probably means page was refreshed on the details... 
-        transactionsService.selectedTransaction = transactionsService.api.get({ id: $routeParams.id });
+        if ($routeParams.id == "Create") {
+            transactionsService.selectedTransaction = new transactionsService.api();
+            details.creating = true;
+        }
+        else {
+            //probably means page was refreshed on the details... 
+            transactionsService.selectedTransaction = transactionsService.api.get({ id: $routeParams.id });
+        }
     }
 
+    details.service = transactionsService;
     details.transaction = transactionsService.selectedTransaction;
 
     details.save = function () {
-        details.transaction.$update();
+        if (details.creating) {
+            details.transaction.$save(
+                function () {
+                    transactionsService.transactions.push(details.transaction);
+                }
+            );
+        }
+        else {
+            details.transaction.$update();
+        }
         $location.path("/TransactionExplorer");
     };
 
