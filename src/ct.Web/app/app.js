@@ -1,6 +1,6 @@
 ﻿(
     function () {
-        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping", 'ui.grid.selection'])
+        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping", 'ui.grid.saveState', 'ui.grid.selection'])
 
         app.filter('escape', function () {
             return window.encodeURIComponent;
