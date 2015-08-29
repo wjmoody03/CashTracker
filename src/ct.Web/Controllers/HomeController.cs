@@ -10,8 +10,16 @@ namespace ct.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return View("Splash");
+            }
         }
 
     }
+
 }

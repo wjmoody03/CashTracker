@@ -1108,6 +1108,7 @@
     <Content Include="app\TransactionScrubber\TransactionScrubber.html" />
     <Content Include="app\TransactionExplorer\TransactionExplorer.html" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Splash.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

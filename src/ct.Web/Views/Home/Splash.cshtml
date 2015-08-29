@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Splash";
+}
+
+<div class="jumbotron text-center">
+    <h1>CashTracker</h1>
+    <p>An opinionated system for managing monthly budgets and expenses.</p>
+    <a class="btn btn-lg btn-primary">See a demo</a>
+    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-lg btn-default" })
+</div>
+<div class="row text-center">
+    <div class="col-lg-4">
+        <h4><i class="fa fa-bank"></i></h4>
+        <h2>Earn, THEN spend</h2>
+        <p>
+            The system assumes that the income you make one month
+            is how much you have to spend the next. So any income you make
+            this month will not increase the amount you have left to spend. For some families it can
+            be hard to get one month ahead, but once you do you'll be able to manage your spending
+            with less stress and more transparency.
+        </p>
+    </div>
+
+    <div class="col-lg-4">
+        <h4><i class="fa fa-reply"></i></h4>
+        <h2>Reimbursables</h2>
+        <p>
+            Families with complicated lives frequently spend money they expect to be
+            reimbursed from somewhere... Either from friends, family, work, or your own savings.
+            CashTracker helps keep track of these expenses and doesn't count them against your current
+            monthly cashflow. It also helps manage our model for how we think you should manage large, recurring
+            expenses and savings accounts. (See Below)
+        </p>
+    </div>
+
+    <div class="col-lg-4">
+        <h4><i class="fa fa-key"></i></h4>
+        <h2>Know where you stand</h2>
+        <p>
+            CashTracker knows how much cash you have, how much of it you already owe to credit card
+            companies, how much of it is reserved for next month, and how many outstanding reimbursables
+            you have. You always know <strong>exactly</strong> how much money you have left to spend at
+            any point in the month.
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h2>
+                Efficiently Manage Recurring Expenses and Savings
+            </h2>
+            <p>
+                Any cash you may not spend in the next few days should be in an interest bearing account. But this can
+                get complicated if you have this cash/savings earmarked for multiple purposes or you tap into it frequently. 
+                Our model is that you setup multiple e-money market accounts for various recurring categories: vacation, 
+                insurance, car savings, emergency fund, etc. Automatically transfer a planned amount of money into each account
+                on a regular basis. Then when you need to spend from any of these categories, simply use your regular
+                credit or debit card and mark the expenses as reimbursable from a particular account. The system will 
+                help you keep track of exactly how much you need to transfer back from the savings account to true up
+                your budget. And if you're only spending the prior month's income, you'll likely have plenty of cash in
+                your account until you can make the transfer. But don't worry... if you get a little behind and your
+                reimbursables are putting you at risk of overdraft, we'll detect it and let you know. 
+            </p>
+        </div>
+    </div>
+
+</div>
