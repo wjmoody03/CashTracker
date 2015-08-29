@@ -34,10 +34,13 @@
                 @Html.ActionLink("CashTracker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                @if (Request.IsAuthenticated)
+                {
                 <ul class="nav navbar-nav">
                     <li><a href="~/#/Scrubber">Scrubber</a></li>
                     <li><a href="~/#/TransactionExplorer">All Transactions</a></li>
                 </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

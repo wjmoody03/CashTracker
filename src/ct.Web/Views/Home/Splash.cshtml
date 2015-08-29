@@ -6,8 +6,20 @@
 <div class="jumbotron text-center">
     <h1>CashTracker</h1>
     <p>An opinionated system for managing monthly budgets and expenses.</p>
-    <a class="btn btn-lg btn-primary">See a demo</a>
-    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-lg btn-default" })
+    <div class="row">
+        <div class="col-xs-6">
+            <a class="btn btn-lg btn-primary pull-right">See a demo</a>
+        </div>
+        <div class="col-xs-6">
+            <form action="/Account/ExternalLogin" method="post" class="pull-left form-inline">
+                <input name="__RequestVerificationToken" type="hidden" value="H_gaHI9Gkvw4zkghIFpCF5WoIt_FNay4_UrhQlQU-PD3pMWUoXleRvRLSTxr6IOrWINZnrQB7E44rtCa03JxgVduPaqlQscIc1q3a_47UPE1">            <div id="socialLoginList">
+                    <p>
+                        <button type="submit" class="btn btn-default btn-lg" id="Google" name="provider" value="Google" title="Log in using your Google account">Login</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <div class="row text-center">
     <div class="col-lg-4">
@@ -52,15 +64,15 @@
             </h2>
             <p>
                 Any cash you may not spend in the next few days should be in an interest bearing account. But this can
-                get complicated if you have this cash/savings earmarked for multiple purposes or you tap into it frequently. 
-                Our model is that you setup multiple e-money market accounts for various recurring categories: vacation, 
+                get complicated if you have this cash/savings earmarked for multiple purposes or you tap into it frequently.
+                Our model is that you setup multiple e-money market accounts for various recurring categories: vacation,
                 insurance, car savings, emergency fund, etc. Automatically transfer a planned amount of money into each account
                 on a regular basis. Then when you need to spend from any of these categories, simply use your regular
-                credit or debit card and mark the expenses as reimbursable from a particular account. The system will 
+                credit or debit card and mark the expenses as reimbursable from a particular account. The system will
                 help you keep track of exactly how much you need to transfer back from the savings account to true up
                 your budget. And if you're only spending the prior month's income, you'll likely have plenty of cash in
                 your account until you can make the transfer. But don't worry... if you get a little behind and your
-                reimbursables are putting you at risk of overdraft, we'll detect it and let you know. 
+                reimbursables are putting you at risk of overdraft, we'll detect it and let you know.
             </p>
         </div>
     </div>
