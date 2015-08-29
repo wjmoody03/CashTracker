@@ -25,8 +25,9 @@
                 controllerAs: 'scrubber'
             })
             .otherwise({
-                templateUrl: '/app/Dashboard/Index.html', 
-                controller: 'dashboardCtrl'
+                templateUrl: '/app/Dashboard/Dashboard.html', 
+                controller: 'dashboardCtrl',
+                controllerAs: 'dashboard'
             })
         });
 

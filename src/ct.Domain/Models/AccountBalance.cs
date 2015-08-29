@@ -9,6 +9,7 @@ namespace ct.Domain.Models
     public class AccountBalance
     {
         public int AccountBalanceID { get; set; }
+        public AccountType AccountType { get; set; }
         public int AccountID { get; set; }
         public int? DownloadID { get; set; }
         public DateTime BalanceDate { get; set; }

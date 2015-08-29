@@ -1,0 +1,40 @@
+﻿
+<div class="jumbotron text-center">
+    <div class="row">
+        <div class="col-lg-6">
+            <h5>Cash left to spend this month</h5>
+            <h1><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>   {{dashboard.snapshot.CashAvailableToSpendThisMonth | currency}}</h1>
+        </div>
+        <div class="col-lg-6">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Cash on hand in checking accounts</td>
+                        <td><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.CashOnHand | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td>Balance owed to credit cards</td>
+                        <td><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.CreditCardDebt * -1 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td>Income reserved for next month</td>
+                        <td><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.IncomeForFutureMonths * -1 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td>Adjustment for flagged transactions</td>
+                        <td><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.FlaggedTransactions *-1 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td>Adjustment for reimbursable amounts</td>
+                        <td><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.Reimbursable * -1 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <td><em><strong>Cash on hand you can spend this month</strong></em></td>
+                        <td><em><strong><i class="fa fa-refresh fa-spin" ng-show="dashboard.loadingSnapshot"></i>{{dashboard.snapshot.CashAvailableToSpendThisMonth | currency}}</strong></em></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

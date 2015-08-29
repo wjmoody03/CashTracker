@@ -83,7 +83,13 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountBalance.cs" />
     <Compile Include="Models\AccountType.cs" />
+    <Compile Include="Models\AccountTypes.cs" />
+    <Compile Include="Models\BalanceHistory.cs" />
+    <Compile Include="Models\BalanceSnapshot.cs" />
     <Compile Include="Models\Download.cs" />
+    <Compile Include="Models\ReimbursableAmount.cs" />
+    <Compile Include="Models\FlaggedAmount.cs" />
+    <Compile Include="Models\FutureIncome.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
