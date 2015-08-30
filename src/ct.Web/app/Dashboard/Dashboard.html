@@ -38,3 +38,45 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="row">
+            <h3>Pending Reimbursal</h3>
+        </div>
+        <div class="row" style="font-size:12px;padding: 8px;line-height: 1.4;">
+            <span class="col-xs-4" style="padding-left:0px;">Source</span>
+            <em class="col-xs-4 text-muted"></em>
+            <span class="col-xs-4" style="text-align:right;">Total</span>
+        </div>
+        <div class="row" ng-repeat="r in dashboard.reimbursables" style="font-size:12px;vertical-align: top;cursor:pointer;" ng-click="r.expand?r.expand=false:r.expand=true;">
+            <div class="row" style="background-color: #f5f5f5; border-top: 1px solid #dddddd;border-bottom: 1px solid #dddddd;padding: 8px;line-height: 1.4;">
+                <span class="col-xs-6"><a href="#/TransactionExplorer?ReimbursableSource={{r.ReimbursableSource | escape}}&StartDate={{r.StartDate}}">{{r.ReimbursableSource}}</a></span>
+                <span><em class="col-xs-2 text-muted"></em></span>
+                <span class="col-xs-4" style="text-align:right;">{{r.ReimbursableBalance | currency}}</span>
+            </div>
+            <div class="row" ng-show="r.expand" ng-repeat="c in r.Categories" style="font-size:12px;padding: 8px;border-bottom: 1px solid #f5f5f5;line-height: 1.4;">
+                <span class="col-xs-2"></span>
+                <span><em class="col-xs-6 text-muted"><a href="#/TransactionExplorer?ReimbursableSource={{r.ReimbursableSource | escape}}&Category={{c.Category | escape}}&StartDate={{c.StartDate}}">{{c.Category}}</a></em></span>
+                <span class="col-xs-4 text-muted" style="text-align:right;">{{c.CategoryBalance | currency}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 col-lg-offset-1">
+        <h3>Flagged for Follow Up</h3>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>Description</td>
+                    <td><span class="pull-right">Amount</span></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="f in dashboard.flagged">
+                    <td><a href="#/TransactionExplorer/{{f.ID}}">{{f.Description}}</a></td>
+                    <td><span class="pull-right">{{f.Amount | currency}}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -1,7 +1,7 @@
 ﻿angular.module("ct")
-    .controller("dashboardCtrl", ["$http","$filter", dashboardCtrl]);
+    .controller("dashboardCtrl", ["$http", "$filter", dashboardCtrl]);
 
-function dashboardCtrl($http,$filter) {
+function dashboardCtrl($http, $filter) {
     var dashboard = this;
 
     dashboard.getBalanceSnapshot = function () {
@@ -13,6 +13,26 @@ function dashboardCtrl($http,$filter) {
             });
     }
 
+    dashboard.getFlagged = function () {
+        dashboard.loadingFlagged = true;
+        $http.get("/Dashboard/FlaggedTransactions")
+            .success(function (result) {
+                dashboard.loadingFlagged = false;
+                dashboard.flagged = result;
+            });
+    };
+
+    dashboard.getReimbursables = function () {
+        dashboard.loadingReimbursables = true;
+        $http.get("/Dashboard/ReimbursableBalances")
+            .success(function (result) {
+                dashboard.loadingReimbursables = false;
+                dashboard.reimbursables = result;
+            });
+    };
+
+    dashboard.getReimbursables();
+    dashboard.getFlagged();
     dashboard.getBalanceSnapshot();
 
 }

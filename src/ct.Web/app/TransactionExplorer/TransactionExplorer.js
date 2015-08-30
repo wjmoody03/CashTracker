@@ -5,6 +5,12 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
     var explorer = this;
     explorer.svc = transactionsService;
 
+    //refresh transactions if date params are different: 
+    if ($location.search().StartDate) {
+        explorer.svc.searchParams.startDate = new Date($location.search().StartDate);
+        explorer.svc.query();
+    }
+
     var rowTemplate = '<div ' +
                         'ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ' +
                         'ui-grid-one-bind-id-grid="rowRenderIndex + \'-\' + col.uid + \'-cell\'" ' +
@@ -13,12 +19,7 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
                         'role="{{col.isRowHeader ? \'rowheader\' : \'gridcell\'}}" ' +
                         'ui-grid-cell> ' +
                       '</div>';
-    explorer.selectAll = function () {
-        // explorer.gridApi.selection.selectAllRows();
-    };
 
-
-    explorer.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     explorer.gridOptions = {
         data: "explorer.svc.transactions",
         rowTemplate: rowTemplate,
@@ -59,15 +60,15 @@ function explorerCtrl($resource, uiGridConstants, $location, $scope, transaction
             { name: 'TransactionTypeDescription', displayName: "Type", visible: false },
             { name: 'TransactionDate', cellFilter: 'date', displayName: 'Date' },
             { name: 'Description' },
-            { name: 'Category' },
+            { name: 'Category', filter: { term: $location.search().Category } },
             {
-                name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency',
+                name: 'Amount', cellFilter: 'currency', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: 'currency',                
                 customTreeAggregationFinalizerFn: function (aggregation) {
                     aggregation.rendered = aggregation.value;
                 }
             },
             { name: 'FlagForFollowUp', visible: false, displayName: 'Flagged' },
-            { name: 'ReimbursableSource', visible: false, displayName: 'Reimbursable' },
+            { name: 'ReimbursableSource', visible: $location.search().ReimbursableSource!=undefined, displayName: 'Reimbursable', filter: { term: $location.search().ReimbursableSource } },
             { name: 'Notes', visible: false, displayName: 'Notes' }
         ]
     };
