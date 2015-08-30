@@ -31,6 +31,26 @@ function dashboardCtrl($http, $filter) {
             });
     };
 
+    dashboard.getOverview = function () {
+        dashboard.loadingOverview = true;
+        $http.get("/Dashboard/MonthlyOverview")
+            .success(function (result) {
+                dashboard.loadingOverview = false;
+                dashboard.overview = result;
+            });
+    };
+
+    dashboard.getCategoriesVsBudget = function () {
+        dashboard.loadingCategories = true;
+        $http.get("/Dashboard/CurrentCategoryDistribution")
+            .success(function (result) {
+                dashboard.loadingCategories = false;
+                dashboard.categoryDistribution = result;
+            });
+    };
+
+    dashboard.getCategoriesVsBudget();
+    dashboard.getOverview();
     dashboard.getReimbursables();
     dashboard.getFlagged();
     dashboard.getBalanceSnapshot();

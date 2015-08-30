@@ -5,6 +5,7 @@ using System.Text;
 using ct.Data.Contexts;
 using ct.Domain.Models;
 using ct.Domain;
+using System.Data.SqlClient;
 
 namespace ct.Data.Repositories
 {
@@ -12,15 +13,26 @@ namespace ct.Data.Repositories
     {
         IQueryable<Transaction> TransactionsNeedingAttention();
         IEnumerable<string> ProbableCategories();
+        IEnumerable<CategoryVsBudget> CategoryExpensesVsBudget(int month, int year);
     }
 
     public class TransactionRepository : GenericRepositoryEF<Transaction>, ITransactionRepository
     {
+        IctContext context;
         
         public TransactionRepository(IctContext cxt)
             : base(cxt)
         {
-            
+            context = cxt;
+        }
+
+        public IEnumerable<CategoryVsBudget> CategoryExpensesVsBudget(int month, int year)
+        {
+            var sql = EmbeddedSQL.SQL("CategoryVsBudget");
+            var sMonth = new SqlParameter("@month", month);
+            var sYear = new SqlParameter("@year", year);
+            var results = context.Database.SqlQuery<CategoryVsBudget>(sql, sMonth, sYear);
+            return results;
         }
 
         public IEnumerable<string> ProbableCategories()

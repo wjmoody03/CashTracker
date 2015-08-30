@@ -65,6 +65,14 @@ namespace ct.Web.Controllers
             return JsonConvert.SerializeObject(bal);
         }
 
+        public string CurrentCategoryDistribution()
+        {
+            var thisMonth = DateTime.Today.Month;
+            var thisMonthYear = DateTime.Today.Year;
+            var results = transRepo.CategoryExpensesVsBudget(thisMonth, thisMonthYear);
+            return JsonConvert.SerializeObject(results);
+        }
+
         public string MonthlyOverview()
         {
             //need an object with income / expenses / budgeted / next month / surplus
