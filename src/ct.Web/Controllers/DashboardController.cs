@@ -15,11 +15,13 @@ namespace ct.Web.Controllers
     {
         private IAccountBalanceRepository balanceRepo { get; set; }
         private ITransactionRepository transRepo { get; set; } 
+        private IBudgetRepository budgetRepo { get; set; }
 
-        public DashboardController(IAccountBalanceRepository BalanceRepo, ITransactionRepository TransactionRepo)
+        public DashboardController(IAccountBalanceRepository BalanceRepo, ITransactionRepository TransactionRepo, IBudgetRepository BudgetRepo)
         {
             balanceRepo = BalanceRepo;
             transRepo = TransactionRepo;
+            budgetRepo = BudgetRepo;
         }
 
         public string SnapshotHistory(DateTime? StartDate = null, DateTime? EndDate = null) 
@@ -61,6 +63,40 @@ namespace ct.Web.Controllers
                                        }
                       };
             return JsonConvert.SerializeObject(bal);
+        }
+
+        public string MonthlyOverview()
+        {
+            //need an object with income / expenses / budgeted / next month / surplus
+            var thisMonth = DateTime.Today.Month;
+            var thisMonthYear = DateTime.Today.Year;
+            var lastMonth = DateTime.Today.AddMonths(-1).Month;
+            var lastMonthYear = DateTime.Today.AddMonths(-1).Year;
+
+            var income = transRepo.GetAllEagerly("TransactionType")
+                        .Where(t => t.TransactionDate.Year == lastMonthYear && t.TransactionDate.Month == lastMonth
+                                    && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome==true).Sum(t=>t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+
+            var nextIncome = transRepo.GetAllEagerly("TransactionType")
+                        .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
+                        && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == true).Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+
+            var expenses = transRepo.GetAllEagerly("TransactionType")
+                        .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
+                                    && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == false).Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+
+            var budgeted = budgetRepo.GetAll().Sum(b => b.BudgetedAmount);
+
+            var vm = new
+            {
+                IncomeForCurrentMonth = income,
+                IncomeForNextMonth = nextIncome,
+                ExpensesForCurrentMonth = Math.Abs(expenses),
+                BudgetedExpenses = budgeted,
+                IncomeToBudgetSurplus = income - budgeted
+            };
+
+            return JsonConvert.SerializeObject(vm);
         }
     }
 }

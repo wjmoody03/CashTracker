@@ -86,6 +86,7 @@
     <Compile Include="Models\AccountTypes.cs" />
     <Compile Include="Models\BalanceHistory.cs" />
     <Compile Include="Models\BalanceSnapshot.cs" />
+    <Compile Include="Models\BudgetCategory.cs" />
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\ReimbursableAmount.cs" />
     <Compile Include="Models\FlaggedAmount.cs" />

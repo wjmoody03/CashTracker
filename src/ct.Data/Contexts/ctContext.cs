@@ -16,6 +16,7 @@ namespace ct.Data.Contexts
         DbSet<TransactionType> TransactionTypes { get; set; }
         DbSet<Download> Downloads { get; set; }
         DbSet<AccountBalance> AccountBalances { get; set; }
+        DbSet<BudgetCategory> Budget { get; set; }
     }
     public class ctContext: DbContext, IctContext
     {
@@ -25,6 +26,7 @@ namespace ct.Data.Contexts
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Download> Downloads { get; set; }
         public DbSet<AccountBalance> AccountBalances { get; set; }
+        public DbSet<BudgetCategory> Budget { get; set; }
 
         public ctContext(string connectionString):base(connectionString)
         {
