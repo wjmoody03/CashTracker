@@ -19,6 +19,16 @@
                 controller: 'explorerCtrl',
                 controllerAs: 'explorer'
             })
+            .when('/Accounts/:id', {
+                 templateUrl: '/app/AccountManager/AccountDetails.html',
+                 controller: 'accountDetailsCtrl',
+                 controllerAs: 'details'
+             })
+            .when('/Accounts', {
+                templateUrl: '/app/AccountManager/Accounts.html',
+                controller: 'accountsCtrl',
+                controllerAs: 'accounts'
+            })
             .when('/Scrubber', {
                 templateUrl: '/app/TransactionScrubber/TransactionScrubber.html',
                 controller: 'scrubberCtrl',

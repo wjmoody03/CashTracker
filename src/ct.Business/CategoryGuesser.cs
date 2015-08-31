@@ -10,7 +10,7 @@ namespace ct.Business
 {
     public static class CategoryGuesser
     {
-        public static void ApplyCategories(IEnumerable<CategoryGuess> guesses, ref IEnumerable<Transaction> transactions)
+        public static void ApplyCategories(IEnumerable<CategoryGuess> guesses, ref List<Transaction> transactions)
         {
             var gLookup = guesses.ToLookup(g => g.Description, g => g.Category);
             foreach(var t in transactions)

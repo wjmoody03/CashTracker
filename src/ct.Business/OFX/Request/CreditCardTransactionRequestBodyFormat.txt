@@ -12,9 +12,9 @@ NEWFILEUID:NONE
 
 <SIGNONMSGSRQV1>
 <SONRQ>
-<DTCLIENT>{{RequestDate}
-<USERID>{{UserName}
-<USERPASS>{{Password}
+<DTCLIENT>{{RequestDate}}
+<USERID>{{UserName}}
+<USERPASS>{{Password}}
 <LANGUAGE>ENG<FI>
  <ORG>B1
  <FID>10898
@@ -29,10 +29,10 @@ NEWFILEUID:NONE
 <TRNUID> madeuptranid
 <CCSTMTRQ>
 <CCACCTFROM>
-<ACCTID>{{AccountNumber}
+<ACCTID>{{AccountNumber}}
 </CCACCTFROM>
 <INCTRAN>
-<DTSTART>{{StartDate}
+<DTSTART>{{StartDate}}
 <INCLUDE>Y
 </INCTRAN>
 </CCSTMTRQ>

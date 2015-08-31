@@ -12,14 +12,14 @@ namespace ct.Domain.Models
     {
         [Key,Column("ID")]
         public int AccountID { get; set; }
-        [NotMapped]
-        public AccountType AccountType { get; set; }
+        //[NotMapped]
+        public string AccountType { get; set; }
         [Column("Account")]
         public string AccountName { get; set; }
         public decimal StartingBalance { get; set; }
 
         public string EncryptedAccountNumber { get; set; }
-        public string EncrypedUserName { get; set; }
+        public string EncryptedUserName { get; set; }
         public string EncryptedPassword { get; set; }
         public string OFXUrl { get; set; }
 

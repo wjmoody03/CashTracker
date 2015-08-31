@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="Business\BalanceCalculatorTests.cs" />
     <Compile Include="Business\OFX\ChaseParserTests.cs" />
+    <Compile Include="Business\TransactionUniquenessDetectionTests.cs" />
     <Compile Include="Data\Contexts\LocalDbInitializer.cs" />
     <Compile Include="Data\Repositories\AccountBalanceRepositoryTests.cs" />
     <Compile Include="Data\Repositories\RepositoryTestClass.cs" />

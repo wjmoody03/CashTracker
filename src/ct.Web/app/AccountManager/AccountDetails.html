@@ -1,0 +1,66 @@
+﻿<form ng-submit="details.save()">
+    
+    <h1>Account Details</h1>
+
+    <div class="form-group">
+        <label for="AccountName">Name</label>
+        <input class="form-control" type="text" ng-model="details.account.AccountName" placeholder="Name">
+    </div>
+
+    <div class="form-group">
+        <label for="AccountType">Type</label>
+        <select class="form-control"ng-model="details.account.AccountType" >
+            <option>Checking</option>
+            <option>Credit</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Starting Balance">Starting Balance</label>
+        <input class="form-control" type="number" ng-model="details.account.StartingBalance" placeholder="Starting Balance">
+        <span class="help-block">
+            *This is used for reconciliation and balance calculation purposes. This should be the balance as it was before any
+            transactions were loaded into this system. If you have the FULL transaction history for the account then the 
+            starting balance would be zero. Alternatively, you can leave this zero and then create an adjustment transaction
+            for the unreconciled amount after the initial import. 
+        </span>
+    </div>
+
+    <hr/>
+    <h1>Auto Download Information</h1>
+    <small><em>*You can leave this blank if you don't want the system to automatically download your transactions.</em></small>
+
+    <div class="form-group">
+        <label for="UpdateSensitive">Update the Sensitive Fields</label>
+        <input class="form-control" type="checkbox" ng-model="details.updateSensitive" >
+        <span class="help-block">
+            *Otherwise they will not be changed, even if you leave them blank
+        </span>
+    </div>
+
+    <div class="form-group">
+        <label for="OFXurl">OFX Url</label>
+        <input class="form-control" type="text" ng-disabled="!details.updateSensitive" ng-model="details.account.OFXurl" placeholder="OFX Url">
+    </div>
+    <div class="form-group">
+        <label for="EncryptedUserName">UserName</label>
+        <input class="form-control" type="password" ng-disabled="!details.updateSensitive" ng-model="details.account.EncryptedUserName" placeholder="UserName">
+    </div>
+    <div class="form-group">
+        <label for="EncryptedPassword">Password</label>
+        <input class="form-control" type="password" ng-disabled="!details.updateSensitive" ng-model="details.account.EncryptedPassword" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="EncryptedAccountNumber">Account Number</label>
+        <input class="form-control" type="password" ng-disabled="!details.updateSensitive" ng-model="details.account.EncryptedAccountNumber" placeholder="Account Number">
+    </div>
+
+    <div class="row text-center form-group">
+        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+        <a class="btn btn-lg btn-danger" ng-click="details.cancel()">Cancel</a>
+        |
+        <a class="btn btn-sm btn-warning" ng-hide="confirmDelete" ng-click="confirmDelete=true;">Delete</a>
+        <a class="btn btn-sm btn-info" ng-show="confirmDelete" ng-click="confirmDelete=false;">Cancel</a>
+        <a class="btn btn-sm btn-danger" ng-show="confirmDelete" ng-click="details.delete()">Yes, Delete it</a>
+    </div>
+</form>

@@ -49,10 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BalanceCalculator.cs" />
+    <Compile Include="CategoryGuesser.cs" />
+    <Compile Include="CreditCardTransactionDownloader.cs" />
+    <Compile Include="Encryptor.cs" />
     <Compile Include="OFX\Parsers\ChaseParser.cs" />
     <Compile Include="OFX\Models\Transaction.cs" />
     <Compile Include="OFX\Request\CreditCardTransactionRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionUniquenessDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ct.Data\ct.Data.csproj">

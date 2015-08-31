@@ -24,13 +24,13 @@ namespace ct.Business
         public IEnumerable<ct.Domain.Models.Transaction> GetAllTransactions()
         {
             var ofx = CreditCardTransactionRequest.GetOFX(account.OFXUrl,
-                    UserName: Encryptor.Decrypt(account.EncrypedUserName),
+                    UserName: Encryptor.Decrypt(account.EncryptedUserName),
                     Password: Encryptor.Decrypt(account.EncryptedPassword),
                     AccountNumber: Encryptor.Decrypt(account.EncryptedAccountNumber));
 
             var parser = new ChaseParser(ofx).GetTransactions();
 
-            var transactions = from p in parser
+            var transactions = (from p in parser
                                select new Transaction()
                                {
                                    AccountID = account.AccountID,
@@ -39,10 +39,10 @@ namespace ct.Business
                                    SourceTransactionIdentifier = p.FITID,
                                    TransactionDate = p.DTPOSTED,
                                    TransactionTypeID = TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME)
-                               };
+                               }).ToList();
 
             CategoryGuesser.ApplyCategories(transactionRepo.CategoryGuesses(), ref transactions);
-
+            TransactionUniquenessDetector.RemoveExistingTransactionsAndApplyFlagsToPossibleDupes(transactionRepo.GetAll(), ref transactions);
             return transactions;
             
         }
