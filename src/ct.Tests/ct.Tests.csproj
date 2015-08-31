@@ -116,6 +116,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Business\BalanceCalculatorTests.cs" />
+    <Compile Include="Business\OFX\ChaseParserTests.cs" />
     <Compile Include="Data\Contexts\LocalDbInitializer.cs" />
     <Compile Include="Data\Repositories\AccountBalanceRepositoryTests.cs" />
     <Compile Include="Data\Repositories\RepositoryTestClass.cs" />
@@ -124,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Business\OFX\chase.ofx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

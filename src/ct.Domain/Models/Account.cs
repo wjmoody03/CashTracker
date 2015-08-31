@@ -18,6 +18,11 @@ namespace ct.Domain.Models
         public string AccountName { get; set; }
         public decimal StartingBalance { get; set; }
 
+        public string EncryptedAccountNumber { get; set; }
+        public string EncrypedUserName { get; set; }
+        public string EncryptedPassword { get; set; }
+        public string OFXUrl { get; set; }
+
         public ICollection<AccountBalance> BalanceHistory { get; set; }
         public ICollection<Download> Downloads { get; set; }
 

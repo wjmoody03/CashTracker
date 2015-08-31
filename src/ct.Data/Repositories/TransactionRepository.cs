@@ -14,6 +14,7 @@ namespace ct.Data.Repositories
         IQueryable<Transaction> TransactionsNeedingAttention();
         IEnumerable<string> ProbableCategories();
         IEnumerable<CategoryVsBudget> CategoryExpensesVsBudget(int month, int year);
+        IEnumerable<CategoryGuess> CategoryGuesses();
     }
 
     public class TransactionRepository : GenericRepositoryEF<Transaction>, ITransactionRepository
@@ -32,6 +33,13 @@ namespace ct.Data.Repositories
             var sMonth = new SqlParameter("@month", month);
             var sYear = new SqlParameter("@year", year);
             var results = context.Database.SqlQuery<CategoryVsBudget>(sql, sMonth, sYear);
+            return results;
+        }
+
+        public IEnumerable<CategoryGuess> CategoryGuesses()
+        {
+            var sql = EmbeddedSQL.SQL("TopCategoryPerTransaction");
+            var results = context.Database.SqlQuery<CategoryGuess>(sql);
             return results;
         }
 

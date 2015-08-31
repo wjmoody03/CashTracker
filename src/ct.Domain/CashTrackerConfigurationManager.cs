@@ -28,5 +28,13 @@ namespace ct.Domain
         {
             get { return ConfigurationManager.AppSettings["AzureSQLConnectionString"]; }
         }
+        public static string EncryptionKey
+        {
+            get { return ConfigurationManager.AppSettings["EncryptionKey"]; }
+        }
+        public static string InitializationVector
+        {
+            get { return ConfigurationManager.AppSettings["InitializationVector"]; }
+        }
     }
 }

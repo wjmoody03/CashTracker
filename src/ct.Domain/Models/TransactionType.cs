@@ -8,9 +8,21 @@ using System.Threading.Tasks;
 
 namespace ct.Domain.Models
 {
+    public enum TransactionTypes
+    {
+        CheckingExpense = 1,
+        CheckingDeposit = 2,
+        CreditCardExpense = 3,
+        PaymentPostedToCreditCard = 4,
+        PaymentSentToCreditCard = 5,
+        AdjustmentForUnreconcilableDifference = 6,
+        CreditReturn = 7,
+        Unknown =8
+    }
+
     public class TransactionType
     {
-        [Key,Column("ID")]
+        [Key, Column("ID")]
         public int TransactionTypeID { get; set; }
         [Column("TransactionType")]
         public string TransactionTypeDescription { get; set; }
