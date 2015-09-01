@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("accountsCtrl", ["$resource", "uiGridConstants", "$location", "$scope", "accountsService", accountsCtrl]);
+    .controller("accountsCtrl", ["$resource", "uiGridConstants", "$location", "$scope", "accountsService","titleService", accountsCtrl]);
 
-function accountsCtrl($resource, uiGridConstants, $location, $scope, accountsService) {
+function accountsCtrl($resource, uiGridConstants, $location, $scope, accountsService,titleService) {
     var accounts = this;
+    titleService.title="Accounts";
     accounts.svc = accountsService;
     accounts.accounts = accountsService.query();
 

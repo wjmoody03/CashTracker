@@ -147,6 +147,24 @@
     <div class="col-lg-6">
         <div>
             <h3>Account / Recon Status</h3>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Account</td>
+                        <td><span class="pull-right">Calculated Balance</span></td>
+                        <td><span class="pull-right">Stated Balance</span></td>
+                        <td><span class="pull-right">Unreconciled Amount</span></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="ua in dashboard.unreconciledAmounts">
+                        <td><a href="#/Accounts/{{ua.AccountID}}">{{ua.Account}}</a></td>
+                        <td><span class="pull-right">{{ua.CalculatedBalance | currency}}</span></td>
+                        <td><span class="pull-right">{{ua.StatedBalance | currency}}</span></td>
+                        <td><span class="pull-right">{{ua.UnreconciledAmount | currency}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>

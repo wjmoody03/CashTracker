@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("dashboardCtrl", ["$http", "$filter", dashboardCtrl]);
+    .controller("dashboardCtrl", ["$http", "$filter","titleService", dashboardCtrl]);
 
-function dashboardCtrl($http, $filter) {
+function dashboardCtrl($http, $filter,titleService) {
     var dashboard = this;
+    titleService.title="Dashboard";
 
     dashboard.getBalanceSnapshot = function () {
         dashboard.loadingSnapshot = true;
@@ -49,6 +50,16 @@ function dashboardCtrl($http, $filter) {
             });
     };
 
+    dashboard.getUnreconciledAmounts = function () {
+        dashboard.loadingUnreconciled = true;
+        $http.get("/Dashboard/UnreconciledAmounts")
+            .success(function (result) {
+                dashboard.loadingUnreconciled = false;
+                dashboard.unreconciledAmounts = result;
+            });
+    };
+
+    dashboard.getUnreconciledAmounts();
     dashboard.getCategoriesVsBudget();
     dashboard.getOverview();
     dashboard.getReimbursables();

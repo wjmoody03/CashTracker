@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("explorerCtrl", ["$resource", "uiGridConstants", "$location", "$scope", "transactionsService", "$timeout", explorerCtrl]);
+    .controller("explorerCtrl", ["$resource", "uiGridConstants", "$location", "$scope", "transactionsService", "$timeout","titleService", explorerCtrl]);
 
-function explorerCtrl($resource, uiGridConstants, $location, $scope, transactionsService, $timeout) {
+function explorerCtrl($resource, uiGridConstants, $location, $scope, transactionsService, $timeout,titleService) {
     var explorer = this;
+    titleService.title="Transactions";
     explorer.svc = transactionsService;
 
     //refresh transactions if date params are different: 

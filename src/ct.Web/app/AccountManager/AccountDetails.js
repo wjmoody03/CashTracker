@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("accountDetailsCtrl", ["accountsService", "$routeParams", "$location","$http", accountDetailsCtrl]);
+    .controller("accountDetailsCtrl", ["accountsService", "$routeParams", "$location","$http","titleService", accountDetailsCtrl]);
 
-function accountDetailsCtrl(accountsService,$routeParams,$location,$http) {
+function accountDetailsCtrl(accountsService,$routeParams,$location,$http,titleService) {
     var details = this;
+    titleService.title = "Account Details";
 
     if ($routeParams.id == "Create") {
             accountsService.selectedaccount = new accountsService(); 

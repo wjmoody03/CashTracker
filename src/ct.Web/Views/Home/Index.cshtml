@@ -1,11 +1,11 @@
 ﻿@{Layout = null; }
 
 <!DOCTYPE html>
-<html>
+<html  ng-app="ct">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - CashTracker</title>
+    <title ng-controller="titleCtrl as title">{{title.svc.title}} - CashTracker</title>
 
     <link href="https://bootswatch.com/yeti/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="container body-content">
-        <div ng-app="ct">
+        <div>
             <div ng-view class="shuffle-animation"></div>
         </div>
         <hr />
@@ -67,6 +67,8 @@
     <script src="~/app/TransactionExplorer/TransactionExplorer.js"></script>
     <script src="~/app/TransactionExplorer/TransactionDetails.js"></script>
     <script src="~/app/TransactionScrubber/TransactionScrubber.js"></script>
+    <script src="~/app/Title/Title.js"></script>
+    <script src="~/app/Title/TitleService.js"></script>
     <script src="~/app/AccountManager/Accounts.js"></script>
     <script src="~/app/AccountManager/AccountDetails.js"></script>
     <script src="~/app/Dashboard/Dashboard.js"></script>

@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("detailsCtrl", ["transactionsService","$routeParams","$location", detailsCtrl]);
+    .controller("detailsCtrl", ["transactionsService","$routeParams","$location","titleService", detailsCtrl]);
 
-function detailsCtrl(transactionsService,$routeParams,$location) {
+function detailsCtrl(transactionsService, $routeParams, $location, titleService) {
     var details = this;
+    titleService.title = "Transaction Details";
     if (transactionsService.selectedTransaction == null) {
         if ($routeParams.id == "Create") {
             transactionsService.selectedTransaction = new transactionsService.api();

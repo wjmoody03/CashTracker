@@ -15,6 +15,7 @@ namespace ct.Data.Repositories
         IEnumerable<string> ProbableCategories();
         IEnumerable<CategoryVsBudget> CategoryExpensesVsBudget(int month, int year);
         IEnumerable<CategoryGuess> CategoryGuesses();
+        IEnumerable<AccountReconStatus> UnreconciledAmounts();
     }
 
     public class TransactionRepository : GenericRepositoryEF<Transaction>, ITransactionRepository
@@ -64,6 +65,13 @@ namespace ct.Data.Repositories
                 && t.FlagForFollowUp !=true
                 && t.TransactionDate >= sixMonthsAgo
                 && t.TransactionTypeID!=4 && t.TransactionTypeID!=5);
+        }
+
+        public IEnumerable<AccountReconStatus> UnreconciledAmounts()
+        {
+            var sql = EmbeddedSQL.SQL("UnreconciledAmounts");
+            var results = context.Database.SqlQuery<AccountReconStatus>(sql);
+            return results;
         }
     }
 }

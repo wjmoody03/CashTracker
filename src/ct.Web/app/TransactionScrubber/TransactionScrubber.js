@@ -1,8 +1,9 @@
 ﻿angular.module("ct")
-    .controller("scrubberCtrl",["$http", scrubberCtrl]);
+    .controller("scrubberCtrl",["$http","titleService", scrubberCtrl]);
 
-function scrubberCtrl($http) {
+function scrubberCtrl($http,titleService) {
     var scrubber = this;
+    titleService.title="Scrubber";
     scrubber.loadingTransactions = true;
     scrubber.currentTransaction = {};
     scrubber.history = [];

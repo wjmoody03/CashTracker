@@ -73,6 +73,12 @@ namespace ct.Web.Controllers
             return JsonConvert.SerializeObject(results);
         }
 
+        public string UnreconciledAmounts()
+        {
+            var results = transRepo.UnreconciledAmounts();
+            return JsonConvert.SerializeObject(results);
+        }
+
         public string MonthlyOverview()
         {
             //need an object with income / expenses / budgeted / next month / surplus
