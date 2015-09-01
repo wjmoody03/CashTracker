@@ -89,15 +89,21 @@ namespace ct.Web.Controllers
 
             var income = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == lastMonthYear && t.TransactionDate.Month == lastMonth
-                                    && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome==true).Sum(t=>t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+                        && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome==true)
+                            .ToList() //this prevents null reference error when there are no transactions
+                            .Sum(t=>t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var nextIncome = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
-                        && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == true).Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+                        && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == true)
+                            .ToList() //this prevents null reference error when there are no transactions
+                            .Sum(t => t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var expenses = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
-                                    && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == false).Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier);
+                        && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == false)
+                            .ToList() //this prevents null reference error when there are no transactions
+                            .Sum(t => t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var budgeted = budgetRepo.GetAll().Sum(b => b.BudgetedAmount);
 

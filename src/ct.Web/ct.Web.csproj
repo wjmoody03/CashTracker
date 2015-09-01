@@ -247,7 +247,9 @@
     <Content Include="app\AccountManager\Accounts.html" />
     <Content Include="app\AccountManager\Accounts.js" />
     <Content Include="app\AccountManager\AccountsService.js" />
+    <Content Include="app\Title\TitleService.js" />
     <Content Include="app\Dashboard\Dashboard.js" />
+    <Content Include="app\Title\Title.js" />
     <Content Include="app\TransactionExplorer\TransactionDetails.html" />
     <Content Include="app\TransactionExplorer\TransactionDetails.js" />
     <Content Include="app\TransactionExplorer\TransactionsService.js" />
