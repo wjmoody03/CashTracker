@@ -1,7 +1,7 @@
 ﻿angular.module("ct")
-    .controller("accountDetailsCtrl", ["accountsService", "$routeParams", "$location", accountDetailsCtrl]);
+    .controller("accountDetailsCtrl", ["accountsService", "$routeParams", "$location","$http", accountDetailsCtrl]);
 
-function accountDetailsCtrl(accountsService,$routeParams,$location) {
+function accountDetailsCtrl(accountsService,$routeParams,$location,$http) {
     var details = this;
 
     if ($routeParams.id == "Create") {
@@ -57,7 +57,7 @@ function accountDetailsCtrl(accountsService,$routeParams,$location) {
 
     details.downloadTransactions = function () {
         details.downloadingTransactions = true;
-        $http.post("/Utility/DownloadNewTransactions", { params: { AccountID: details.account.AccountID } })
+        $http.post("/Utility/DownloadNewTransactions", { AccountID: details.account.AccountID } )
             .success(function (result) {
                 details.downloadResult = result;
                 details.downloadingTransactions = false;

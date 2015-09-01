@@ -1,5 +1,5 @@
 ﻿<form ng-submit="details.save()">
-    
+
     <h1>Account Details</h1>
 
     <div class="form-group">
@@ -9,7 +9,7 @@
 
     <div class="form-group">
         <label for="AccountType">Type</label>
-        <select class="form-control"ng-model="details.account.AccountType" >
+        <select class="form-control" ng-model="details.account.AccountType">
             <option>Checking</option>
             <option>Credit</option>
         </select>
@@ -20,9 +20,9 @@
         <input class="form-control" type="number" ng-model="details.account.StartingBalance" placeholder="Starting Balance">
         <span class="help-block">
             *This is used for reconciliation and balance calculation purposes. This should be the balance as it was before any
-            transactions were loaded into this system. If you have the FULL transaction history for the account then the 
+            transactions were loaded into this system. If you have the FULL transaction history for the account then the
             starting balance would be zero. Alternatively, you can leave this zero and then create an adjustment transaction
-            for the unreconciled amount after the initial import. 
+            for the unreconciled amount after the initial import.
         </span>
     </div>
 
@@ -34,31 +34,13 @@
         </span>
     </div>
 
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="Starting Balance">Last Import</label>
-            <input class="form-control" type="number" ng-model="details.account.LastImport" placeholder="Starting Balance">
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <button class="btn btn-info" ng-hide="details.downloadingTransactions" ng-click="details.downloadTransactions()">Download now</button>
-            <i class="fa fa-spin fa-refresh" ng-show="details.downloadingTransactions"></i>
-        </div>
-    </div>
-    <div class="form-group" ng-show="details.downloadResult">
-        <span class="text-info">{{details.downloadResult.NetNewTransactions}} transactions downloaded.</span>
-        <span class="text-info">{{details.downloadResult.TransactionsFlaggedAsPossibleDuplicates}} were flagged for follow up because
-        they were possible duplicates.</span>
-    </div>
-
-    <hr/>
+    <hr />
     <h1>Auto Download Information</h1>
     <small><em>*You can leave this blank if you don't want the system to automatically download your transactions.</em></small>
 
     <div class="form-group">
         <label for="UpdateSensitive">Update the Sensitive Fields</label>
-        <input class="form-control" type="checkbox" ng-model="details.updateSensitive" >
+        <input class="form-control" type="checkbox" ng-model="details.updateSensitive">
         <span class="help-block">
             *Otherwise they will not be changed, even if you leave them blank
         </span>
@@ -90,3 +72,20 @@
         <a class="btn btn-sm btn-danger" ng-show="confirmDelete" ng-click="details.delete()">Yes, Delete it</a>
     </div>
 </form>
+
+
+<hr />
+<h1>Download Status</h1>
+<div class="col-xs-12">
+    <strong ng-show="details.account.LastImport">Last Imported {{details.account.LastImport | date:'medium'}}</strong> <br /><br />
+    <button class="btn btn-info" ng-show="details.account.OFXurl" ng-hide="details.downloadingTransactions" ng-click="details.downloadTransactions()">Download now</button>
+    <i class="fa fa-spin fa-refresh" ng-show="details.downloadingTransactions"></i>
+    <br /><br />
+</div>
+<div class="col-xs-12" ng-show="details.downloadResult">
+    <span class="text-info">{{details.downloadResult.NetNewTransactions}} transactions downloaded.</span>
+    <span class="text-info">
+        {{details.downloadResult.TransactionsFlaggedAsPossibleDuplicates}} were flagged for follow up because
+        they were possible duplicates.
+    </span>
+</div>

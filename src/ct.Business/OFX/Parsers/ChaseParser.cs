@@ -14,7 +14,7 @@ namespace ct.Business.OFX.Parsers
 
         public ChaseParser(string OFX)
         {
-            ofx = OFX;
+            ofx = System.Web.HttpUtility.HtmlDecode(OFX);
         }
 
         public decimal GetOutstandingBalance()
@@ -56,7 +56,7 @@ namespace ct.Business.OFX.Parsers
             t.FITID = getUnclosedOFXField("FITID", STMTTRN);
             t.NAME = getUnclosedOFXField("NAME", STMTTRN);
             t.TRNTYPE = getUnclosedOFXField("TRNTYPE", STMTTRN);
-            t.TRNAMT = Decimal.Parse(getUnclosedOFXField("TRNAMT", STMTTRN)) * (t.TRNTYPE=="DEBIT"?-1:1);
+            t.TRNAMT = Decimal.Parse((Decimal.Parse(getUnclosedOFXField("TRNAMT", STMTTRN)) * (t.TRNTYPE == "DEBIT" ? -1 : 1)).ToString("#.00"));
             return t;
         }
         private string getUnclosedOFXField(string fieldName, string ofxSection)
