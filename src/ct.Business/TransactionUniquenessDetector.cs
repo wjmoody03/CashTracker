@@ -19,21 +19,20 @@ namespace ct.Business
             var existingTransactionKeys = AllExistingTransactions.ToLookup(t => transactionKey(t));
             foreach (var t in adr.NewTransactions)
             {
-                if(existingTransactionKeys[transactionKey(t)].FirstOrDefault()!= null)
+                var existing = existingTransactionKeys[transactionKey(t)].FirstOrDefault();
+                if (existing!= null)
                 {
                     t.FlagForFollowUp = true;
-                    t.Notes = "This is a possible duplicate of an existing transaction with the same description, date, amount an account. " +
-                        "If this is in fact a unique transaction you can clear the flag. If it is a duplicate you should delete it.";
+                    t.Notes = string.Format("This is a possible duplicate of existing transaction ID {0} with the same description, date, amount an account. " +
+                        "If this is in fact a unique transaction you can clear the flag. If it is a duplicate you should delete it.", existing.ID);
+                    adr.TransactionsFlaggedAsPossibleDuplicates++;
                 }
-                adr.TransactionsFlaggedAsPossibleDuplicates++;
             }
-
-
         }
 
         private static string transactionKey(Transaction t)
         {
-            return t.Description.ToLower() + t.TransactionDate.ToShortDateString() + t.Amount.ToString() + t.AccountID.ToString();
+            return t.Description.ToLower() + t.TransactionDate.ToShortDateString() + Math.Round(t.Amount,2).ToString() + t.AccountID.ToString();
         }
     }
 }

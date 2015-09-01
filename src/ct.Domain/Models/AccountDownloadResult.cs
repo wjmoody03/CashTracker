@@ -8,8 +8,10 @@ namespace ct.Domain.Models
 {
     public class AccountDownloadResult
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int AccountID { get; set; }
+        public decimal AccountBalance { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public int TotalTranasctionsDownloaded { get; set; }
         public int TransactionsFlaggedAsPossibleDuplicates { get; set; }
         public int TransactionsExcludedBecauseTheAlreadyExisted { get; set; }

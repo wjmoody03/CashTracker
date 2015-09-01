@@ -22,17 +22,20 @@ namespace ct.Web.Controllers
             transRepo = TransactionRepo;
         }
         // GET: Utility
-        public void DownloadNewTransactions(int AccountID)
+        [HttpPost]
+        [Authorize]
+        public string DownloadNewTransactions(int AccountID)
         {
             var acct = acctRepo.FindBy(a => a.AccountID == AccountID).FirstOrDefault();
             var ccd = new CreditCardTransactionDownloader(acct, transRepo);
-            var trans = ccd.GetAllTransactions().OrderBy(t => t.TransactionDate);
-            
-            var json = JsonConvert.SerializeObject(trans);
-            var fs = System.IO.File.CreateText("C:\\users\\jacob\\desktop\\finally.json");
-            fs.Write(json);
-            fs.Close();
-            fs.Dispose();
+            var adr = ccd.GetAllTransactions();
+            acct.LastImport = DateTime.Now;
+            acct.StatedBalanceAtInstitution = adr.AccountBalance;
+            acctRepo.Edit(acct);
+            acctRepo.Save();
+            transRepo.AddRange(adr.NewTransactions);
+            transRepo.Save();
+            return JsonConvert.SerializeObject(adr);
         }
 
 

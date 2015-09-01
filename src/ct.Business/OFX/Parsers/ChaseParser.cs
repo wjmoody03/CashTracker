@@ -16,6 +16,19 @@ namespace ct.Business.OFX.Parsers
         {
             ofx = OFX;
         }
+
+        public decimal GetOutstandingBalance()
+        {
+            //< LEDGERBAL >
+            //< BALAMT > -10151.05
+            //< DTASOF > 20150831080000.000[-4:EDT]
+            //</ LEDGERBAL >
+            var rx = new Regex("<LEDGERBAL>(.|\r\n)*?<\\/LEDGERBAL>");
+            var match = rx.Match(ofx);
+            var bal = decimal.Parse(getUnclosedOFXField("BALAMT", match.Value)) * -1;
+            return bal;
+        }
+
         public IEnumerable<OFX.Models.Transaction> GetTransactions()
         {
             var rx = new Regex("<STMTTRN>(.|\r\n)*?<\\/STMTTRN>");
@@ -38,17 +51,17 @@ namespace ct.Business.OFX.Parsers
             //</STMTTRN>
             
             var t = new OFX.Models.Transaction();
-            var rawDateString = getTransactionField("DTPOSTED", STMTTRN).Substring(0,8);
+            var rawDateString = getUnclosedOFXField("DTPOSTED", STMTTRN).Substring(0,8);
             t.DTPOSTED = DateTime.ParseExact(rawDateString, "yyyyMMdd", CultureInfo.CurrentCulture);
-            t.FITID = getTransactionField("FITID", STMTTRN);
-            t.NAME = getTransactionField("NAME", STMTTRN);
-            t.TRNTYPE = getTransactionField("TRNTYPE", STMTTRN);
-            t.TRNAMT = Decimal.Parse(getTransactionField("TRNAMT", STMTTRN));
+            t.FITID = getUnclosedOFXField("FITID", STMTTRN);
+            t.NAME = getUnclosedOFXField("NAME", STMTTRN);
+            t.TRNTYPE = getUnclosedOFXField("TRNTYPE", STMTTRN);
+            t.TRNAMT = Decimal.Parse(getUnclosedOFXField("TRNAMT", STMTTRN)) * (t.TRNTYPE=="DEBIT"?-1:1);
             return t;
         }
-        private string getTransactionField(string fieldName, string STMTTRN)
+        private string getUnclosedOFXField(string fieldName, string ofxSection)
         {
-            return Regex.Match(STMTTRN, string.Format("<{0}>(.|\r\n)*?<", fieldName))
+            return Regex.Match(ofxSection, string.Format("<{0}>(.|\r\n)*?<", fieldName))
                                 .Value
                                 .Trim()
                                 .TrimEnd('<')

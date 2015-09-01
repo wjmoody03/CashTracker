@@ -54,4 +54,13 @@ function accountDetailsCtrl(accountsService,$routeParams,$location) {
         });
         $location.path("/Accounts");
     };
+
+    details.downloadTransactions = function () {
+        details.downloadingTransactions = true;
+        $http.post("/Utility/DownloadNewTransactions", { params: { AccountID: details.account.AccountID } })
+            .success(function (result) {
+                details.downloadResult = result;
+                details.downloadingTransactions = false;
+            })
+    };
 }

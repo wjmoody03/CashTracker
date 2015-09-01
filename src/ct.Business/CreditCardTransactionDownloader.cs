@@ -24,18 +24,22 @@ namespace ct.Business
         public AccountDownloadResult GetAllTransactions()
         {
             var adr = new AccountDownloadResult();
-            var downloadStartDate = account.LastDownload == null ? new DateTime(1970, 1, 1) : ((DateTime)account.LastDownload).AddDays(-14);
+            adr.AccountID = account.AccountID;
+            adr.StartTime = DateTime.Now;
+            var downloadStartDate = account.LastImport == null ? new DateTime(1970, 1, 1) : ((DateTime)account.LastImport).AddDays(-14);
             var ofx = CreditCardTransactionRequest.GetOFX(account.OFXUrl,
                     UserName: Encryptor.Decrypt(account.EncryptedUserName),
                     Password: Encryptor.Decrypt(account.EncryptedPassword),
                     AccountNumber: Encryptor.Decrypt(account.EncryptedAccountNumber),
                     StartDate: downloadStartDate);
 
-            var parser = new ChaseParser(ofx).GetTransactions();
-            adr.TotalTranasctionsDownloaded = parser.Count();
+            var parser = new ChaseParser(ofx);
+            var downloadedTransactions = parser.GetTransactions();
+            adr.TotalTranasctionsDownloaded = downloadedTransactions.Count();
+            adr.AccountBalance = parser.GetOutstandingBalance();
 
-            var transactions = (from p in parser
-                               select new Transaction()
+            adr.NewTransactions = (from p in downloadedTransactions
+                                   select new Transaction()
                                {
                                    AccountID = account.AccountID,
                                    Amount = p.TRNAMT,
@@ -45,9 +49,12 @@ namespace ct.Business
                                    TransactionTypeID = TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME)
                                }).ToList();
 
-            var allTrans = transactionRepo.GetAll().Where(t => t.TransactionDate >= downloadStartDate);
+            var earliestTransactionDownloaded = adr.NewTransactions.Min(t => t.TransactionDate);
+            var allTrans = transactionRepo.GetAll().Where(t => t.TransactionDate >= earliestTransactionDownloaded);
             TransactionUniquenessDetector.RemoveExistingTransactionsAndApplyFlagsToPossibleDupes(allTrans, ref adr);
             CategoryGuesser.ApplyCategories(transactionRepo.CategoryGuesses(), ref adr);
+            adr.NetNewTransactions = adr.NewTransactions.Count;
+            adr.EndTime = DateTime.Now;
             return adr;
             
         }

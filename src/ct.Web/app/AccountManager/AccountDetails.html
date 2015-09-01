@@ -26,6 +26,32 @@
         </span>
     </div>
 
+    <div class="form-group">
+        <label for="Starting Balance">Stated Balance At Institution</label>
+        <input class="form-control" type="number" ng-model="details.account.StatedBalanceAtInstution" placeholder="Starting Balance">
+        <span class="help-block">
+            *The balance according to your bank, as of right now. This is used only for reconciliation. Updated automatically with most imports/downloads.
+        </span>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="Starting Balance">Last Import</label>
+            <input class="form-control" type="number" ng-model="details.account.LastImport" placeholder="Starting Balance">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <button class="btn btn-info" ng-hide="details.downloadingTransactions" ng-click="details.downloadTransactions()">Download now</button>
+            <i class="fa fa-spin fa-refresh" ng-show="details.downloadingTransactions"></i>
+        </div>
+    </div>
+    <div class="form-group" ng-show="details.downloadResult">
+        <span class="text-info">{{details.downloadResult.NetNewTransactions}} transactions downloaded.</span>
+        <span class="text-info">{{details.downloadResult.TransactionsFlaggedAsPossibleDuplicates}} were flagged for follow up because
+        they were possible duplicates.</span>
+    </div>
+
     <hr/>
     <h1>Auto Download Information</h1>
     <small><em>*You can leave this blank if you don't want the system to automatically download your transactions.</em></small>
