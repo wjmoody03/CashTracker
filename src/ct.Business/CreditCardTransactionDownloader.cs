@@ -21,14 +21,18 @@ namespace ct.Business
             transactionRepo = TransactionRepo;
         }
 
-        public IEnumerable<ct.Domain.Models.Transaction> GetAllTransactions()
+        public AccountDownloadResult GetAllTransactions()
         {
+            var adr = new AccountDownloadResult();
+            var downloadStartDate = account.LastDownload == null ? new DateTime(1970, 1, 1) : ((DateTime)account.LastDownload).AddDays(-14);
             var ofx = CreditCardTransactionRequest.GetOFX(account.OFXUrl,
                     UserName: Encryptor.Decrypt(account.EncryptedUserName),
                     Password: Encryptor.Decrypt(account.EncryptedPassword),
-                    AccountNumber: Encryptor.Decrypt(account.EncryptedAccountNumber));
+                    AccountNumber: Encryptor.Decrypt(account.EncryptedAccountNumber),
+                    StartDate: downloadStartDate);
 
             var parser = new ChaseParser(ofx).GetTransactions();
+            adr.TotalTranasctionsDownloaded = parser.Count();
 
             var transactions = (from p in parser
                                select new Transaction()
@@ -41,9 +45,10 @@ namespace ct.Business
                                    TransactionTypeID = TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME)
                                }).ToList();
 
-            CategoryGuesser.ApplyCategories(transactionRepo.CategoryGuesses(), ref transactions);
-            TransactionUniquenessDetector.RemoveExistingTransactionsAndApplyFlagsToPossibleDupes(transactionRepo.GetAll(), ref transactions);
-            return transactions;
+            var allTrans = transactionRepo.GetAll().Where(t => t.TransactionDate >= downloadStartDate);
+            TransactionUniquenessDetector.RemoveExistingTransactionsAndApplyFlagsToPossibleDupes(allTrans, ref adr);
+            CategoryGuesser.ApplyCategories(transactionRepo.CategoryGuesses(), ref adr);
+            return adr;
             
         }
 

@@ -17,6 +17,7 @@ namespace ct.Domain.Models
         [Column("Account")]
         public string AccountName { get; set; }
         public decimal StartingBalance { get; set; }
+        public DateTime? LastDownload { get; set; }
 
         public string EncryptedAccountNumber { get; set; }
         public string EncryptedUserName { get; set; }

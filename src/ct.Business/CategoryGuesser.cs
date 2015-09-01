@@ -10,12 +10,16 @@ namespace ct.Business
 {
     public static class CategoryGuesser
     {
-        public static void ApplyCategories(IEnumerable<CategoryGuess> guesses, ref List<Transaction> transactions)
+        public static void ApplyCategories(IEnumerable<CategoryGuess> guesses, ref AccountDownloadResult adr)
         {
             var gLookup = guesses.ToLookup(g => g.Description, g => g.Category);
-            foreach(var t in transactions)
+            foreach(var t in adr.NewTransactions)
             {
                 t.Category = gLookup[t.Description].FirstOrDefault();
+                if(t.Category== null)
+                {
+                    adr.TransactionsWithUnknownCategories++;
+                }
             }
         }
     }
