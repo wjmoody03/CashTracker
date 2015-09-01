@@ -92,7 +92,9 @@
     <Compile Include="Repositories\AccountRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\AccountBalanceHistory.sql" />
+    <EmbeddedResource Include="sql\AccountBalanceHistory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -104,19 +106,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\FutureIncomeHistory.sql" />
+    <EmbeddedResource Include="sql\FutureIncomeHistory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\FlaggedAmountHistory.sql" />
+    <EmbeddedResource Include="sql\FlaggedAmountHistory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\ReimbursableAmountHistory.sql" />
+    <EmbeddedResource Include="sql\ReimbursableAmountHistory.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\CategoryVsBudget.sql" />
+    <EmbeddedResource Include="sql\CategoryVsBudget.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="sql\TopCategoryPerTransaction.sql" />
+    <EmbeddedResource Include="sql\TopCategoryPerTransaction.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
