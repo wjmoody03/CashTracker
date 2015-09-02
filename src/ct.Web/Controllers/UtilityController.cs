@@ -15,11 +15,13 @@ namespace ct.Web.Controllers
     {
         IAccountRepository acctRepo;
         ITransactionRepository transRepo;
+        IAccountDownloadResultRepository downloadRepo;
 
-        public UtilityController(IAccountRepository AccountRepo, ITransactionRepository TransactionRepo)
+        public UtilityController(IAccountRepository AccountRepo, ITransactionRepository TransactionRepo, IAccountDownloadResultRepository DownloadRepo)
         {
             acctRepo = AccountRepo;
             transRepo = TransactionRepo;
+            downloadRepo = DownloadRepo;
         }
         // GET: Utility
         [HttpPost]
@@ -35,6 +37,8 @@ namespace ct.Web.Controllers
             acctRepo.Save();
             transRepo.AddRange(adr.NewTransactions);
             transRepo.Save();
+            downloadRepo.Add(adr);
+            downloadRepo.Save();
             return JsonConvert.SerializeObject(adr);
         }
 

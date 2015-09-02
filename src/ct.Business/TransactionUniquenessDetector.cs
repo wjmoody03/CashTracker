@@ -14,7 +14,7 @@ namespace ct.Business
 
             //source identifier already exists in the DB. must be a dupe
             var existingSourceIdentifiers = AllExistingTransactions.Where(t=>t.SourceTransactionIdentifier!= null).ToDictionary(t => t.SourceTransactionIdentifier);
-            adr.TransactionsExcludedBecauseTheAlreadyExisted = adr.NewTransactions.RemoveAll(tNew => existingSourceIdentifiers.ContainsKey(tNew.SourceTransactionIdentifier));
+            adr.TransactionsExcludedBecauseTheyAlreadyExisted = adr.NewTransactions.RemoveAll(tNew => existingSourceIdentifiers.ContainsKey(tNew.SourceTransactionIdentifier));
 
             var existingTransactionKeys = AllExistingTransactions.ToLookup(t => transactionKey(t));
             foreach (var t in adr.NewTransactions)

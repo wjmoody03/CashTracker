@@ -35,7 +35,7 @@ namespace ct.Business
 
             var parser = new ChaseParser(ofx);
             var downloadedTransactions = parser.GetTransactions();
-            adr.TotalTranasctionsDownloaded = downloadedTransactions.Count();
+            adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
             adr.AccountBalance = parser.GetOutstandingBalance();
 
             adr.NewTransactions = (from p in downloadedTransactions

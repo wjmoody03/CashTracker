@@ -63,6 +63,7 @@ namespace ct.Web
             builder.RegisterType<TransactionTypeRepository>().As<ITransactionTypeRepository>();
             builder.RegisterType<AccountBalanceRepository>().As<IAccountBalanceRepository>();
             builder.RegisterType<BudgetRepository>().As<IBudgetRepository>();
+            builder.RegisterType<AccountDownloadResultRepository>().As<IAccountDownloadResultRepository>();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

@@ -18,6 +18,7 @@ namespace ct.AutoDownloader
         private static IctContext cxt;
         private static IAccountRepository acctRepo;
         private static ITransactionRepository transRepo;
+        private static IAccountDownloadResultRepository downloadRepository;
 
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
@@ -26,6 +27,7 @@ namespace ct.AutoDownloader
             cxt = new ctContext(CashTrackerConfigurationManager.AzureSQLConnectionString);
             acctRepo = new AccountRepository(cxt);
             transRepo = new TransactionRepository(cxt);
+            downloadRepository = new AccountDownloadResultRepository(cxt);
             var acct = acctRepo.FindBy(a => a.AccountID == 24).FirstOrDefault(); //chase account
             var ccd = new CreditCardTransactionDownloader(acct, transRepo);
             var adr = ccd.GetAllTransactions();
@@ -35,6 +37,8 @@ namespace ct.AutoDownloader
             acctRepo.Save();
             transRepo.AddRange(adr.NewTransactions);
             transRepo.Save();
+            downloadRepository.Add(adr);
+            downloadRepository.Save();
         }
     }
 }
