@@ -1,7 +1,7 @@
 ﻿(
     function () {
-        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping", 
-                                            'ui.grid.saveState', 'ui.grid.selection','ui.bootstrap','ngAnimate'])
+        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping",
+                                            'ui.grid.saveState', 'ui.grid.selection', 'ui.bootstrap', 'ngAnimate'])
 
         app.filter('escape', function () {
             return window.encodeURIComponent;
@@ -20,10 +20,10 @@
                 controllerAs: 'explorer'
             })
             .when('/Accounts/:id', {
-                 templateUrl: '/app/AccountManager/AccountDetails.html',
-                 controller: 'accountDetailsCtrl',
-                 controllerAs: 'details'
-             })
+                templateUrl: '/app/AccountManager/AccountDetails.html',
+                controller: 'accountDetailsCtrl',
+                controllerAs: 'details'
+            })
             .when('/Accounts', {
                 templateUrl: '/app/AccountManager/Accounts.html',
                 controller: 'accountsCtrl',
@@ -34,8 +34,13 @@
                 controller: 'scrubberCtrl',
                 controllerAs: 'scrubber'
             })
+            .when('/Analysis', {
+                templateUrl: '/app/Analysis/Analysis.html',
+                controller: 'analysisCtrl',
+                controllerAs: 'analysis'
+            })
             .otherwise({
-                templateUrl: '/app/Dashboard/Dashboard.html', 
+                templateUrl: '/app/Dashboard/Dashboard.html',
                 controller: 'dashboardCtrl',
                 controllerAs: 'dashboard'
             })

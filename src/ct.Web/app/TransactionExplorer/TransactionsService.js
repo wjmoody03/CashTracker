@@ -29,7 +29,7 @@
                 svc.query();
             }
 
-            $http.get("/api/Account")
+            $http.get("/api/Accounts")
                 .success(function (data) {
                     svc.accounts = data;
                 });

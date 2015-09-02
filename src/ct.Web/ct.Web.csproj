@@ -220,6 +220,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnalysisController.cs" />
     <Compile Include="Controllers\API\CategoryController.cs" />
     <Compile Include="Controllers\API\AccountController.cs" />
     <Compile Include="Controllers\API\TransactionsController.cs" />
@@ -247,6 +248,8 @@
     <Content Include="app\AccountManager\Accounts.html" />
     <Content Include="app\AccountManager\Accounts.js" />
     <Content Include="app\AccountManager\AccountsService.js" />
+    <Content Include="app\Analysis\Analysis.html" />
+    <Content Include="app\Analysis\Analysis.js" />
     <Content Include="app\Title\TitleService.js" />
     <Content Include="app\Dashboard\Dashboard.js" />
     <Content Include="app\Title\Title.js" />
@@ -319,6 +322,9 @@
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\highcharts-3d.js" />
+    <Content Include="Scripts\highcharts-more.js" />
+    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-et.js" />
@@ -1121,6 +1127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Analysis\" />
     <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\Utility\" />
   </ItemGroup>
