@@ -20,7 +20,7 @@ namespace ct.Business.OFX.Request
                 StartDate = new DateTime(1970, 1, 1);
             }
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://ofx.chase.com/");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BankURL);
             request.ContentType = "application/x-ofx";
             request.UserAgent = "OFX Tool";
             request.Headers.Set(HttpRequestHeader.CacheControl, "no-cache");

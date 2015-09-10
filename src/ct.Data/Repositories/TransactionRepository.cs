@@ -13,6 +13,7 @@ namespace ct.Data.Repositories
     {
         IQueryable<Transaction> TransactionsNeedingAttention();
         IEnumerable<string> ProbableCategories();
+        IEnumerable<string> ProbableReimbursableSources();
         IEnumerable<CategoryVsBudget> CategoryExpensesVsBudget(int month, int year);
         IEnumerable<CategoryGuess> CategoryGuesses();
         IEnumerable<AccountReconStatus> UnreconciledAmounts();
@@ -56,6 +57,17 @@ namespace ct.Data.Repositories
                         .Distinct();
 
             return allCategories;
+        }
+
+        public IEnumerable<string> ProbableReimbursableSources()
+        {
+            var allSources = base.GetAll()
+                        .Where(t => t.ReimbursableSource != null && t.ReimbursableSource.Trim() != "")
+                        .Select(t => t.ReimbursableSource)
+                        .Distinct()
+                        .OrderBy(t => t);
+            return allSources;
+                        
         }
 
         public IQueryable<Transaction> TransactionsNeedingAttention()

@@ -34,6 +34,24 @@ namespace ct.Web.Controllers
                 throw new Exception("Transaction not found");
             }
         }
+
+        [HttpPost]
+        public void SetReimbursableSource(string ReimbursableSource, int TransactionID, string Notes)
+        {
+            var trans = transactionRepo.FindBy(t => t.ID == TransactionID).FirstOrDefault();
+            if (trans != null)
+            {
+                trans.ReimbursableSource = ReimbursableSource;
+                trans.Notes = Notes;
+                transactionRepo.Edit(trans);
+                transactionRepo.Save();
+            }
+            else
+            {
+                throw new Exception("Transaction not found");
+            }
+        }
+
         [HttpPost]
         public void FlagForFollowUp(int TransactionID, string Notes)
         {
@@ -77,6 +95,11 @@ namespace ct.Web.Controllers
         public string ProbableCategories()
         {
             var cat = transactionRepo.ProbableCategories();
+            return JsonConvert.SerializeObject(cat);
+        }
+        public string ProbableReimbursableSources()
+        {
+            var cat = transactionRepo.ProbableReimbursableSources();
             return JsonConvert.SerializeObject(cat);
         }
     }

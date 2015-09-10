@@ -16,21 +16,43 @@
         <div class="btn-group" style="margin-top:10px;">
             <button type="button" class="btn btn-xs btn-info" ng-click="scrubber.skip()" ng-disabled="fixing"><i class="fa fa-step-forward"></i>  Skip For Now</button>
             <button type="button" class="btn btn-xs btn-danger" ng-click="scrubber.flag()" ng-disabled="fixing"><i class="fa fa-flag"></i> Flag for follow-up</button>
+            <button type="button" class="btn btn-xs btn-warning" ng-click="scrubber.showReimbursable=!scrubber.showReimbursable" ng-disabled="fixing">
+                <i class="fa fa-square-o" ng-hide="scrubber.showReimbursable"></i> 
+                <i class="fa fa-check-square-o" ng-show="scrubber.showReimbursable"></i> 
+                Reimbursable
+            </button>
         </div>
         <div class="text-muted">
             <em>{{scrubber.transactions.length}} remaining</em>
         </div>
+        <div class="text-muted">
+            <small ng-show="scrubber.showReimbursable"> *You'll be prompted for a reimbursable source after selecting a category</small>
+        </div>
     </div>
 
-    <div id="categories">
+    <div id="categories" ng-hide="scrubber.showingReimbursable">
         <span ng-repeat="c in scrubber.categories">
             <button class="btn btn-block btn-lg btn-primary" ng-click="scrubber.setCategory(c)" ng-disabled="fixing">
                 {{c}}
             </button>
         </span>
-        <form ng-submit="setCategory(scrubber.currentTransaction.customCategory)">
+        <form ng-submit="scrubber.setCategory(scrubber.currentTransaction.customCategory)">
             <div class="col-xs-10">
                 <input type="text" class="form-control" ng-model="scrubber.currentTransaction.customCategory" placeholder="Custom Category">
+            </div>
+            <button type="submit" class="btn btn-info  col-xs-2">Save</button>
+        </form>
+    </div>
+
+    <div id="rSources" ng-show="scrubber.showingReimbursable">
+        <span ng-repeat="r in scrubber.reimbursableSources">
+            <button class="btn btn-block btn-lg btn-warning" ng-click="scrubber.setReimbursableSource(r)" ng-disabled="fixing">
+                {{r}}
+            </button>
+        </span>
+        <form ng-submit="scrubber.setReimbursableSource(scrubber.currentTransaction.customReimbursableSource)">
+            <div class="col-xs-10">
+                <input type="text" class="form-control" ng-model="scrubber.currentTransaction.customReimbursableSource" placeholder="Custom Reimbursable Source">
             </div>
             <button type="submit" class="btn btn-info  col-xs-2">Save</button>
         </form>
@@ -41,7 +63,11 @@
     <hr />
     <h4>Log...</h4>
     <div ng-repeat="h in scrubber.history">
-        {{h.Description}} : <strong>{{h.Amount | currency}}</strong> on <strong>{{h.TransactionDate | date:'EEE, MMM dd, yyyy'}}</strong> =>
+        {{h.Description}} : 
+        <strong>
+            {{h.Amount | currency}}</strong> on <strong>{{h.TransactionDate | date:'EEE, MMM dd, yyyy'}}
+            <span ng-show="h.ReimbursableSource" class="text-warning">({{h.ReimbursableSource}})</span>
+        </strong> =>
         <span ng-show="h.Category" class="text-success"> {{h.Category}} <a ng-click="scrubber.undoCategory(h)" style="cursor:pointer;">Undo</a></span>
         <span ng-show="h.FlagForFollowUp" class="text-danger"> Flagged <a ng-click="scrubber.undoFlag(h)" style="cursor:pointer;">Undo</a></span>
         <span ng-hide="h.FlagForFollowUp || h.Category"> <a ng-click="scrubber.unSkip(h)" style="cursor:pointer;">Unskip</a></span>
