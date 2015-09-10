@@ -29,7 +29,7 @@ namespace ct.Web.Controllers
         public string DownloadNewTransactions(int AccountID)
         {
             var acct = acctRepo.FindBy(a => a.AccountID == AccountID).FirstOrDefault();
-            var ccd = new CreditCardTransactionDownloader(acct, transRepo);
+            var ccd = new TransactionDownloader(acct, transRepo);
             var adr = ccd.GetAllTransactions();
             acct.LastImport = DateTime.Now;
             acct.StatedBalanceAtInstitution = adr.AccountBalance;

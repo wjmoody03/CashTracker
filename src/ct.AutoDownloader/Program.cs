@@ -29,7 +29,7 @@ namespace ct.AutoDownloader
             transRepo = new TransactionRepository(cxt);
             downloadRepository = new AccountDownloadResultRepository(cxt);
             var acct = acctRepo.FindBy(a => a.AccountID == 24).FirstOrDefault(); //chase account
-            var ccd = new CreditCardTransactionDownloader(acct, transRepo);
+            var ccd = new TransactionDownloader(acct, transRepo);
             var adr = ccd.GetAllTransactions();
             acct.LastImport = DateTime.Now;
             acct.StatedBalanceAtInstitution = adr.AccountBalance;

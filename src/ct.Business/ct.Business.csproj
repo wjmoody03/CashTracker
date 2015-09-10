@@ -51,9 +51,9 @@
   <ItemGroup>
     <Compile Include="BalanceCalculator.cs" />
     <Compile Include="CategoryGuesser.cs" />
-    <Compile Include="CreditCardTransactionDownloader.cs" />
+    <Compile Include="TransactionDownloader.cs" />
     <Compile Include="Encryptor.cs" />
-    <Compile Include="OFX\Parsers\ChaseParser.cs" />
+    <Compile Include="OFX\Parsers\OFXParser.cs" />
     <Compile Include="OFX\Models\Transaction.cs" />
     <Compile Include="OFX\Request\CreditCardTransactionRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
