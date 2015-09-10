@@ -64,18 +64,26 @@ namespace ct.Business.OFX.Parsers
             t.FITID = getUnclosedOFXField("FITID", STMTTRN);
             t.NAME = getUnclosedOFXField("NAME", STMTTRN);
             t.TRNTYPE = getUnclosedOFXField("TRNTYPE", STMTTRN);
+            t.MEMO = getUnclosedOFXField("MEMO", STMTTRN);
             t.TRNAMT = Decimal.Parse((Decimal.Parse(getUnclosedOFXField("TRNAMT", STMTTRN)) * (t.TRNTYPE == "DEBIT" ? -1 : 1)).ToString("#.00"));
             return t;
         }
         private string getUnclosedOFXField(string fieldName, string ofxSection)
         {
-            return Regex.Match(ofxSection, string.Format("<{0}>(.|\r\n)*?<", fieldName))
-                                .Value
-                                .Trim()
-                                .TrimEnd('<')
-                                .Replace(string.Format("<{0}>", fieldName),"")
-                                .Replace("\r\n","")
-                                .Replace("\t","");
+            var mtch = Regex.Match(ofxSection, string.Format("<{0}>(.|\r\n)*?<", fieldName));
+            if (mtch.Success == false)
+            {
+                return string.Empty;
+            }
+            else {
+                    return mtch 
+                            .Value
+                            .Trim()
+                            .TrimEnd('<')
+                            .Replace(string.Format("<{0}>", fieldName), "")
+                            .Replace("\r\n", "")
+                            .Replace("\t", "");
+            }
         }
     }
 }

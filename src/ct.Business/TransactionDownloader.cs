@@ -46,6 +46,7 @@ namespace ct.Business
                                    Description = p.NAME,
                                    SourceTransactionIdentifier = p.FITID,
                                    TransactionDate = p.DTPOSTED,
+                                   Notes = p.MEMO,
                                    TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, (AccountType)Enum.Parse(typeof(AccountType),account.AccountType,true))
                                }).ToList();
 
@@ -61,7 +62,7 @@ namespace ct.Business
 
         public static int TransactionTypeIDFromTypeAndDescription(string tranType, string description, AccountType accountType)
         {
-            if (accountType == AccountType.CreditCard)
+            if (accountType == AccountType.Credit)
             {
                 if (tranType == "DEBIT")
                     return (int)TransactionTypes.CreditCardExpense;
@@ -73,7 +74,7 @@ namespace ct.Business
                     return (int)TransactionTypes.CreditReturn;
             }
 
-            if (accountType == AccountType.CheckingAccount)
+            if (accountType == AccountType.Checking)
             {
                 if (tranType == "DEBIT" || tranType == "CHECK")
                     return (int)TransactionTypes.CheckingExpense;

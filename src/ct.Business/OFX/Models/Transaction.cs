@@ -21,6 +21,7 @@ namespace ct.Business.OFX.Models
         public decimal TRNAMT { get; set; }
         public DateTime DTPOSTED { get; set; }
         public string NAME { get; set; }
+        public string MEMO { get; set; }
     }
 
 }

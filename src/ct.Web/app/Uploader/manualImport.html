@@ -1,0 +1,26 @@
+﻿<div class="jumbotron" style="text-align:center;">
+    <h1>Upload Transactions</h1>
+
+    <p>
+        <div class="row text-muted">
+            <em>Download OFX or QFX files from your bank, and upload that file here</em>
+        </div>
+    </p>
+
+    <div class="form-group">
+        <input type="file" class="center-block" ng-file-select="onFileSelect($files)">
+    </div>
+    <p><button ng-disabled="uploading" ng-click="go()" class="btn btn-primary btn-large">
+        Go &raquo;
+        <i class="fa fa-refresh fa-spin" ng-show="uploading"></i>
+    </button></p>
+
+    <div ng-show="result">
+        <span class="text-info">{{result.adr.NetNewTransactions}} transactions downloaded.</span>
+        <span class="text-info">
+            {{result.adr.TransactionsFlaggedAsPossibleDuplicates}} were flagged for follow up because
+            they were possible duplicates.
+        </span>
+    </div>
+</div>
+

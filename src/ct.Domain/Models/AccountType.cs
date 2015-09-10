@@ -8,7 +8,7 @@ namespace ct.Domain.Models
 {
     public enum AccountType
     {
-        CheckingAccount,
-        CreditCard
+        Checking,
+        Credit
     }
 }

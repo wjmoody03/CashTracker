@@ -74,9 +74,9 @@ namespace ct.Web.Controllers.API
             //encrypt the sensitive data: 
             if (UpdateSensitive)
             {
-                Account.EncryptedUserName = Encryptor.Encrypt(Account.EncryptedUserName);
-                Account.EncryptedPassword = Encryptor.Encrypt(Account.EncryptedPassword);
-                Account.EncryptedAccountNumber = Encryptor.Encrypt(Account.EncryptedAccountNumber);
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedUserName)) { Account.EncryptedUserName = Encryptor.Encrypt(Account.EncryptedUserName); }
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedPassword)) { Account.EncryptedPassword = Encryptor.Encrypt(Account.EncryptedPassword); }
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedAccountNumber)) { Account.EncryptedAccountNumber = Encryptor.Encrypt(Account.EncryptedAccountNumber); }
             }
             else
             {
@@ -119,10 +119,9 @@ namespace ct.Web.Controllers.API
             if (UpdateSensitive)
             {
                 //encrypt the sensitive data: 
-                Account.EncryptedUserName = Encryptor.Encrypt(Account.EncryptedUserName);
-                Account.EncryptedPassword = Encryptor.Encrypt(Account.EncryptedPassword);
-                Account.EncryptedAccountNumber = Encryptor.Encrypt(Account.EncryptedAccountNumber);
-
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedUserName)) { Account.EncryptedUserName = Encryptor.Encrypt(Account.EncryptedUserName); }
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedPassword)) { Account.EncryptedPassword = Encryptor.Encrypt(Account.EncryptedPassword); }
+                if (!string.IsNullOrWhiteSpace(Account.EncryptedAccountNumber)) { Account.EncryptedAccountNumber = Encryptor.Encrypt(Account.EncryptedAccountNumber); }
             }
 
             acctRepo.Add(Account);

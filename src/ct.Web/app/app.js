@@ -1,7 +1,7 @@
 ﻿(
     function () {
         var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping",
-                                            'ui.grid.saveState', 'ui.grid.selection', 'ui.bootstrap', 'ngAnimate'])
+                                            'ui.grid.saveState', 'ui.grid.selection', 'ui.bootstrap', 'ngAnimate','angularFileUpload'])
 
         app.filter('escape', function () {
             return window.encodeURIComponent;
@@ -38,6 +38,10 @@
                 templateUrl: '/app/Analysis/Analysis.html',
                 controller: 'analysisCtrl',
                 controllerAs: 'analysis'
+            })
+            .when('/Upload', {
+                templateUrl: '/app/Uploader/manualImport.html',
+                controller: 'manualImportCtrl'
             })
             .otherwise({
                 templateUrl: '/app/Dashboard/Dashboard.html',

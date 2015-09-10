@@ -45,7 +45,7 @@ namespace ct.Web.Controllers.API
             var ofx = File.ReadAllText(result.FileData.First().LocalFileName);
             var parser = new OFXParser(ofx);
             var acctID = parser.GetAccountID();
-            var acct = acctRepo.GetAll().ToList().Where(a => Encryptor.Decrypt(a.EncryptedAccountNumber)==acctID).FirstOrDefault();
+            var acct = acctRepo.GetAll().ToList().Where(a => string.IsNullOrWhiteSpace(a.EncryptedAccountNumber)?false: Encryptor.Decrypt(a.EncryptedAccountNumber)==acctID).FirstOrDefault();
             if (acct == null)
                 throw new Exception("Account number cannot be found in OFX or account number does not exist in your setup.");
 
@@ -65,6 +65,7 @@ namespace ct.Web.Controllers.API
                                        Description = p.NAME,
                                        SourceTransactionIdentifier = p.FITID,
                                        TransactionDate = p.DTPOSTED,
+                                       Notes = p.MEMO,
                                        TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, (AccountType)Enum.Parse(typeof(AccountType), acct.AccountType, true))
                                    }).ToList();
 
