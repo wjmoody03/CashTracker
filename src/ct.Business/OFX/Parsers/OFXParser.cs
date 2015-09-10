@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ct.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace ct.Business.OFX.Parsers
             return acctid;
         }
 
-        public decimal GetOutstandingBalance()
+        public decimal GetOutstandingBalance(AccountType accountType)
         {
             //< LEDGERBAL >
             //< BALAMT > -10151.05
@@ -33,7 +34,11 @@ namespace ct.Business.OFX.Parsers
             //</ LEDGERBAL >
             var rx = new Regex("<LEDGERBAL>(.|\r\n)*?<\\/LEDGERBAL>");
             var match = rx.Match(ofx);
-            var bal = decimal.Parse(getUnclosedOFXField("BALAMT", match.Value)) * -1;
+            var bal = decimal.Parse(getUnclosedOFXField("BALAMT", match.Value));
+            if (accountType == AccountType.Credit)
+            {
+                bal = bal * -1;
+            }
             return bal;
         }
 

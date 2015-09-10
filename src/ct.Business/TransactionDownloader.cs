@@ -36,8 +36,8 @@ namespace ct.Business
             var parser = new OFXParser(ofx);
             var downloadedTransactions = parser.GetTransactions();
             adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
-            adr.AccountBalance = parser.GetOutstandingBalance();
-
+            var acctType = (AccountType)Enum.Parse(typeof(AccountType), account.AccountType, true);
+            adr.AccountBalance = parser.GetOutstandingBalance(acctType);            
             adr.NewTransactions = (from p in downloadedTransactions
                                    select new Transaction()
                                {
@@ -47,7 +47,7 @@ namespace ct.Business
                                    SourceTransactionIdentifier = p.FITID,
                                    TransactionDate = p.DTPOSTED,
                                    Notes = p.MEMO,
-                                   TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, (AccountType)Enum.Parse(typeof(AccountType),account.AccountType,true))
+                                   TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, acctType)
                                }).ToList();
 
             var earliestTransactionDownloaded = adr.NewTransactions.Min(t => t.TransactionDate);

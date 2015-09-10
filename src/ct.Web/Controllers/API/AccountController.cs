@@ -80,7 +80,7 @@ namespace ct.Web.Controllers.API
             }
             else
             {
-                Account existing = await acctRepo.FindAsync(id);
+                Account existing = acctRepo.FindByNoTracking(a => a.AccountID == id).First();
                 Account.EncryptedAccountNumber = existing.EncryptedAccountNumber;
                 Account.EncryptedPassword = existing.EncryptedPassword;
                 Account.EncryptedUserName = existing.EncryptedUserName;

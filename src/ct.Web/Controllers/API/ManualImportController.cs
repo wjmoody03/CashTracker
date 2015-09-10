@@ -49,13 +49,14 @@ namespace ct.Web.Controllers.API
             if (acct == null)
                 throw new Exception("Account number cannot be found in OFX or account number does not exist in your setup.");
 
+            var acctType = (AccountType)Enum.Parse(typeof(AccountType), acct.AccountType, true);
             var adr = new AccountDownloadResult();
             adr.AccountID = acct.AccountID;
             adr.StartTime = DateTime.Now;
 
             var downloadedTransactions = parser.GetTransactions();
             adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
-            adr.AccountBalance = parser.GetOutstandingBalance();
+            adr.AccountBalance = parser.GetOutstandingBalance(acctType);
 
             adr.NewTransactions = (from p in downloadedTransactions
                                    select new Transaction()
@@ -66,7 +67,7 @@ namespace ct.Web.Controllers.API
                                        SourceTransactionIdentifier = p.FITID,
                                        TransactionDate = p.DTPOSTED,
                                        Notes = p.MEMO,
-                                       TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, (AccountType)Enum.Parse(typeof(AccountType), acct.AccountType, true))
+                                       TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, acctType)
                                    }).ToList();
 
             var earliestTransactionDownloaded = adr.NewTransactions.Min(t => t.TransactionDate);

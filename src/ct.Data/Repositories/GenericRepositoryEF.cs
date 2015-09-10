@@ -16,6 +16,7 @@ namespace ct.Data.Repositories
         IQueryable<T> GetAll();
         IQueryable<T> GetAllEagerly(params string[] includes);
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
+        IQueryable<T> FindByNoTracking(Expression<Func<T, bool>> predicate);
         Task<T> FindAsync(params object[] keyValues);
         void Add(T entity);
         void AddRange(IEnumerable<T> entities);
@@ -58,6 +59,11 @@ namespace ct.Data.Repositories
         public IQueryable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = _context.Set<T>().Where(predicate);
+            return query;
+        }
+        public IQueryable<T> FindByNoTracking(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = _context.Set<T>().AsNoTracking().Where(predicate);
             return query;
         }
         public async Task<T> FindAsync(params object[] keyValues)
