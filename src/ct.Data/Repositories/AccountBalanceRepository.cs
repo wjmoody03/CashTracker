@@ -12,6 +12,7 @@ namespace ct.Data.Repositories
     public interface IAccountBalanceRepository:IGenericRepositoryEF<AccountBalance>
     {
         List<BalanceHistory> BalanceHistory(DateTime StartDate, DateTime EndDate, AccountType? AccountType = null);
+        List<IncomeVsExpense> IncomeVsExpenseHistory(DateTime StartDate, DateTime EndDate);
         IEnumerable<BalanceSnapshot> BalanceSnapshot(DateTime StartDate, DateTime EndDate);
     }
 
@@ -40,6 +41,7 @@ namespace ct.Data.Repositories
                 spAcctType.Value = (int)AccountType;
             }
 
+            Context.Database.CommandTimeout = 0;
             var balances = Context.Database.SqlQuery<BalanceHistory>(sql,spStart,spEnd,spAcctType).ToList();
             return balances;
         }
@@ -118,6 +120,15 @@ namespace ct.Data.Repositories
         private string DateKey(DateTime StartDate, DateTime EndDate)
         {
             return StartDate.ToShortDateString() + EndDate.ToShortDateString();
+        }
+
+        public List<IncomeVsExpense> IncomeVsExpenseHistory(DateTime StartDate, DateTime EndDate)
+        {
+            var sql = EmbeddedSQL.SQL("IncomeVsExpenseHistory");
+            var spStart = new SqlParameter("@StartDate", StartDate);
+            var spEnd = new SqlParameter("@EndDate", EndDate);           
+            var hist = Context.Database.SqlQuery<IncomeVsExpense>(sql, spStart, spEnd).ToList();
+            return hist;
         }
 
         class trackingBalance
