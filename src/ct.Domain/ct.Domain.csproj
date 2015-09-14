@@ -89,6 +89,7 @@
     <Compile Include="Models\BalanceSnapshot.cs" />
     <Compile Include="Models\BudgetCategory.cs" />
     <Compile Include="Models\CategoryGuesses.cs" />
+    <Compile Include="Models\CategoryHistory.cs" />
     <Compile Include="Models\CategoryVsBudget.cs" />
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\IncomeVsExpense.cs" />

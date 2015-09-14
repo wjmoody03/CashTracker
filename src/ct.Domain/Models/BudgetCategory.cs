@@ -11,7 +11,7 @@ namespace ct.Domain.Models
     [Table("Budget")]
     public class BudgetCategory
     {
-        [Key]
+        [Key][Column("ID")]
         public int BudgetCategoryID { get; set; }
         public string Category { get; set; }
         public bool VariableExpense { get; set; }

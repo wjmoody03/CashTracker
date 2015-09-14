@@ -11,10 +11,12 @@ namespace ct.Web.Controllers
     public class AnalysisController : Controller
     {
         IAccountBalanceRepository acctBalanceRepo;
+        IBudgetRepository budgetRepo;
 
-        public AnalysisController(IAccountBalanceRepository AccountBalanceRepo)
+        public AnalysisController(IAccountBalanceRepository AccountBalanceRepo, IBudgetRepository BudgetRepo)
         {
             acctBalanceRepo = AccountBalanceRepo;
+            budgetRepo = BudgetRepo;
         }
 
         // GET: Analysis
@@ -64,5 +66,43 @@ namespace ct.Web.Controllers
 
             return JsonConvert.SerializeObject(hc);
         }
+
+        public string CategoryHistory(DateTime StartDate, DateTime EndDate)
+        {
+            var budget = budgetRepo.GetAll().ToDictionary(b => b.Category.ToLower());
+            var catHist = acctBalanceRepo.CategoryHistory(StartDate, EndDate);
+            var months = catHist.Select(h => h.MonthDate.ToString("MMM yyyy")).Distinct();
+            List<HighChartSeries> series = new List<HighChartSeries>();
+            foreach(var c in catHist.Select(h => h.Category).Distinct())
+            {
+                //add a series array for each category
+                series.Add(new HighChartSeries() {
+                    name = c,
+                    visible = budget.ContainsKey(c.ToLower()),
+                    data = catHist.Where(h => h.Category == c).Select(h => (object)h.Total)
+                });
+            }
+
+        
+            var hc = new
+            {
+                chart = new { type = "line" },
+                title = new { text = "Category History" },
+                //subtitle = new { text = "*Note income is from month prior" },
+                xAxis = new { categories = months },
+                yAxis = new { title = new { text = "$" } },
+                series = series
+            };
+
+            return JsonConvert.SerializeObject(hc);
+        }
+
+        class HighChartSeries
+        {
+            public string name { get; set; }
+            public bool visible { get; set; }
+            public IEnumerable<object> data { get; set; }
+        }
+
     }
 }

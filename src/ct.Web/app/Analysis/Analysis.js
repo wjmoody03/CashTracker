@@ -31,9 +31,19 @@ function analysisCtrl($http, $filter, titleService) {
             })
     }
 
+    analysis.categoryHistory = function () {
+        analysis.loadingCategoryHistory = true;
+        $http.get("/Analysis/CategoryHistory", { params: analysis.searchParams.toParams() })
+            .success(function (data) {
+                analysis.loadingCategoryHistory = false;
+                $('#categoryHistory').highcharts(data);
+            })
+    }
+
     analysis.refresh = function () {
         analysis.balanceHistory();
         analysis.incomeVsExpenseHistory();
+        analysis.categoryHistory();
     }
 
     analysis.refresh();

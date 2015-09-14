@@ -13,6 +13,7 @@ namespace ct.Data.Repositories
     {
         List<BalanceHistory> BalanceHistory(DateTime StartDate, DateTime EndDate, AccountType? AccountType = null);
         List<IncomeVsExpense> IncomeVsExpenseHistory(DateTime StartDate, DateTime EndDate);
+        List<CategoryHistory> CategoryHistory(DateTime StartDate, DateTime EndDate);
         IEnumerable<BalanceSnapshot> BalanceSnapshot(DateTime StartDate, DateTime EndDate);
     }
 
@@ -128,6 +129,15 @@ namespace ct.Data.Repositories
             var spStart = new SqlParameter("@StartDate", StartDate);
             var spEnd = new SqlParameter("@EndDate", EndDate);           
             var hist = Context.Database.SqlQuery<IncomeVsExpense>(sql, spStart, spEnd).ToList();
+            return hist;
+        }
+
+        public List<CategoryHistory> CategoryHistory(DateTime StartDate, DateTime EndDate)
+        {
+            var sql = EmbeddedSQL.SQL("CategoryHistory");
+            var spStart = new SqlParameter("@StartDate", StartDate);
+            var spEnd = new SqlParameter("@EndDate", EndDate);
+            var hist = Context.Database.SqlQuery<CategoryHistory>(sql, spStart, spEnd).ToList();
             return hist;
         }
 
