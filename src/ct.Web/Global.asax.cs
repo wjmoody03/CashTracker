@@ -64,6 +64,7 @@ namespace ct.Web
             builder.RegisterType<AccountBalanceRepository>().As<IAccountBalanceRepository>();
             builder.RegisterType<BudgetRepository>().As<IBudgetRepository>();
             builder.RegisterType<AccountDownloadResultRepository>().As<IAccountDownloadResultRepository>();
+            builder.RegisterType<ReminderRepository>().As<IReminderRepository>();
 
 
             // Set the dependency resolver to be Autofac.

@@ -37,6 +37,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="jumbotron text-center">
     <div class="row">
         <div class="col-lg-6">
@@ -75,7 +77,41 @@
             </table>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <h3>
+                    <i class="fa fa-caret-right" ng-show="!dashboard.showReminders"></i>
+                    <i class="fa fa-caret-down" ng-show="dashboard.showReminders"></i>
+                    <a style="cursor:pointer;" ng-click="dashboard.showReminders=!dashboard.showReminders">Reminders ({{dashboard.reminders.length}})</a>
+                </h3>
+            </div>
+            <div ng-show="dashboard.showReminders" style="margin-bottom:25px; font-size:smaller;">
+                <div ng-repeat="r in dashboard.reminders" class="col-xs-12">                    
+                    <strong>{{r.CreateDate | date:'medium'}}</strong> <span class="text-muted">{{r.Message}}</span>
+                    <span ng-click="dashboard.deleteReminder(r)" style="cursor:pointer;">
+                        <i class="fa fa-close text-danger"></i>
+                    </span>
+                </div>
+                <div class="col-xs-12">
+                    <form ng-submit="dashboard.addReminder()">
+                        <div class="col-xs-10">
+                            <input ng-model="dashboard.newReminder.Message" type="text" placeholder="Add a new reminder" class="form-control" />
+                        </div>
+                        <div class="col-xs-2">
+                            <button type="submit" class="btn btn-info">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
+
+
 <div class="row">
     <div class="col-lg-6">
         <div>
@@ -136,8 +172,10 @@
                     <td><a href="#/TransactionExplorer?Category={{cd.Category | escape}}">{{cd.Category}}</a></td>
                     <td><span class="pull-right">{{cd.Budgeted | currency}}</span></td>
                     <td><span class="pull-right">{{cd.Spent | currency}}</span></td>
-                    <td><span class="pull-right" ng-class="{'text-success':cd.Budgeted - cd.Spent > 0, 'text-danger':cd.Budgeted - cd.Spent < 0}">
-                        {{cd.Budgeted - cd.Spent | currency}}</span>
+                    <td>
+                        <span class="pull-right" ng-class="{'text-success':cd.Budgeted - cd.Spent > 0, 'text-danger':cd.Budgeted - cd.Spent < 0}">
+                            {{cd.Budgeted - cd.Spent | currency}}
+                        </span>
                     </td>
                 </tr>
             </tbody>

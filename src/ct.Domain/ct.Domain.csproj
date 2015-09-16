@@ -96,6 +96,7 @@
     <Compile Include="Models\ReimbursableAmount.cs" />
     <Compile Include="Models\FlaggedAmount.cs" />
     <Compile Include="Models\FutureIncome.cs" />
+    <Compile Include="Models\Reminder.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Models\AccountReconStatus.cs" />

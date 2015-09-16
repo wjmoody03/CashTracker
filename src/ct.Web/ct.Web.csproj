@@ -221,6 +221,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnalysisController.cs" />
+    <Compile Include="Controllers\API\ReminderController.cs" />
     <Compile Include="Controllers\API\CategoryController.cs" />
     <Compile Include="Controllers\API\AccountController.cs" />
     <Compile Include="Controllers\API\ManualImportController.cs" />
@@ -251,6 +252,7 @@
     <Content Include="app\AccountManager\AccountsService.js" />
     <Content Include="app\Analysis\Analysis.html" />
     <Content Include="app\Analysis\Analysis.js" />
+    <Content Include="app\Dashboard\ReminderService.js" />
     <Content Include="app\Title\TitleService.js" />
     <Content Include="app\Dashboard\Dashboard.js" />
     <Content Include="app\Title\Title.js" />

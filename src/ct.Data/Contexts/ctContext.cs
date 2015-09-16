@@ -18,6 +18,7 @@ namespace ct.Data.Contexts
         DbSet<AccountBalance> AccountBalances { get; set; }
         DbSet<BudgetCategory> Budget { get; set; }
         DbSet<AccountDownloadResult> DownloadResults { get; set; }
+        DbSet<Reminder> Reminders { get; set; }
     }
     public class ctContext: DbContext, IctContext
     {
@@ -29,6 +30,7 @@ namespace ct.Data.Contexts
         public DbSet<AccountBalance> AccountBalances { get; set; }
         public DbSet<BudgetCategory> Budget { get; set; }
         public DbSet<AccountDownloadResult> DownloadResults { get; set; }
+        public DbSet<Reminder> Reminders { get; set; }
 
         public ctContext(string connectionString):base(connectionString)
         {

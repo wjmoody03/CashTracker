@@ -1,9 +1,34 @@
 ﻿angular.module("ct")
-    .controller("dashboardCtrl", ["$http", "$filter","titleService", dashboardCtrl]);
+    .controller("dashboardCtrl", ["$http", "$filter","titleService","reminderService", dashboardCtrl]);
 
-function dashboardCtrl($http, $filter,titleService) {
+function dashboardCtrl($http, $filter,titleService, reminderService) {
     var dashboard = this;
     titleService.title="Dashboard";
+
+    dashboard.showReminders = false;
+    dashboard.reminders = reminderService.query();
+
+    dashboard.addReminder = function () {
+        if (dashboard.newReminder.Message) {
+            var reminder = new reminderService();
+            reminder.Message = dashboard.newReminder.Message;
+            reminder.$save(function (result) {
+                dashboard.newReminder.Message = null;
+                dashboard.reminders.push(result);
+            })
+        }
+        else {
+            alert("Enter a message!");
+        }
+    };
+    dashboard.deleteReminder = function (r) {
+        var index = dashboard.reminders.indexOf(r);
+        if (index > -1) {
+            dashboard.reminders.splice(index, 1);
+        }
+        r.$delete();
+    };
+
 
     dashboard.getBalanceSnapshot = function () {
         dashboard.loadingSnapshot = true;
