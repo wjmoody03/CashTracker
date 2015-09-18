@@ -9,7 +9,9 @@
 </div>
 <div ng-hide="scrubber.transactions.length==0 || scrubber.loadingTransactions">
     <div class="well text-center" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
-        <h4><a target="_blank" href="https://www.google.com/search?q={{scrubber.currentTransaction.Description.replace('SQ *', '') | escape}}">{{scrubber.currentTransaction.Description}}</a></h4>
+        <h4>
+            <a target="_blank" href="https://www.google.com/search?q={{scrubber.currentTransaction.Description.replace('SQ *', '') | escape}}">{{scrubber.currentTransaction.Description}}</a>
+        </h4>
         <p><strong>{{scrubber.currentTransaction.Amount | currency}}</strong> on <strong>{{scrubber.currentTransaction.TransactionDate | date:'EEE, MMM dd, yyyy'}}</strong></p>
         <input class="form-control" type="text" placeholder="Add a note..." ng-model="scrubber.currentTransaction.Notes" />
 

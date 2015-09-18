@@ -7,7 +7,9 @@
             <span class="help-block">
                 <a target="_blank" href="https://www.google.com/search?q={{details.transaction.Description.replace('SQ *', '') | escape}}">Google</a>
                 &nbsp; &nbsp; <a ng-show="details.transaction.Description.substring(0,4)=='SQ *'" target="_blank" href="https://squareup.com/receipts">SQ *</a>
+                &nbsp; &nbsp; <a target="_blank" href="https://www.whatsthatcharge.com/{{details.transaction.Description.replace('SQ *', '') | escape}}">WhatsThatCharge</a>
             </span>
+
         </div>
         <div class="col-xs-12 col-sm-3 form-group">
             <label for="Description" class="text-danger">Flag For Follow Up</label>
