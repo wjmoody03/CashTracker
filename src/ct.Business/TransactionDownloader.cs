@@ -33,11 +33,11 @@ namespace ct.Business
                     AccountNumber: Encryptor.Decrypt(account.EncryptedAccountNumber),
                     StartDate: downloadStartDate);
 
-            var parser = new OFXParser(ofx);
+            var acctType = (AccountType)Enum.Parse(typeof(AccountType), account.AccountType, true);
+            var parser = new OFXParser(ofx, acctType);
             var downloadedTransactions = parser.GetTransactions();
             adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
-            var acctType = (AccountType)Enum.Parse(typeof(AccountType), account.AccountType, true);
-            adr.AccountBalance = parser.GetOutstandingBalance(acctType);            
+            adr.AccountBalance = parser.GetOutstandingBalance();            
             adr.NewTransactions = (from p in downloadedTransactions
                                    select new Transaction()
                                {
@@ -79,7 +79,10 @@ namespace ct.Business
                 if (tranType == "DEBIT" || tranType == "CHECK")
                     return (int)TransactionTypes.CheckingExpense;
 
-                if (tranType == "CREDIT" && description.ToLower().Contains("CHASE DES:AUTOPAY"))
+                if (tranType == "CREDIT" && (
+                            description.StartsWith("CHASE DES:AUTOPAY",StringComparison.CurrentCultureIgnoreCase)
+                            || description.StartsWith("CAPITAL ONE DES:CRCARDPMT", StringComparison.CurrentCultureIgnoreCase)
+                        ))
                     return (int)TransactionTypes.PaymentSentToCreditCard;
 
                 if (tranType == "CREDIT")

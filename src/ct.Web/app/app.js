@@ -1,6 +1,6 @@
 ﻿(
     function () {
-        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping",
+        var app = angular.module("ct", ["ngResource", "ngRoute", "ui.grid", "ui.grid.resizeColumns", "ui.grid.grouping","ui.grid.edit",
                                             'ui.grid.saveState', 'ui.grid.selection', 'ui.bootstrap', 'ngAnimate','angularFileUpload'])
 
         app.filter('escape', function () {

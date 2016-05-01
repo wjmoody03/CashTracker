@@ -12,6 +12,11 @@ FROM (
 		dbo.Accounts AS a 
 		LEFT JOIN Transactions t ON a.ID = t.AccountID 
 		LEFT JOIN TransactionTypes tt ON t.TransactionType = tt.ID
+		--exclude splits
+		left join transactions ts
+			on t.id = ts.ParentTransactionID
+	WHERE
+		ts.Id Is Null
 	GROUP BY 
 		a.Account, 
 		a.StartingBalance, 

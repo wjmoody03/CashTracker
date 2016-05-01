@@ -26,19 +26,23 @@ declare @transactions table (monthdate smalldatetime, category varchar(150), amo
 insert into @transactions
 select 
 	CAST(CAST(DatePart(yyyy,t.TransactionDate) as varchar(4)) + '-' + CAST(DatePart(m,t.TransactionDate) as varchar(2)) + '-01' as smalldatetime) as monthdate,
-	IsNull(NullIf(LTRIM(RTRIM(Category)),''),'[Unknown]') as category,
+	IsNull(NullIf(LTRIM(RTRIM(t.Category)),''),'[Unknown]') as category,
 	sum(t.Amount * tt.MonthlyCashflowMultiplier) as amount
 from
 	transactions t
 	join transactiontypes tt
 		on t.transactiontype = tt.ID
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
 where 
 	t.transactiondate between @tempStartDate and @tempEndDate
-	and FlagForFollowUp = 0
-	and nullif(ltrim(rtrim(reimbursablesource)),'') is null
+	and t.FlagForFollowUp = 0
+	and nullif(ltrim(rtrim(t.reimbursablesource)),'') is null
+	and ts.id is null --exclude split transactions
 group by 
 	CAST(CAST(DatePart(yyyy,t.TransactionDate) as varchar(4)) + '-' + CAST(DatePart(m,t.TransactionDate) as varchar(2)) + '-01' as smalldatetime),
-	IsNull(NullIf(LTRIM(RTRIM(Category)),''),'[Unknown]')
+	IsNull(NullIf(LTRIM(RTRIM(t.Category)),''),'[Unknown]')
 
 --now we need all potential categories in scope
 declare @categories table (category varchar(150) primary key)

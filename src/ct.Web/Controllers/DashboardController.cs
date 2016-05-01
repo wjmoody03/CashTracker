@@ -40,6 +40,12 @@ namespace ct.Web.Controllers
             return JsonConvert.SerializeObject(transModel);
         }
 
+        public string InvalidSplits()
+        {
+            var s = balanceRepo.InvalidSplits();
+            return JsonConvert.SerializeObject(s);
+        }
+
         public string ReimbursableBalances()
         {
             var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t => t.ReimbursableSource != null && t.ReimbursableSource.Trim() != "");

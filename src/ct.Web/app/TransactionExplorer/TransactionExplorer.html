@@ -9,7 +9,8 @@
         <input ng-model="explorer.svc.searchParams.endDate" type="date" class="form-control" ng-change="explorer.svc.query()" />
     </div>
 </div>
-<div ui-grid="explorer.gridOptions" class="grid" ui-grid-save-state ui-grid-resize-columns ui-grid-grouping ui-grid-selection ></div>
+<transaction-grid transactions="explorer.svc.transactions" 
+                  category-filter="explorer.categoryFilter" reimbursable-filter="explorer.reimbursableFilter"></transaction-grid>
 <div class="form-group text-center">
     <a href="#/TransactionExplorer/Create" class="btn btn-primary">Add transaction</a>
 </div>

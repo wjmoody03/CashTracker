@@ -50,13 +50,14 @@ namespace ct.Web.Controllers.API
                 throw new Exception("Account number cannot be found in OFX or account number does not exist in your setup.");
 
             var acctType = (AccountType)Enum.Parse(typeof(AccountType), acct.AccountType, true);
+            parser.accountType = acctType;
             var adr = new AccountDownloadResult();
             adr.AccountID = acct.AccountID;
             adr.StartTime = DateTime.Now;
 
             var downloadedTransactions = parser.GetTransactions();
             adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
-            adr.AccountBalance = parser.GetOutstandingBalance(acctType);
+            adr.AccountBalance = parser.GetOutstandingBalance();
 
             adr.NewTransactions = (from p in downloadedTransactions
                                    select new Transaction()

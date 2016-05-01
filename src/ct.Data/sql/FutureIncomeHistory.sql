@@ -18,6 +18,11 @@ FROM
 	LEFT JOIN TransactionTypes tt 
 		ON  t.TransactionType = tt.ID  
 		AND tt.CountAsIncome !=0
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
+WHERE
+	ts.Id Is Null
 GROUP BY
 	d.AsOfDate
 ORDER BY 

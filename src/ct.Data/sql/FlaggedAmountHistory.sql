@@ -13,7 +13,12 @@ FROM
 		AND t.FlagForFollowUp=1 --Don't double count questionable expenses/income
 		AND t.ReimbursableSource Is Null --Don't double count gifts/transfers
 	LEFT JOIN TransactionTypes tt 
-		ON  t.TransactionType = tt.ID  		
+		ON  t.TransactionType = tt.ID  	
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
+WHERE
+	ts.Id Is Null	
 GROUP BY
 	d.AsOfDate
 ORDER BY 

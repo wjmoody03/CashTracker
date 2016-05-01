@@ -84,11 +84,21 @@ function dashboardCtrl($http, $filter,titleService, reminderService) {
             });
     };
 
+    dashboard.getInvalidSplits = function () {
+        dashboard.loadingInvalid = true;
+        $http.get("/Dashboard/InvalidSplits")
+            .success(function (result) {
+                dashboard.loadingInvalid = false;
+                dashboard.invalidSplits = result;
+            });
+    };
+
     dashboard.getUnreconciledAmounts();
     dashboard.getCategoriesVsBudget();
     dashboard.getOverview();
     dashboard.getReimbursables();
     dashboard.getFlagged();
     dashboard.getBalanceSnapshot();
+    dashboard.getInvalidSplits();
 
 }

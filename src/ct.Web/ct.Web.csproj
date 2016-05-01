@@ -258,6 +258,7 @@
     <Content Include="app\Title\Title.js" />
     <Content Include="app\TransactionExplorer\TransactionDetails.html" />
     <Content Include="app\TransactionExplorer\TransactionDetails.js" />
+    <Content Include="app\TransactionExplorer\TransactionGridDirective.js" />
     <Content Include="app\TransactionExplorer\TransactionsService.js" />
     <Content Include="app\Uploader\manualImport.html" />
     <Content Include="app\Uploader\manualImportCtrl.js" />

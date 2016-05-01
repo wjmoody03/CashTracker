@@ -1,35 +1,47 @@
 ﻿angular.module("ct")
-    .controller("detailsCtrl", ["transactionsService","$routeParams","$location","titleService", detailsCtrl]);
+    .controller("detailsCtrl", ["transactionsService", "$routeParams", "$location", "titleService", detailsCtrl]);
 
 function detailsCtrl(transactionsService, $routeParams, $location, titleService) {
     var details = this;
     titleService.title = "Transaction Details";
-    if (transactionsService.selectedTransaction == null) {
-        if ($routeParams.id == "Create") {
-            transactionsService.selectedTransaction = new transactionsService.api();
-            details.creating = true;
+    details.CreateMode = $routeParams.id == "Create";
+    details.RedirectToParent = $routeParams.redirectToParent;
+
+    if (details.CreateMode) {
+        details.transaction = new transactionsService.api();
+        if ($routeParams.parentTransactionID) {
+            details.transaction.ParentTransactionID = $routeParams.parentTransactionID;
         }
-        else {
-            //probably means page was refreshed on the details... 
-            transactionsService.selectedTransaction = transactionsService.api.get({ id: $routeParams.id });
-        }
+        details.creating = true;
+    }
+    else {
+        details.transaction = transactionsService.api.get({ id: $routeParams.id });
     }
 
     details.service = transactionsService;
-    details.transaction = transactionsService.selectedTransaction;
-
     details.save = function () {
         if (details.creating) {
             details.transaction.$save(
                 function () {
                     transactionsService.transactions.push(details.transaction);
+                    details.redirect();
                 }
             );
         }
         else {
-            details.transaction.$update();
+            details.transaction.$update(function () {
+                details.redirect();
+            });
         }
-        $location.path("/TransactionExplorer");
+    };
+
+    details.redirect = function () {
+        if (details.RedirectToParent) {
+            $location.path("/TransactionExplorer/" + details.transaction.ParentTransactionID);
+        }
+        else {
+            $location.path("/TransactionExplorer");
+        }
     };
 
     details.cancel = function () {
@@ -53,7 +65,14 @@ function detailsCtrl(transactionsService, $routeParams, $location, titleService)
             if (index > -1) {
                 transactionsService.transactions.splice(index, 1);
             }
+            if (details.RedirectToParent) {
+                $location.path("/TransactionExplorer/" + $routeParams.parentTransactionID);
+            }
+            else {
+                $location.path("/TransactionExplorer");
+            }
         });
-        $location.path("/TransactionExplorer");
+
+
     };
 }

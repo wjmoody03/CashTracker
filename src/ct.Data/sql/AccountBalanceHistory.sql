@@ -1,4 +1,4 @@
-﻿----this will give stated balance for an account as of a certain date
+﻿--this will give stated balance for an account as of a certain date
 --declare @startdate smalldatetime
 --declare @enddate smalldatetime
 --declare @AccountType int
@@ -19,8 +19,12 @@ from
 		on t.TransactionType = tt.ID
 	join accounts a 
 		on t.AccountID = a.ID
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
 where
 	a.AccountTypeID = @AccountType OR @AccountType Is Null
+	and ts.id is null --exclude split transactions
 group by 
 	t.AccountID,
 	a.AccountType,

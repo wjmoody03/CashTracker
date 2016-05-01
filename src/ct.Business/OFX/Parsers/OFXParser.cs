@@ -12,12 +12,17 @@ namespace ct.Business.OFX.Parsers
     public class OFXParser
     {
         string ofx;
+        public AccountType accountType { get; set; }
 
+        public OFXParser(string OFX, AccountType AccountType)
+        {
+            accountType = AccountType;
+            ofx = System.Web.HttpUtility.HtmlDecode(OFX);
+        }
         public OFXParser(string OFX)
         {
             ofx = System.Web.HttpUtility.HtmlDecode(OFX);
         }
-
 
         public string GetAccountID()
         {
@@ -26,7 +31,7 @@ namespace ct.Business.OFX.Parsers
             return acctid;
         }
 
-        public decimal GetOutstandingBalance(AccountType accountType)
+        public decimal GetOutstandingBalance()
         {
             //< LEDGERBAL >
             //< BALAMT > -10151.05
@@ -71,6 +76,12 @@ namespace ct.Business.OFX.Parsers
             t.TRNTYPE = getUnclosedOFXField("TRNTYPE", STMTTRN);
             t.MEMO = getUnclosedOFXField("MEMO", STMTTRN);
             t.TRNAMT = Decimal.Parse((Decimal.Parse(getUnclosedOFXField("TRNAMT", STMTTRN)) * (t.TRNTYPE == "DEBIT" ? -1 : 1)).ToString("#.00"));
+
+            //correct for checks
+            if(accountType==AccountType.Checking && t.NAME.StartsWith("check ", StringComparison.CurrentCultureIgnoreCase)) //shouldn't catch 'checkcard' 
+            {
+                t.TRNAMT = t.TRNAMT * -1;
+            }
             return t;
         }
         private string getUnclosedOFXField(string fieldName, string ofxSection)

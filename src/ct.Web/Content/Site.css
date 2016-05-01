@@ -43,7 +43,12 @@
 }
 
 .reimbursable {
-    color:#3d3d3d;
+    /*color:#3d3d3d;*/
+}
+
+.split {
+    color:#AAAAAA;
+    font-style:italic;
 }
 
 /*Animations!*/

@@ -209,3 +209,31 @@
 
 
 </div>
+<div class="row">
+
+    <div class="col-lg-6">
+        <div>
+            <h3>Invalid Splits</h3>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Description</td>
+                        <td><span class="pull-right">Amount</span></td>
+                        <td><span class="pull-right">Split Amount</span></td>
+                        <td><span class="pull-right">Diff</span></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="s in dashboard.invalidSplits">
+                        <td><a href="#/TransactionExplorer/{{s.ID}}">{{s.Description}}</a></td>
+                        <td><span class="pull-right">{{s.Amount | currency}}</span></td>
+                        <td><span class="pull-right">{{s.SplitAmount | currency}}</span></td>
+                        <td><span class="pull-right">{{s.Diff | currency}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>

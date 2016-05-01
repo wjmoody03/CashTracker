@@ -29,9 +29,9 @@ FROM (
 				CASE 
 					WHEN tt.CountAsIncome = 1 THEN 
 						--add 1 month to the transaction date, then convert it to the first day of the month
-						CAST(CAST(DatePart(yyyy,DateAdd(m,1,TransactionDate)) as varchar(4)) + '-' + CAST(DatePart(m,DateAdd(m,1,TransactionDate)) as varchar(4)) + '-01' as smalldatetime)
+						CAST(CAST(DatePart(yyyy,DateAdd(m,1,t.TransactionDate)) as varchar(4)) + '-' + CAST(DatePart(m,DateAdd(m,1,t.TransactionDate)) as varchar(4)) + '-01' as smalldatetime)
 					ELSE 
-						CAST(CAST(DatePart(yyyy,TransactionDate) as varchar(4)) + '-' + CAST(DatePart(m,TransactionDate) as varchar(4)) + '-01' as smalldatetime)
+						CAST(CAST(DatePart(yyyy,t.TransactionDate) as varchar(4)) + '-' + CAST(DatePart(m,t.TransactionDate) as varchar(4)) + '-01' as smalldatetime)
 				END as EffectiveMonth,
 				t.Amount, 
 				tt.MonthlyCashFlowMultiplier,
@@ -39,10 +39,14 @@ FROM (
 			FROM
 				Transactions t 				
 				LEFT JOIN TransactionTypes tt 
-					ON  t.TransactionType = tt.ID  
+					ON  t.TransactionType = tt.ID 
+				--exclude splits
+				left join transactions ts
+					on t.id = ts.ParentTransactionID 
 			WHERE
 				t.FlagForFollowUp !=1 --Don't double count questionable expenses/income
 				AND t.ReimbursableSource Is Null --Don't double count gifts/transfers
+				and ts.Id Is Null --exclude splits
 	) sub
 WHERE
 	sub.EffectiveMonth BETWEEN @startEffectiveMonth AND @endEffectiveMonth

@@ -31,7 +31,15 @@ namespace ct.Web.Controllers.API
         {
             //var dt = DateTime.Today.AddMonths(-2);
             var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t=>t.TransactionDate>= StartDate.Date && t.TransactionDate <= EndDate.Date).OrderByDescending(t=>t.TransactionDate).AsEnumerable();
-            return AutoMapper.Mapper.Map<IEnumerable<Transaction>, IEnumerable<TransactionViewModel>>(trans);
+            var mapped = AutoMapper.Mapper.Map<IEnumerable<Transaction>, IEnumerable<TransactionViewModel>>(trans);
+
+            //now let's identify which ones have been split:
+            var ParentIdsOfSplitTransactions = transRepo.GetAll().Select(t => t.ParentTransactionID??0).Distinct().ToDictionary(t=>t);
+            foreach(var t in mapped)
+            {
+                t.HasBeenSplit = ParentIdsOfSplitTransactions.ContainsKey(t.ID);
+            }
+            return mapped;
         }
 
         // GET: api/Transactions/5
@@ -43,7 +51,7 @@ namespace ct.Web.Controllers.API
             {
                 return NotFound();
             }
-
+            transaction.SplitTransactions = transRepo.FindByNoTracking(t => t.ParentTransactionID == id).ToList();
             return Ok(transaction);
         }
 

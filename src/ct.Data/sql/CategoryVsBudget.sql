@@ -11,12 +11,16 @@ FROM
 	Transactions t
 	FULL JOIN Budget b ON t.Category = b.Category
 	LEFT JOIN TransactionTypes tt on t.TransactionType = tt.ID
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
 WHERE
 	(t.FlagForFollowUp = 0 or t.FlagForFollowUp is null)
 	AND t.ReimbursableSource is null
 	AND (DatePart(m,t.TransactionDate) = @month OR t.TransactionDate is null)
 	AND (DatePart(yyyy,t.TransactionDate) = @year OR t.TransactionDate is null)
 	AND (tt.CalcInCategoryOverview = 1 OR tt.CalcInCategoryOverview is null)
+	and ts.id is null --exclude split transactions
 GROUP BY
 	COALESCE(t.Category,b.Category),
 	b.BudgetedAmount

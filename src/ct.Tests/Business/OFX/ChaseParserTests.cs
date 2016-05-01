@@ -17,7 +17,7 @@ namespace ct.Tests.Business.OFX
         public void chase_ofx_can_be_parsed()
         {
             var ofx = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("ct.Tests.Business.OFX.chase.ofx")).ReadToEnd();
-            var cp = new OFXParser(ofx);
+            var cp = new OFXParser(ofx, Domain.Models.AccountType.Credit);
             var trans = cp.GetTransactions();
             //var tps = trans.Select(t => t.TRNTYPE).Distinct();
             //var c = trans.Where(t => t.TRNTYPE == "CREDIT").ToList();

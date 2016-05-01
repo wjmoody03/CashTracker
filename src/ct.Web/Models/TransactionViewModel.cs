@@ -11,5 +11,6 @@ namespace ct.Web.Models
         public string Month { get; set; }
         public string TransactionTypeDescription { get; set; }
         public string AccountName { get; set; }
+        public bool HasBeenSplit { get; set; }
     }
 }

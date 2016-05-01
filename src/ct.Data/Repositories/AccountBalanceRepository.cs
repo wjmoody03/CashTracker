@@ -15,6 +15,7 @@ namespace ct.Data.Repositories
         List<IncomeVsExpense> IncomeVsExpenseHistory(DateTime StartDate, DateTime EndDate);
         List<CategoryHistory> CategoryHistory(DateTime StartDate, DateTime EndDate);
         IEnumerable<BalanceSnapshot> BalanceSnapshot(DateTime StartDate, DateTime EndDate);
+        IEnumerable<InvalidSplit> InvalidSplits();
     }
 
     public class AccountBalanceRepository : GenericRepositoryEF<AccountBalance>, IAccountBalanceRepository
@@ -139,6 +140,12 @@ namespace ct.Data.Repositories
             var spEnd = new SqlParameter("@EndDate", EndDate);
             var hist = Context.Database.SqlQuery<CategoryHistory>(sql, spStart, spEnd).ToList();
             return hist;
+        }
+
+        public IEnumerable<InvalidSplit> InvalidSplits()
+        {
+            var sql = EmbeddedSQL.SQL("InvalidSplits");
+            return Context.Database.SqlQuery<InvalidSplit>(sql).ToList();
         }
 
         class trackingBalance

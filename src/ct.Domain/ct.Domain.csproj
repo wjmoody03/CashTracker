@@ -93,6 +93,7 @@
     <Compile Include="Models\CategoryVsBudget.cs" />
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\IncomeVsExpense.cs" />
+    <Compile Include="Models\InvalidSplit.cs" />
     <Compile Include="Models\ReimbursableAmount.cs" />
     <Compile Include="Models\FlaggedAmount.cs" />
     <Compile Include="Models\FutureIncome.cs" />

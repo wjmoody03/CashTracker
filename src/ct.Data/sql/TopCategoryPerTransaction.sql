@@ -25,9 +25,13 @@ FROM
 					Max(t.TransactionDate) as MostRecent
 				FROM 
 					Transactions t
+					--exclude splits
+					left join transactions ts
+						on t.id = ts.ParentTransactionID
 				WHERE
 					NullIf(LTRIM(RTRIM(t.Category)),'') is not null
 					AND t.Description NOT LIKE 'check%'
+					AND ts.Id Is Null
 				GROUP BY 
 					t.Description,
 					t.Category

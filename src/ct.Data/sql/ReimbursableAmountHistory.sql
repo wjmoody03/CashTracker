@@ -14,6 +14,11 @@ FROM
 		AND t.ReimbursableSource Is Not Null --Don't double count gifts/transfers
 	LEFT JOIN TransactionTypes tt 
 		ON  t.TransactionType = tt.ID  		
+	--exclude splits
+	left join transactions ts
+		on t.id = ts.ParentTransactionID
+WHERE
+	ts.Id Is null
 GROUP BY
 	d.AsOfDate
 ORDER BY 
