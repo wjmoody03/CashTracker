@@ -1,5 +1,5 @@
 ﻿select t.ID, t.Description, t.TransactionDate, t.amount * tt.MonthlyCashflowMultiplier as Amount, 
-	splits.SplitAmount, (t.Amount*tt.MonthlyCashflowMultiplier)-splits.SplitAmount as Diff
+	splits.SplitAmount, (t.Amount*tt.MonthlyCashflowMultiplier)+splits.SplitAmount as Diff
 from transactions t
 	join transactiontypes tt on t.transactiontype = tt.ID
 	join (
@@ -9,4 +9,4 @@ from transactions t
 		where parentTransactionID Is Not null
 		group by ParentTransactionID
 	) splits on t.ID = splits.ParentTransactionID
-where (t.Amount*tt.MonthlyCashflowMultiplier)-splits.SplitAmount !=0
+where (t.Amount*tt.MonthlyCashflowMultiplier)+splits.SplitAmount !=0

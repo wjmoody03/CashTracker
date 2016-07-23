@@ -6,7 +6,7 @@
         <input class="form-control" ng-model="analysis.searchParams.endDate" type="date" placeholder="End Date"  ng-change="analysis.refresh()" />
     </div>
     <div class="col-xs-3">
-        <input type="checkbox" ng-model="analysis.showSnapshotHistory" ng-change="analysis.balanceHistory()" /> Cash Available
+        <input type="checkbox" ng-model="analysis.showBalanceHistory" ng-change="analysis.balanceHistory()" /> Cash Available
     </div>
     <div class="col-xs-3">
         <input type="checkbox" ng-model="analysis.showIncomeExpenseHistory" ng-change="analysis.incomeVsExpenseHistory()" /> Income vs Expenses
@@ -21,7 +21,7 @@
 </div>
 
 
-<div class="row text-center" ng-show="analysis.showSnapshotHistory">
+<div class="row text-center" ng-show="analysis.showBalanceHistory">
     <i class="fa fa-spin fa-refresh" ng-show="analysis.loadingBalanceHistory"></i>
     <div id="snapshotHistory" style="width:100%; height:400px;"></div>
 </div>

@@ -48,7 +48,14 @@ namespace ct.Web.Controllers
 
         public string ReimbursableBalances()
         {
-            var trans = transRepo.GetAllEagerly("TransactionType","Account").Where(t => t.ReimbursableSource != null && t.ReimbursableSource.Trim() != "");
+
+            var splits = transRepo.GetAll().Select(t => t.ParentTransactionID ?? 0).Distinct().ToDictionary(t=> t) ;
+            var trans = transRepo.GetAllEagerly("TransactionType", "Account")
+                    .Where(t => t.ReimbursableSource != null && t.ReimbursableSource.Trim() != "")
+                    .ToList()
+                    .Where(t => !splits.ContainsKey(t.ID)); //exclude splits
+
+
             var bal = from t in trans
                       group t by t.ReimbursableSource into tr
                       where tr.Sum(t => t.Amount * t.TransactionType.MonthlyCashflowMultiplier) !=0

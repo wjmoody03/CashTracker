@@ -11,7 +11,7 @@ FROM
 	LEFT JOIN Transactions t 		
 		ON t.TransactionDate <= d.AsofDate
 		AND t.FlagForFollowUp!=1 --Don't double count questionable expenses/income
-		AND t.ReimbursableSource Is Not Null --Don't double count gifts/transfers
+		AND NullIf(LTRIM(RTRIM(t.ReimbursableSource)),'') Is Not Null --Don't double count gifts/transfers
 	LEFT JOIN TransactionTypes tt 
 		ON  t.TransactionType = tt.ID  		
 	--exclude splits
