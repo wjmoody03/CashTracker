@@ -49,7 +49,8 @@ namespace ct.Business.OFX.Parsers
 
         public IEnumerable<OFX.Models.Transaction> GetTransactions()
         {
-            var rx = new Regex("<STMTTRN>(.|\r\n)*?<\\/STMTTRN>");
+            var rx = new Regex("<STMTTRN>(.|\n)*?<\\/STMTTRN>");
+            //var rx = new Regex("<STMTTRN>(.|\r\n)*?<\\/STMTTRN>");
             var matches= rx.Matches(ofx);
             var transactions = new List<OFX.Models.Transaction>();
             foreach(Match m in matches)
