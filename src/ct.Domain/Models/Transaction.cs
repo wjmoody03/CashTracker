@@ -43,7 +43,7 @@ namespace ct.Domain.Models
         public Download Download { get; set; }
         [ForeignKey("ParentTransactionID")]
         public Transaction ParentTransaction { get; set; }
-
-
+        public int? AccountDownloadResultID { get; set; }
+        public DateTime? DateAddedUtc { get; set; }
     }
 }

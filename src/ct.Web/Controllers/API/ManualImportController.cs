@@ -54,6 +54,8 @@ namespace ct.Web.Controllers.API
             var adr = new AccountDownloadResult();
             adr.AccountID = acct.AccountID;
             adr.StartTime = DateTime.Now;
+            downloadRepo.Add(adr);
+            downloadRepo.Save();
 
             var downloadedTransactions = parser.GetTransactions();
             adr.TotalTransactionsDownloaded = downloadedTransactions.Count();
@@ -68,11 +70,13 @@ namespace ct.Web.Controllers.API
                                        SourceTransactionIdentifier = p.FITID,
                                        TransactionDate = p.DTPOSTED,
                                        Notes = p.MEMO,
+                                       AccountDownloadResultID = adr.AccountDownloadResultID,
+                                       DateAddedUtc = DateTime.UtcNow,
                                        TransactionTypeID = TransactionDownloader.TransactionTypeIDFromTypeAndDescription(p.TRNTYPE, p.NAME, acctType)
                                    }).ToList();
 
             var earliestTransactionDownloaded = adr.NewTransactions.Min(t => t.TransactionDate);
-            var allTrans = transRepo.GetAll().Where(t => t.TransactionDate >= earliestTransactionDownloaded);
+            var allTrans = transRepo.GetAll().Where(t => t.TransactionDate >= earliestTransactionDownloaded).ToList();
             TransactionUniquenessDetector.RemoveExistingTransactionsAndApplyFlagsToPossibleDupes(allTrans, ref adr);
             CategoryGuesser.ApplyCategories(transRepo.CategoryGuesses(), ref adr);
             adr.NetNewTransactions = adr.NewTransactions.Count;
@@ -84,7 +88,7 @@ namespace ct.Web.Controllers.API
             acctRepo.Save();
             transRepo.AddRange(adr.NewTransactions);
             transRepo.Save();
-            downloadRepo.Add(adr);
+            downloadRepo.Edit(adr);
             downloadRepo.Save();
 
             return this.Request.CreateResponse(HttpStatusCode.OK, new { adr });

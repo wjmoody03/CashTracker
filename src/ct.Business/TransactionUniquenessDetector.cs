@@ -13,8 +13,8 @@ namespace ct.Business
         {
 
             //source identifier already exists in the DB. must be a dupe
-            var existingSourceIdentifiers = AllExistingTransactions.Where(t=>t.SourceTransactionIdentifier!= null).ToDictionary(t => t.SourceTransactionIdentifier);
-            adr.TransactionsExcludedBecauseTheyAlreadyExisted = adr.NewTransactions.RemoveAll(tNew => existingSourceIdentifiers.ContainsKey(tNew.SourceTransactionIdentifier));
+            var existingSourceIdentifiers = AllExistingTransactions.Where(t=>t.SourceTransactionIdentifier!= null).ToDictionary(t => ChaseSafeTransactionIdentifier(t));
+            adr.TransactionsExcludedBecauseTheyAlreadyExisted = adr.NewTransactions.RemoveAll(tNew => existingSourceIdentifiers.ContainsKey(ChaseSafeTransactionIdentifier(tNew)));
 
             var existingTransactionKeys = AllExistingTransactions.ToLookup(t => transactionKey(t));
             foreach (var t in adr.NewTransactions)
@@ -28,6 +28,23 @@ namespace ct.Business
                     adr.TransactionsFlaggedAsPossibleDuplicates++;
                 }
             }
+        }
+
+        private static string ChaseSafeTransactionIdentifier(Transaction t)
+        {
+            //on aug 4 2016 chase updated their website and started applying the same FITID to foreign transaction fees
+            //as the actual transaction. Much cursing was had. 
+            //this just includes a uniqueness check with that date in mind. 
+            if(t.Description== "FOREIGN TRANSACTION FEE")
+            {
+                return t.SourceTransactionIdentifier + "FTF";
+            }
+            else
+            {
+                return t.SourceTransactionIdentifier;
+            }
+
+
         }
 
         private static string transactionKey(Transaction t)

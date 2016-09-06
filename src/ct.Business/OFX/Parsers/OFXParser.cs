@@ -87,7 +87,7 @@ namespace ct.Business.OFX.Parsers
         }
         private string getUnclosedOFXField(string fieldName, string ofxSection)
         {
-            var mtch = Regex.Match(ofxSection, string.Format("<{0}>(.|\r\n)*?<", fieldName));
+            var mtch = Regex.Match(ofxSection, string.Format("<{0}>(.|\r\n)*?\n?<", fieldName));
             if (mtch.Success == false)
             {
                 return string.Empty;
@@ -98,7 +98,8 @@ namespace ct.Business.OFX.Parsers
                             .Trim()
                             .TrimEnd('<')
                             .Replace(string.Format("<{0}>", fieldName), "")
-                            .Replace("\r\n", "")
+                            .Replace("\r", "")
+                            .Replace("\n", "")
                             .Replace("\t", "");
             }
         }
