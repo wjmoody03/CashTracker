@@ -100,22 +100,27 @@ namespace ct.Web.Controllers
             var lastMonth = DateTime.Today.AddMonths(-1).Month;
             var lastMonthYear = DateTime.Today.AddMonths(-1).Year;
 
+            var splits = transRepo.GetAll().Select(t => t.ParentTransactionID ?? 0).Distinct().ToDictionary(t => t);
+
             var income = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == lastMonthYear && t.TransactionDate.Month == lastMonth
                         && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome==true)
                             .ToList() //this prevents null reference error when there are no transactions
+                            .Where(t => !splits.ContainsKey(t.ID)) //exclude splits
                             .Sum(t=>t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var nextIncome = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
                         && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == true)
                             .ToList() //this prevents null reference error when there are no transactions
+                            .Where(t => !splits.ContainsKey(t.ID)) //exclude splits
                             .Sum(t => t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var expenses = transRepo.GetAllEagerly("TransactionType")
                         .Where(t => t.TransactionDate.Year == thisMonthYear && t.TransactionDate.Month == thisMonth
                         && !t.FlagForFollowUp && t.ReimbursableSource == null && t.TransactionType.CountAsIncome == false)
                             .ToList() //this prevents null reference error when there are no transactions
+                            .Where(t => !splits.ContainsKey(t.ID)) //exclude splits
                             .Sum(t => t.Amount * (t.TransactionType==null?1:t.TransactionType.MonthlyCashflowMultiplier));
 
             var budgeted = budgetRepo.GetAll().Sum(b => b.BudgetedAmount);
