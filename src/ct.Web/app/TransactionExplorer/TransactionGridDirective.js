@@ -62,9 +62,9 @@ function transactionGridCtrl($resource, uiGridConstants, $location, $scope,
                     '<i title="{{row.entity.Notes}}" ng-show="row.entity.Notes" class="fa fa-comment text-info"></i>' +
                 '</div>'
             },
-            { name: 'AccountName', displayName: 'Account', visible: false },
+            { name: 'AccountName', displayName: 'Account', visible: true },
             { name: 'Month', visible: false },
-            { name: 'TransactionTypeDescription', displayName: "Type", visible: false },
+            { name: 'TransactionTypeDescription', displayName: "Type", visible: true },
             { name: 'TransactionDate', cellFilter: 'date', displayName: 'Date' },
             { name: 'Description' },
             { name: 'Category', filter: { term: $scope.categoryFilter } },
