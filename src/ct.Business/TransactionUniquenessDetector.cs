@@ -13,6 +13,8 @@ namespace ct.Business
         {
 
             //source identifier already exists in the DB. must be a dupe
+            var allWithIdentifiers = AllExistingTransactions.Where(t => t.SourceTransactionIdentifier != null);
+            var potentialDupes = allWithIdentifiers.ToLookup(t => ChaseSafeTransactionIdentifier(t)).Where(t => t.Count() > 1);
             var existingSourceIdentifiers = AllExistingTransactions.Where(t=>t.SourceTransactionIdentifier!= null).ToDictionary(t => ChaseSafeTransactionIdentifier(t));
             adr.TransactionsExcludedBecauseTheyAlreadyExisted = adr.NewTransactions.RemoveAll(tNew => existingSourceIdentifiers.ContainsKey(ChaseSafeTransactionIdentifier(tNew)));
 
@@ -35,13 +37,23 @@ namespace ct.Business
             //on aug 4 2016 chase updated their website and started applying the same FITID to foreign transaction fees
             //as the actual transaction. Much cursing was had. 
             //this just includes a uniqueness check with that date in mind. 
-            if(t.Description== "FOREIGN TRANSACTION FEE")
+            //UPDATE Oct 2016. They now dupe FITIDs for transactions made at same merchant on same day. getting a new card now 
+            return UniqueifyTransactionIdentifier(t.Description, t.SourceTransactionIdentifier, t.Amount);
+
+
+        }
+        public static string UniqueifyTransactionIdentifier(string Description, string FITID, decimal Amount)
+        {
+            //on aug 4 2016 chase updated their website and started applying the same FITID to foreign transaction fees
+            //as the actual transaction. Much cursing was had. 
+            //this just includes a uniqueness check with that date in mind. 
+            if (Description == "FOREIGN TRANSACTION FEE")
             {
-                return t.SourceTransactionIdentifier + "FTF";
+                return FITID + "FTF";
             }
             else
             {
-                return t.SourceTransactionIdentifier;
+                return FITID;
             }
 
 
